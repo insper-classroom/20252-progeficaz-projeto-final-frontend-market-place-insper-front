@@ -1,12 +1,12 @@
 import "./footer.css"
-
+import logo from "../../assets/logo.png"
 export default function Footer() {
     return (
         <footer className="footer">
       <div className="footer-top">
         <div className="footer-column">
-          <div className="footer-logo" />
-          <p>Marketplace exclusivo da comunidade Insper</p>
+            <img src={logo} alt="MarketInsper Logo" className="footer-logo" />
+            <p>Marketplace exclusivo da comunidade Insper</p>
         </div>
 
         <div className="footer-column">
