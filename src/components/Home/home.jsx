@@ -16,7 +16,7 @@ export default function Home() {
       .catch((err) => setErro(err.message));
   }, []);
 
-  if (erro) return <p style={{ color: "red" }}>Erro: {erro}</p>;
+  if (erro) return <p>Erro: {erro}</p>;
   if (!dados) return <p>Carregando Dados</p>;
 
   return (
@@ -46,26 +46,30 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="produto">
-            <div className="fotoproduto">
+          <div className="produtos-grid">
+            {produtosEmDestaque.map((produto) => (
+            <div className="produto" key={produto.id}>
+              <div className="fotoproduto">
+                <img src={produto.img} alt={produto.titulo} />
+              </div>
 
-            </div>
+              <div className="tituloproduto">
+                <h3>{produto.titulo}</h3>
+              </div>
 
-            <div className="tituloproduto">
-              <h3>Bolsa Longchamp</h3>
-            </div>
+              <div className="descricaoproduto">
+                <p>{produto.descricao}</p>
+              </div>
 
-            <div className="descricaoproduto">
-              <p>Bolsa original Longchamp pouco usada, em ótimo estado</p>
-            </div>
+              <div className="precoproduto">
+                <p>{produto.preco}</p>
+              </div>
 
-            <div className="precoproduto">
-              <p>1.200</p>
+              <div className="btncomprar">
+                Adicionar ao carrinho
+              </div>
             </div>
-
-            <div className="btncomprar">
-              Adicionar ao carrinho
-            </div>
+            ))}
           </div>
         </div>
 
@@ -77,26 +81,30 @@ export default function Home() {
               <p>Ver Todos</p>
             </div>
 
-          <div className="produto">
-            <div className="fotoproduto">
+          <div className="produtos-grid">
+            {produtosEletronicos.map((produto) => (
+            <div className="produto" key={produto.id}>
+              <div className="fotoproduto">
+                <img src={produto.img} alt={produto.titulo} />
+              </div>
 
-            </div>
+              <div className="tituloproduto">
+                <h3>{produto.titulo}</h3>
+              </div>
 
-            <div className="tituloproduto">
-              <h3>Iphone 16 Pro</h3>
-            </div>
+              <div className="descricaoproduto">
+                <p>{produto.descricao}</p>
+              </div>
 
-            <div className="descricaoproduto">
-              <p>Iphone 16 Pro dourado com 256gb</p>
-            </div>
+              <div className="precoproduto">
+                <p>{produto.preco}</p>
+              </div>
 
-            <div className="precoproduto">
-              <p>8.000</p>
+              <div className="btncomprar">
+                Adicionar ao carrinho
+              </div>
             </div>
-
-            <div className="btncomprar">
-              Adicionar ao carrinho
-            </div>
+            ))}
           </div>
         </div>
 
@@ -108,27 +116,30 @@ export default function Home() {
               <p>Ver Todos</p>
             </div>
 
-          <div className="produto">
-            <div className="fotoproduto">
+          <div className="produtos-grid">
+            {produtosEletrodomesticos.map((produto) => (
+            <div className="produto" key={produto.id}>
+              <div className="fotoproduto">
+                <img src={produto.img} alt={produto.titulo} />
+              </div>
 
+              <div className="tituloproduto">
+                <h3>{produto.titulo}</h3>
+              </div>
+
+              <div className="descricaoproduto">
+                <p>{produto.descricao}</p>
+              </div>
+
+              <div className="precoproduto">
+                <p>{produto.preco}</p>
+              </div>
+
+              <div className="btncomprar">
+                Adicionar ao carrinho
+              </div>
             </div>
-
-            <div className="tituloproduto">
-              <h3>Televisão</h3>
-            </div>
-
-            <div className="descricaoproduto">
-              <p>Smart TV Samsung 40 polegadas comprada em 2022</p>
-            </div>
-
-            <div className="precoproduto">
-              <p>1.000</p>
-            </div>
-
-            <div className="btncomprar">
-              Adicionar ao carrinho
-            </div>
-
+            ))}
           </div>
         </div>
 
@@ -140,27 +151,30 @@ export default function Home() {
               <p>Ver Todos</p>
             </div>
 
-          <div className="produto">
-            <div className="fotoproduto">
+          <div className="produtos-grid">
+            {produtosMoveis.map((produto) => (
+            <div className="produto" key={produto.id}>
+              <div className="fotoproduto">
+                <img src={produto.img} alt={produto.titulo} />
+              </div>
 
+              <div className="tituloproduto">
+                <h3>{produto.titulo}</h3>
+              </div>
+
+              <div className="descricaoproduto">
+                <p>{produto.descricao}</p>
+              </div>
+
+              <div className="precoproduto">
+                <p>{produto.preco}</p>
+              </div>
+
+              <div className="btncomprar">
+                Adicionar ao carrinho
+              </div>
             </div>
-
-            <div className="tituloproduto">
-              <h3>Escrivaninha</h3>
-            </div>
-
-            <div className="descricaoproduto">
-              <p>Escrivaninha azul da Tok&Stok 1,20x1,60</p>
-            </div>
-
-            <div className="precoproduto">
-              <p>600</p>
-            </div>
-
-            <div className="btncomprar">
-              Adicionar ao carrinho
-            </div>
-
+            ))}
           </div>
         </div>
 
@@ -172,27 +186,30 @@ export default function Home() {
               <p>Ver Todos</p>
             </div>
 
-          <div className="produto">
-            <div className="fotoproduto">
+          <div className="produtos-grid">
+            {produtosOutros.map((produto) => (
+            <div className="produto" key={produto.id}>
+              <div className="fotoproduto">
+                <img src={produto.img} alt={produto.titulo} />
+              </div>
 
+              <div className="tituloproduto">
+                <h3>{produto.titulo}</h3>
+              </div>
+
+              <div className="descricaoproduto">
+                <p>{produto.descricao}</p>
+              </div>
+
+              <div className="precoproduto">
+                <p>{produto.preco}</p>
+              </div>
+
+              <div className="btncomprar">
+                Adicionar ao carrinho
+              </div>
             </div>
-
-            <div className="tituloproduto">
-              <h3>Vestido Zara</h3>
-            </div>
-
-            <div className="descricaoproduto">
-              <p>Vestido rosa da Zara, tamanho P</p>
-            </div>
-
-            <div className="precoproduto">
-              <p>650</p>
-            </div>
-
-            <div className="btncomprar">
-              Adicionar ao carrinho
-            </div>
-
+            ))}
           </div>
         </div>
 
