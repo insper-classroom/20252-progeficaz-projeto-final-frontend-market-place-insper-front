@@ -7,7 +7,7 @@ export default function Home() {
 
   useEffect(() => {
     const base = import.meta.env.VITE_API_URL || "";
-    fetch(`${base}/api/home`)
+    fetch(`${base}`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
         return res.json();
