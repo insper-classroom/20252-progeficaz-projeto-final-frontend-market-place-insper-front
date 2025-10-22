@@ -16,40 +16,8 @@ export default function Home() {
       .catch((err) => setErro(err.message));
   }, []);
 
-  if (erro) return <p style={{ color: "red" }}>Erro: {erro}</p>;
+  if (erro) return <p>Erro: {erro}</p>;
   if (!dados) return <p>Carregando Dados</p>;
-
-  // arrays
-  // DUVIDA: os arrays vao ser definidos aqui? no back? vao ser no back e carregados para aqui?
-
-    const produtosEmDestaque = [
-    {
-      id: 1,
-      titulo: "Bolsa Longchamp",
-      descricao: "Bolsa original Longchamp pouco usada, em ótimo estado",
-      preco: "1.200",
-      img: ""
-    }
-  ];
-
-  const produtosEletronicos = [
-    {
-      id: 1,
-      titulo: "Iphone 16 Pro",
-      descricao: "Iphone 16 Pro dourado com 256gb",
-      preco: "8.000",
-      img: ""
-    }
-  ];
-
-  const produtosEletrodomesticos = [
-  ];
-
-  const produtosMoveis = [
-  ];
-
-  const produtosOutros = [
-  ];
 
   return (
     <div className="tudo">
