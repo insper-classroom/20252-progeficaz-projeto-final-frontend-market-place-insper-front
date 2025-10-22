@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./home.css";
 
 export default function Home() {
   const [dados, setDados] = useState(null);
@@ -31,6 +32,9 @@ export default function Home() {
       </div>
 
       <div className="exporprodutos">
+        <div className="tituloprodutos">
+          <h2>Produtos</h2>
+        </div>
 
         <div className="emdestaque">
           <div className="tituloseccao">
