@@ -24,20 +24,7 @@ function App() {
     <>
       <Navbar />
 
-      <main style={{ padding: "40px", minHeight: "70vh" }}>
-        <h1>Bem-vindo ao MarketInsper 🦊</h1>
-        <p>Produtos em destaque:</p>
-
-        {produtosEmDestaque.length > 0 ? (
-          <ul>
-            {produtosEmDestaque.map((produto, index) => (
-              <li key={index}>{produto.nome}</li>
-            ))}
-          </ul>
-        ) : (
-          <p style={{ color: "gray" }}>Carregando produtos...</p>
-        )}
-
+      <main>
         <Home />
       </main>
 
