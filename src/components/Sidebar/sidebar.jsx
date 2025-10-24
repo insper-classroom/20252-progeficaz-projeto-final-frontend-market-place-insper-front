@@ -22,7 +22,7 @@ export default function Sidebar() {
 
   return (
     <div className="sidebar">
-        <img src={logo} className="navbar-logo" />
+        <img src={logo} className="logo" />
             <div className="links">
             <a href="#">Meu Perfil</a>
             <a href="#">Home</a>

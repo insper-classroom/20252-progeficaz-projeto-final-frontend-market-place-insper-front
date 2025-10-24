@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./sidebar.css";
+import "./compras.css";
 
 export default function Vendas() {
   const [dados, setDados] = useState(null);
@@ -19,10 +19,10 @@ export default function Vendas() {
   if (erro) return <p>Erro: {erro}</p>;
   if (!dados) return <p>Carregando Dados</p>;
 
-// PÁGINA MINHAS VENDAS = HEADER + SIDEBAR + MEUS PEDIDOS + FOOTER
+// PÁGINA MINHAS COMPRAS = HEADER + SIDEBAR + MINHAS COMPRAS + FOOTER
 
   return (
-    <div className="vendas">
+    <div className="compras">
     </div>
 );
 }

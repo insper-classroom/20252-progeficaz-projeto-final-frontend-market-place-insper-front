@@ -1,0 +1,39 @@
+.sidebar {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    display: flex;
+    background-color: #b91c1c;
+    flex-direction: column;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    padding: 3vh 2vh;
+    width: 35vh;
+}
+
+.logo {
+    max-width: 22.5vh;
+    height: auto;
+    margin: 0 auto 4vh auto;
+    padding: 2vh;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 1vh;
+}
+
+.links a {
+  color: white;
+  padding: 2vh 2vh;
+  border-radius: 1vh;
+  font-size: 2vh;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 1.5vh;
+}
+
+.links a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateX(0.6vh);
+  cursor: pointer;
+}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./sidebar.css";
+import "./vendas.css";
 
 export default function Vendas() {
   const [dados, setDados] = useState(null);
@@ -20,7 +20,6 @@ export default function Vendas() {
   if (!dados) return <p>Carregando Dados</p>;
 
 // PÁGINA MINHAS VENDAS = HEADER + SIDEBAR + MINHAS VENDAS + FOOTER
-
   return (
     <div className="vendas">
     </div>

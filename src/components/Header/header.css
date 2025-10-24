@@ -1,0 +1,41 @@
+.header {
+  background-color: #b91c1c 100%;
+  padding: 3vh 4vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 2.5vh;
+  box-shadow: 0 0.5vh 2vh rgba(0, 0, 0, 0.1);
+  margin-bottom: 3vh;
+  border-radius: 1.5vh;
+}
+
+.fotoperfil {
+  width: 10vh;
+  height: 10vh;
+  border-radius: 50%;
+}
+
+.fotoperfil img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.textoheader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5vh;
+}
+
+.textoheader h1 {
+  color: white;
+  font-size: 3.5vh;
+  font-weight: 700;
+}
+
+.textoheader p {
+  color: white;
+  font-size: 1.8vh;
+  font-weight: 400;
+}

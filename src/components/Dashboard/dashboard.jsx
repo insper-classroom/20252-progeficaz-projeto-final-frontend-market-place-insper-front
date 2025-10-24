@@ -19,7 +19,7 @@ export default function Dashboard() {
   if (erro) return <p>Erro: {erro}</p>;
   if (!dados) return <p>Carregando Dados</p>;
 
-// DASHBOARD = HEADER + SIDE BAR + DASHBOARD + FOOTER
+// DASHBOARD = HEADER + NAV BAR + SIDE BAR + DASHBOARD + FOOTER
   return (
     <div className="tudo">
         
