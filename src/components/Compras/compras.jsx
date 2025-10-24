@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import "./dashboard.css";
+import "./compras.css";
 
-export default function Dashboard() {
+export default function Vendas() {
   const [dados, setDados] = useState(null);
   const [erro, setErro] = useState(null);
 
@@ -19,11 +19,10 @@ export default function Dashboard() {
   if (erro) return <p>Erro: {erro}</p>;
   if (!dados) return <p>Carregando Dados</p>;
 
-// DASHBOARD = HEADER + NAV BAR + SIDE BAR + DASHBOARD + FOOTER
-  return (
-    <div className="tudo">
-        
-    </div>
+// PÁGINA MINHAS COMPRAS = HEADER + SIDEBAR + MINHAS COMPRAS + FOOTER
 
+  return (
+    <div className="compras">
+    </div>
 );
 }
