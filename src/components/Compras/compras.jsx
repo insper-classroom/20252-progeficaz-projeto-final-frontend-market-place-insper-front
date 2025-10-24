@@ -23,6 +23,67 @@ export default function Vendas() {
 
   return (
     <div className="compras">
+      <div className="exporprodutos">
+
+        <div className="andamento">
+          <div className="tituloprodutos">
+            <h2>Compras em Andamento</h2>
+          </div>
+
+          <div className="produtos-grid">
+            {produtosAndamento.map((produto) => (
+            <div className="produto" key={produto.id}>
+              <div className="fotoproduto">
+                <img src={produto.img} alt={produto.titulo} />
+              </div>
+
+              <div className="tituloproduto">
+                <h3>{produto.titulo}</h3>
+              </div>
+
+              <div className="descricaoproduto">
+                <p>{produto.descricao}</p>
+              </div>
+
+              <div className="precoproduto">
+                <p>{produto.preco}</p>
+              </div>
+            </div>
+            ))}
+          </div>
+
+        </div>
+
+        <div className="finalizado">
+          <div className="tituloprodutos">
+            <h2>Compras Finalizadas</h2>
+          </div>
+
+            <div className="produtos-grid">
+            {produtosFinalizado.map((produto) => (
+            <div className="produto" key={produto.id}>
+              <div className="fotoproduto">
+                <img src={produto.img} alt={produto.titulo} />
+              </div>
+
+              <div className="tituloproduto">
+                <h3>{produto.titulo}</h3>
+              </div>
+
+              <div className="descricaoproduto">
+                <p>{produto.descricao}</p>
+              </div>
+
+              <div className="precoproduto">
+                <p>{produto.preco}</p>
+              </div>
+            </div>
+            ))}
+          </div>
+
+        </div>
+
+      </div>
     </div>
 );
 }

@@ -22,6 +22,100 @@ export default function Vendas() {
 // PÁGINA MINHAS VENDAS = HEADER + SIDEBAR + MINHAS VENDAS + FOOTER
   return (
     <div className="vendas">
+      <div className="exporprodutos">
+
+        <div className="avenda">
+          <div className="tituloprodutos">
+            <h2>Produtos a Venda</h2>
+          </div>
+
+          <div className="produtos-grid">
+            {produtosVenda.map((produto) => (
+            <div className="produto" key={produto.id}>
+              <div className="fotoproduto">
+                <img src={produto.img} alt={produto.titulo} />
+              </div>
+
+              <div className="tituloproduto">
+                <h3>{produto.titulo}</h3>
+              </div>
+
+              <div className="descricaoproduto">
+                <p>{produto.descricao}</p>
+              </div>
+
+              <div className="precoproduto">
+                <p>{produto.preco}</p>
+              </div>
+
+              <div className="btnceditar">
+                Editar
+              </div>
+            </div>
+            ))}
+          </div>
+
+        </div>
+
+        <div className="andamento">
+          <div className="tituloprodutos">
+            <h2>Vendas em Andamento</h2>
+          </div>
+
+          <div className="produtos-grid">
+            {produtosAndamento.map((produto) => (
+            <div className="produto" key={produto.id}>
+              <div className="fotoproduto">
+                <img src={produto.img} alt={produto.titulo} />
+              </div>
+
+              <div className="tituloproduto">
+                <h3>{produto.titulo}</h3>
+              </div>
+
+              <div className="descricaoproduto">
+                <p>{produto.descricao}</p>
+              </div>
+
+              <div className="precoproduto">
+                <p>{produto.preco}</p>
+              </div>
+            </div>
+            ))}
+          </div>
+
+        </div>
+
+        <div className="finalizado">
+          <div className="tituloprodutos">
+            <h2>Vendas Finalizadas</h2>
+          </div>
+
+            <div className="produtos-grid">
+            {produtosFinalizado.map((produto) => (
+            <div className="produto" key={produto.id}>
+              <div className="fotoproduto">
+                <img src={produto.img} alt={produto.titulo} />
+              </div>
+
+              <div className="tituloproduto">
+                <h3>{produto.titulo}</h3>
+              </div>
+
+              <div className="descricaoproduto">
+                <p>{produto.descricao}</p>
+              </div>
+
+              <div className="precoproduto">
+                <p>{produto.preco}</p>
+              </div>
+            </div>
+            ))}
+          </div>
+
+        </div>
+
+      </div>
     </div>
 );
 }
