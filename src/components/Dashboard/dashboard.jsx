@@ -21,6 +21,10 @@ export default function Dashboard() {
 
   return (
     <div className="tudo">
+        
+      <div className="header">
+        <h1>Bem vindo {pessoa.nome}</h1>
+      </div>
 
     </div>
 
