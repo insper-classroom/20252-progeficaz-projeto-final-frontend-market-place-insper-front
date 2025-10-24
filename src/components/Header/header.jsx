@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import "./sidebar.css";
+import "./header.css";
 
-export default function Vendas() {
+export default function Header() {
   const [dados, setDados] = useState(null);
   const [erro, setErro] = useState(null);
 
@@ -19,10 +19,15 @@ export default function Vendas() {
   if (erro) return <p>Erro: {erro}</p>;
   if (!dados) return <p>Carregando Dados</p>;
 
-// PÁGINA MINHAS VENDAS = HEADER + SIDEBAR + MINHAS VENDAS + FOOTER
-
   return (
-    <div className="vendas">
+    <div className="header">
+        <div className="fotoperfil">
+          <img src={pessoa.img} alt="public/pessoacinza.png"/>
+        </div>
+        <div className="textoheader">
+            <h1>Olá {pessoa.nome}!</h1>
+            <p>{pessoa.status} Insper</p>
+        </div>
     </div>
 );
 }

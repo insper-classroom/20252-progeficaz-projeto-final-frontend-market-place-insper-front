@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
 
-import Navbar from "./components/Navbar/Navbar";
+import Navbar from "./components/Navbar/navbar";
 import Footer from "./components/Footer/footer";
 import Home from "./components/Home/home";
 import Login from "./components/Login/login";
