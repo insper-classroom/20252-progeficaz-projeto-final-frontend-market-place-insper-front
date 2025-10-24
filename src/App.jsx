@@ -5,6 +5,8 @@ import axios from "axios";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/footer";
 import Home from "./components/Home/home";
+import Login from "./components/Login/login";
+import Cadastro from "./components/Cadastro/cadastro";
 
 function App() {
   const [produtosEmDestaque, setProdutosEmDestaque] = useState([]);
