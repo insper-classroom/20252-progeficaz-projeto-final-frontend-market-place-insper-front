@@ -11,7 +11,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/")
+      .get("http://localhost:5000/items")
       .then((res) => {
         setProdutosEmDestaque(res.data.produtos || []); // garante array
       })
