@@ -21,8 +21,52 @@ export default function Dashboard() {
 
 // DASHBOARD = HEADER + NAV BAR + SIDE BAR + DASHBOARD + FOOTER
   return (
-    <div className="tudo">
-        
+    <div className="dashboard">
+        <div className="btnregistrarproduto">
+          <p>Registrar Produto</p>
+        </div>
+        <div className="subtitulo">
+          <h2>Informações Pessoais</h2>
+        </div>
+        <div className="dados">
+          {/* endereço, nome completo, idade, status, email */}
+          <div class="dados">
+          <div class="dadocontainer">
+            <div class="titulodado">
+              <h3 class="titulo">Nome Completo</h3>
+              <p>{cliente.nome}</p>
+            </div>
+          </div>
+
+          <div class="dadocontainer">
+            <div class="dado">
+              <h3 class="titulo">Status</h3>
+              <p>{cliente.status}</p>
+            </div>
+          </div>
+
+          <div class="dadocontainer">
+            <div class="dado">
+              <h3 class="titulo">Endereço</h3>
+              <p>{cliente.email}</p>
+            </div>
+          </div>
+
+          <div class="dadocontainer">
+            <div class="dado">
+              <h3 class="titulo">E-mail</h3>
+              <p>{cliente.email}</p>
+            </div>
+          </div>
+
+          <div class="dadocontainer">
+            <div class="dado">
+              <h3 class="titulo">Idade</h3>
+              <p>{cliente.idade}</p>
+            </div>
+          </div>
+        </div>
+        </div>
     </div>
 
 );

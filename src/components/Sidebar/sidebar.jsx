@@ -25,6 +25,7 @@ export default function Sidebar() {
         <img src={logo} className="logo" />
             <div className="links">
             <a href="#">Meu Perfil</a>
+            {/* O LINK DO 'MEU PERFIL' TEM QUE SER O MESMO DO DASHBOARD */}
             <a href="#">Home</a>
             <a href="#">Minhas Compras</a>
             <a href="#">Minhas Vendas</a>
