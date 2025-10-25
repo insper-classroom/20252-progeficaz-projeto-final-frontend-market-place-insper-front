@@ -56,7 +56,10 @@ export default function Home() {
             {produtosEmDestaque.map((produto) => (
             <div className="produto" key={produto.id}>
               <div className="fotoproduto">
-                <img src={produto.img} alt={produto.titulo} />
+                <img
+                  src={produto.images?.[0] || "placeholder"}
+                  alt={produto.title}
+                />
               </div>
 
               <div className="tituloproduto">
@@ -90,9 +93,11 @@ export default function Home() {
           <div className="produtos-grid">
             {produtosEletronicos.map((produto) => (
             <div className="produto" key={produto.id}>
-              <div className="fotoproduto">
-                <img src={produto.img} alt={produto.titulo} />
-              </div>
+              <img
+                src={produto.images?.[0] || "placeholder"}
+                alt={produto.title}
+              />
+
 
               <div className="tituloproduto">
                 <h3>{produto.titulo}</h3>
@@ -126,7 +131,10 @@ export default function Home() {
             {produtosEletrodomesticos.map((produto) => (
             <div className="produto" key={produto.id}>
               <div className="fotoproduto">
-                <img src={produto.img} alt={produto.titulo} />
+                <img
+                  src={produto.images?.[0] || "placeholder"}
+                  alt={produto.title}
+                />
               </div>
 
               <div className="tituloproduto">
@@ -161,7 +169,10 @@ export default function Home() {
             {produtosMoveis.map((produto) => (
             <div className="produto" key={produto.id}>
               <div className="fotoproduto">
-                <img src={produto.img} alt={produto.titulo} />
+                <img
+                  src={produto.images?.[0] || "placeholder"}
+                  alt={produto.title}
+                />
               </div>
 
               <div className="tituloproduto">
@@ -196,7 +207,10 @@ export default function Home() {
             {produtosOutros.map((produto) => (
             <div className="produto" key={produto.id}>
               <div className="fotoproduto">
-                <img src={produto.img} alt={produto.titulo} />
+                <img
+                  src={produto.images?.[0] || "placeholder"}
+                  alt={produto.title}
+                />
               </div>
 
               <div className="tituloproduto">

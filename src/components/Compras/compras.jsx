@@ -34,7 +34,10 @@ export default function Vendas() {
             {produtosAndamento.map((produto) => (
             <div className="produto" key={produto.id}>
               <div className="fotoproduto">
-                <img src={produto.img} alt={produto.titulo} />
+                <img
+                  src={produto.images?.[0] || "placeholder"}
+                  alt={produto.title}
+                />
               </div>
 
               <div className="tituloproduto">
@@ -63,7 +66,10 @@ export default function Vendas() {
             {produtosFinalizado.map((produto) => (
             <div className="produto" key={produto.id}>
               <div className="fotoproduto">
-                <img src={produto.img} alt={produto.titulo} />
+                <img
+                  src={produto.images?.[0] || "placeholder"}
+                  alt={produto.title}
+                />
               </div>
 
               <div className="tituloproduto">
