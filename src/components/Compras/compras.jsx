@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./compras.css";
 
-export default function Vendas() {
+export default function Compras() {
   const [dados, setDados] = useState(null);
   const [erro, setErro] = useState(null);
 
