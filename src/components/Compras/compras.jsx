@@ -20,7 +20,7 @@ export default function Vendas() {
   if (!dados) return <p>Carregando Dados</p>;
 
 // PÁGINA MINHAS COMPRAS = HEADER + SIDEBAR + MINHAS COMPRAS + FOOTER
-
+// AGUARDAR PRA VER COMO QUE AS INFORMAÇÕES SERÃO ARMAZENADAS NO BACK
   return (
     <div className="compras">
       <div className="exporprodutos">

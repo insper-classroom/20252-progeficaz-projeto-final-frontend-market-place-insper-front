@@ -20,6 +20,7 @@ export default function Vendas() {
   if (!dados) return <p>Carregando Dados</p>;
 
 // PÁGINA MINHAS VENDAS = HEADER + SIDEBAR + MINHAS VENDAS + FOOTER
+// AGUARDAR PRA VER COMO QUE AS INFORMAÇÕES SERÃO ARMAZENADAS NO BACK
   return (
     <div className="vendas">
       <div className="exporprodutos">
