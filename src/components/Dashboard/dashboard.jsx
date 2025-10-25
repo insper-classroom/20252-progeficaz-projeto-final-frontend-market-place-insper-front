@@ -20,6 +20,7 @@ export default function Dashboard() {
   if (!dados) return <p>Carregando Dados</p>;
 
 // DASHBOARD = HEADER + NAV BAR + SIDE BAR + DASHBOARD + FOOTER
+// VER COMO QUE AS INFORMAÇÕES SÃO PASSADAS DO BACK
   return (
     <div className="dashboard">
         <div className="btnregistrarproduto">
