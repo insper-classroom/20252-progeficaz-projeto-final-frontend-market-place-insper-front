@@ -17,7 +17,7 @@ const authService = {
             
             return resposta.data;
         } catch (error) {
-            throw error.resposta?.data || { erro : 'Erro ao realizar login' };
+            throw error.response?.data || { error : 'Erro ao realizar login' };
         }
     },
     register: async (name, email, password) => {
@@ -33,7 +33,7 @@ const authService = {
             }
             return resposta.data;
         } catch (error) {
-            throw error.resposta?.data || { erro : 'Erro ao realizar cadastro' };
+            throw error.response?.data || { error : 'Erro ao realizar cadastro' };
         }
     },
     logout: () => {
