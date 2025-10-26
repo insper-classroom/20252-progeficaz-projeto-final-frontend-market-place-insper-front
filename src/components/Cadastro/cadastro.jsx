@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import authService from '../../services/authService';
 import './cadastro.css';
 
 function Cadastro() {
@@ -7,6 +8,7 @@ function Cadastro() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [carregando, setCarregando] = useState(false);
 
     // Mensagens de erro
     const [nomeError, setNomeError] = useState('');
@@ -14,6 +16,7 @@ function Cadastro() {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    const [erroGeral, setErroGeral] = useState('');
 
     const validaNome = (nome) => {
         if (!nome) {
@@ -39,17 +42,8 @@ function Cadastro() {
         if (!password) {
             return "A senha é obrigatória.";
         }
-        if (password.length < 8) {
-            return "A senha deve ter pelo menos 8 caracteres.";
-        }
-        if (!/[A-Z]/.test(password)) {
-            return "A senha deve conter pelo menos 1 letra maiúscula.";
-        }
-        if (!/[0-9]/.test(password)) {
-            return "A senha deve conter pelo menos 1 número.";
-        }
-        if (!/[!@#$%^&*]/.test(password)) {
-            return "A senha deve conter pelo menos 1 caractere especial.";
+        if (password.length < 6) {
+            return "A senha deve ter pelo menos 6 caracteres.";
         }
         return '';
 
@@ -65,8 +59,9 @@ function Cadastro() {
         return '';
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setErroGeral('');
 
         // Valida os campos 
         const nomeErr = validaNome(nome);
@@ -86,21 +81,37 @@ function Cadastro() {
             return;
         }
 
-        console.log('Cadastro enviado!');
-        console.log('Nome:', nome);
-        console.log('Sobrenome:', sobrenome);
-        console.log('Email:', email);
+        setCarregando(true);
+
+        try {
+            const nomeCompleto = `${nome} ${sobrenome}`;
+            const resposta = await authService.register(nomeCompleto, email, password);
+            console.log('Cadastro realizado com sucesso!', resposta);
+            alert(`Cadastro realizado com sucesso! Bem-vindo ao Marketplace Insper, ${resposta.user.name}!`);
+
+        } catch (error) {
+            setErroGeral(error.error || 'Erro ao criar conta. Por favor, tente novamente.');
+        } finally {
+            setCarregando(false);
+        }
     };
 
     return (
         <div className="cadastro-container"> 
             <h1>Crie uma conta</h1>
+
+            {erroGeral && (
+                <div className="error-message">
+                    {erroGeral}
+                </div>
+            )}
             <form onSubmit={handleSubmit}>
                 <input 
                     type="text" 
                     placeholder="Nome" 
                     value={nome} 
                     onChange={(e) => setNome(e.target.value)} 
+                    disabled={carregando}
                 />
                 {nomeError && <span className="error-message">{nomeError}</span>}
                 <input 
@@ -108,6 +119,7 @@ function Cadastro() {
                     placeholder="Sobrenome"
                     value={sobrenome} 
                     onChange={(e) => setSobrenome(e.target.value)}
+                    disabled={carregando}
                 />
                 {sobrenomeError && <span className="error-message">{sobrenomeError}</span>}
                 <input 
@@ -115,6 +127,7 @@ function Cadastro() {
                     placeholder="E-mail" 
                     value={email} 
                     onChange={(e) => setEmail(e.target.value)} 
+                    disabled={carregando}
                 />
                 {emailError && <span className="error-message">{emailError}</span>}
                 <input 
@@ -122,6 +135,7 @@ function Cadastro() {
                     placeholder="Senha" 
                     value={password} 
                     onChange={(e) => setPassword(e.target.value)} 
+                    disabled={carregando}
                 />
                 {passwordError && <span className="error-message">{passwordError}</span>}
                 <input 
@@ -129,10 +143,13 @@ function Cadastro() {
                     placeholder="Confirmar Senha" 
                     value={confirmPassword} 
                     onChange={(e) => setConfirmPassword(e.target.value)} 
+                    disabled={carregando}
                 />
                 {confirmPasswordError && <span className="error-message">{confirmPasswordError}</span>}
 
-                <button type="submit">Criar conta</button>
+                <button type="submit" disabled={carregando}>
+                    {carregando ? 'Realizando cadastro...' : 'Criar Conta'}
+                </button>
 
             </form>
             <p> Já possui uma conta? <a href="/login">Fazer Login</a></p>

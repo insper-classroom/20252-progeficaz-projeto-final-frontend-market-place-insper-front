@@ -27,7 +27,7 @@ function App() {
       <Navbar />
 
       <main>
-        <Login />
+        <Home />
       </main>
 
       <Footer />
