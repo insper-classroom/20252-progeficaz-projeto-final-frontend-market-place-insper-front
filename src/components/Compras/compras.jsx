@@ -19,6 +19,9 @@ export default function Compras() {
   if (erro) return <p>Erro: {erro}</p>;
   if (!dados) return <p>Carregando Dados</p>;
 
+  const produtosAndamento = dados.produtosAndamento || [];
+  const produtosFinalizado = dados.produtosFinalizado || [];
+
 // PÁGINA MINHAS COMPRAS = HEADER + SIDEBAR + MINHAS COMPRAS + FOOTER
 // AGUARDAR PRA VER COMO QUE AS INFORMAÇÕES SERÃO ARMAZENADAS NO BACK
   return (
@@ -29,6 +32,16 @@ export default function Compras() {
           <div className="tituloprodutos">
             <h2>Compras em Andamento</h2>
           </div>
+
+          {produtosCompra.length === 0 ? (
+            <div className="mensagemvazio">
+              <p>Você ainda não possui nenhuma compra.</p>
+              {/* ADICIONAR ROTA QUE LEVE A HOME PAGE */}
+              <button className="btn-cadastrar" onClick={() => navigate("#")}> 
+                Começar a Comprar
+              </button>
+            </div>
+          ) : (
 
           <div className="produtos-grid">
             {produtosAndamento.map((produto) => (
@@ -54,7 +67,7 @@ export default function Compras() {
             </div>
             ))}
           </div>
-
+          )}
         </div>
 
         <div className="finalizado">

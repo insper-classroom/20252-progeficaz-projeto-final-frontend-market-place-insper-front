@@ -1,5 +1,10 @@
 import "./footer.css"
 import logo from "../../assets/logo.png"
+import { Link } from "react-router-dom";
+
+// SE FOR UM LINK DENTRO DO RECT, USAR <Link>
+// SE FOR UM LINK EXTERNO, USAR <a href="" >
+
 export default function Footer() {
     return (
         <footer className="footer">
@@ -12,18 +17,18 @@ export default function Footer() {
         <div className="footer-column">
           <h4>Produto</h4>
           <ul>
-            <li><a href="#">Como Funciona</a></li>
-            <li><a href="#">Benefícios</a></li>
-            <li><a href="#">Segurança</a></li>
+            <li><Link to="/como-funciona">Como Funciona</Link></li>
+            <li><Link to="/beneficios">Benefícios</Link></li>
+            <li><Link to="/seguranca">Segurança</Link></li>
           </ul>
         </div>
 
         <div className="footer-column">
           <h4>Suporte</h4>
           <ul>
-            <li><a href="#">Central de Ajuda</a></li>
-            <li><a href="#">Termos de Uso</a></li>
-            <li><a href="#">Política de Privacidade</a></li>
+            <li><Link to="/ajuda">Central de Ajuda</Link></li>
+            <li><Link to="/termos">Termos de Uso</Link></li>
+            <li><Link to="/politica">Política de Privacidade</Link></li>
           </ul>
         </div>
 
