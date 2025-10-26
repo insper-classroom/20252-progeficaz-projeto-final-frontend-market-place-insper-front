@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./sidebar.css";
 import logo from "../../assets/logo.png";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   const [dados, setDados] = useState(null);
@@ -20,15 +21,16 @@ export default function Sidebar() {
   if (erro) return <p>Erro: {erro}</p>;
   if (!dados) return <p>Carregando Dados</p>;
 
+  // ADICIONAR LINKS
   return (
     <div className="sidebar">
         <img src={logo} className="logo" />
             <div className="links">
-            <a href="#">Meu Perfil</a>
-            {/* O LINK DO 'MEU PERFIL' TEM QUE SER O MESMO DO DASHBOARD */}
-            <a href="#">Home</a>
-            <a href="#">Minhas Compras</a>
-            <a href="#">Minhas Vendas</a>
+            <Link to="/perfil">Meu Perfil</Link>
+             {/* O LINK DO 'MEU PERFIL' TEM QUE SER O MESMO DO DASHBOARD */}
+            <Link to="/home">Home</Link>
+            <Link to="/compras">Minhas Compras</Link>
+            <Link to="/vendas">Minhas Vendas</Link>
         </div>
     </div>
 );

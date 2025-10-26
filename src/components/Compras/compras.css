@@ -78,3 +78,33 @@
     font-weight: 700;
 }
 
+
+.mensagemvazio {
+    background-color: whitesmoke;
+    border-radius: 1.5vh;
+    padding: 5vh 2.5vh;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5vh;
+}
+
+.mensagemvazio p {
+    color: #6b7280;
+    font-size: 2.25vh;
+    font-weight: 500;
+}
+
+.btn-comprar {
+    background-color: #b91c1c;
+    color: white;
+    padding: 1.5vh 4vh;
+    border-radius: 1vh;
+    font-size: 1.75vh;
+    font-weight: 600;
+}
+
+.btn-comprar:hover {
+    background-color: #991b1b;
+}

@@ -19,6 +19,10 @@ export default function Vendas() {
   if (erro) return <p>Erro: {erro}</p>;
   if (!dados) return <p>Carregando Dados</p>;
 
+  const produtosVenda = dados.produtosVenda || [];
+  const produtosAndamento = dados.produtosAndamento || [];
+  const produtosFinalizado = dados.produtosFinalizado || [];
+
 // PÁGINA MINHAS VENDAS = HEADER + SIDEBAR + MINHAS VENDAS + FOOTER
 // AGUARDAR PRA VER COMO QUE AS INFORMAÇÕES SERÃO ARMAZENADAS NO BACK
   return (
@@ -29,6 +33,16 @@ export default function Vendas() {
           <div className="tituloprodutos">
             <h2>Produtos a Venda</h2>
           </div>
+
+          {produtosVenda.length === 0 ? (
+            <div className="mensagemvazio">
+              <p>Você ainda não possui produtos à venda.</p>
+              {/* ADICIONAR ROTA QUE LEVE A PÁGINA DE CADASTRAR PRODUTO */}
+              <button className="btn-cadastrar" onClick={() => navigate("#")}> 
+                Adicionar Produto a Venda
+              </button>
+            </div>
+          ) : (
 
           <div className="produtos-grid">
             {produtosVenda.map((produto) => (
@@ -58,7 +72,7 @@ export default function Vendas() {
             </div>
             ))}
           </div>
-
+        )}
         </div>
 
         <div className="andamento">

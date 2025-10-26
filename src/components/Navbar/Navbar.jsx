@@ -1,6 +1,10 @@
 import "./Navbar.css";
 import { Search, Filter, ShoppingCart, User } from "lucide-react";
 import logo from "../../assets/logo.png";
+import { Link } from "react-router-dom";
+
+// SE FOR UM LINK DENTRO DO RECT, USAR <Link>
+// SE FOR UM LINK EXTERNO, USAR <a href="" >
 
 export default function Navbar() {
     return (
@@ -8,11 +12,12 @@ export default function Navbar() {
             <div className="navbar-left">
                 <img src={logo} alt ="MarketInsper logo" className="navbar-logo" />
                 <nav className="navbar-links">
-                    <a href="#">Categorias</a>
-                    <a href="#">Em Destaque</a>
-                    <a href="#">Anunciar Produto</a>
-                    <a href="#">Minha Conta</a>
-                    <a href="#">Ajuda</a>
+                    {/* <Link to="/categorias">Categorias</Link> */}
+                    <Link to="/destaques">Em Destaque</Link>
+                    <Link to="/anunciar">Anunciar Produto</Link>
+                    {/* LINK PARA O DASHBOARD */}
+                    <Link to="/minhaconta">Minha Conta</Link>
+                    {/* <Link to="/ajuda">Ajuda</Link> */}
                 </nav>
             </div>
 
