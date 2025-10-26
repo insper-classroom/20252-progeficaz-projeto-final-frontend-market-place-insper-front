@@ -1,0 +1,78 @@
+* {
+    box-sizing: border-box;
+}
+
+.tudo {
+    width: 100%;
+    min-height: 100vh;
+    padding: 5vh 2.5vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: white;
+}
+
+.produto {
+    max-width: 140vh;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6vh;
+    align-items: start;
+}
+
+.produto-imagem {
+    width: 100%;
+    height: 70vh;
+    border-radius: 1.5vh;
+    background-color: whitesmoke;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 2.5vh;
+}
+
+.produto-imagem img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.produto-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+    padding: 2.5vh 0;
+}
+
+.produto-info h2 {
+    color: black;
+    font-size: 4.5vh;
+    font-weight: 700;
+}
+
+.descricao {
+    color: gray;
+    font-size: 2.25vh;
+    line-height: 1.6;
+}
+
+.preco {
+    color: #b91c1c;
+    font-size: 5vh;
+    font-weight: 700;
+    margin-top: 2vh;
+}
+
+.btn-comprar {
+    background-color: #3d1810;
+    color: white;
+    padding: 2vh 4vh;
+    border-radius: 1vh;
+    font-size: 2.25vh;
+    font-weight: 600;
+    margin-top: 2vh;
+}
+
+.btn-comprar:hover {
+    background-color: #2d1208;
+}
