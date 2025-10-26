@@ -4,11 +4,6 @@ import "./home.css";
 export default function Home() {
   const [dados, setDados] = useState(null);
   const [erro, setErro] = useState(null);
-  const produtosEmDestaque = [];
-  const produtosEletronicos = [];
-  const produtosEletrodomesticos = [];
-  const produtosMoveis = [];
-  const produtosOutros = [];
 
   useEffect(() => {
   const base = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -24,6 +19,12 @@ export default function Home() {
 
   if (erro) return <p>Erro: {erro}</p>;
   if (!dados) return <p>Carregando Dados</p>;
+
+  const produtosEmDestaque = dados.emDestaque;
+  const produtosEletronicos = dados.eletronicos;
+  const produtosEletrodomesticos = dados.eletrodomesticos;
+  const produtosMoveis = dados.moveis;
+  const produtosOutros = dados.outros;
 
   return (
     <div className="tudo">

@@ -1,27 +1,34 @@
 import { useEffect, useState } from "react";
 import "./vendas.css";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function Vendas() {
-  const [dados, setDados] = useState(null);
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [cliente, setCliente] = useState(null);
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
     const base = import.meta.env.VITE_API_URL || "";
-    fetch(`${base}`)
+    // AJEITAR A URL
+    fetch(`${base}/api/usuarios/${id}/vendas`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
         return res.json();
       })
-      .then((data) => setDados(data))
+      .then((data) => setCliente(data))
       .catch((err) => setErro(err.message));
-  }, []);
+  }, [id]);
 
   if (erro) return <p>Erro: {erro}</p>;
-  if (!dados) return <p>Carregando Dados</p>;
+  if (!cliente) return <p>Carregando Dados</p>;
 
-  const produtosVenda = dados.produtosVenda || [];
-  const produtosAndamento = dados.produtosAndamento || [];
-  const produtosFinalizado = dados.produtosFinalizado || [];
+  const produtosVenda = cliente.produtosVenda || [];
+  const produtosAndamento = cliente.produtosAndamento || [];
+  const produtosFinalizado = cliente.produtosFinalizado || [];
+
+  const nenhumaVenda = produtosVenda.length === 0 && produtosAndamento.length === 0 && produtosFinalizado.length === 0;
 
 // PÁGINA MINHAS VENDAS = HEADER + SIDEBAR + MINHAS VENDAS + FOOTER
 // AGUARDAR PRA VER COMO QUE AS INFORMAÇÕES SERÃO ARMAZENADAS NO BACK
@@ -29,12 +36,7 @@ export default function Vendas() {
     <div className="vendas">
       <div className="exporprodutos">
 
-        <div className="avenda">
-          <div className="tituloprodutos">
-            <h2>Produtos a Venda</h2>
-          </div>
-
-          {produtosVenda.length === 0 ? (
+        {nenhumaVenda && (
             <div className="mensagemvazio">
               <p>Você ainda não possui produtos à venda.</p>
               {/* ADICIONAR ROTA QUE LEVE A PÁGINA DE CADASTRAR PRODUTO */}
@@ -42,15 +44,21 @@ export default function Vendas() {
                 Adicionar Produto a Venda
               </button>
             </div>
-          ) : (
+        )}
+
+        {produtosVenda.length > 0 && (
+        <div className="avenda">
+          <div className="tituloprodutos">
+            <h2>Produtos a Venda</h2>
+          </div>
 
           <div className="produtos-grid">
             {produtosVenda.map((produto) => (
             <div className="produto" key={produto.id}>
               <div className="fotoproduto">
                 <img
-                  src={produto.images?.[0] || "placeholder"}
-                  alt={produto.title}
+                  src={produto.images?.[0]}
+                  alt={produto.titulo}
                 />
               </div>
 
@@ -63,7 +71,7 @@ export default function Vendas() {
               </div>
 
               <div className="precoproduto">
-                <p>{produto.preco}</p>
+                <p>R$ {produto.preco}</p>
               </div>
 
               <div className="btnceditar">
@@ -71,10 +79,11 @@ export default function Vendas() {
               </div>
             </div>
             ))}
-          </div>
-        )}
+          </div> 
         </div>
-
+      )}
+  
+      {produtosAndamento.length > 0 && (
         <div className="andamento">
           <div className="tituloprodutos">
             <h2>Vendas em Andamento</h2>
@@ -85,8 +94,8 @@ export default function Vendas() {
             <div className="produto" key={produto.id}>
               <div className="fotoproduto">
                 <img
-                  src={produto.images?.[0] || "placeholder"}
-                  alt={produto.title}
+                  src={produto.images?.[0]}
+                  alt={produto.titulo}
                 />
               </div>
 
@@ -99,14 +108,15 @@ export default function Vendas() {
               </div>
 
               <div className="precoproduto">
-                <p>{produto.preco}</p>
+                <p>R$ {produto.preco}</p>
               </div>
             </div>
             ))}
           </div>
-
         </div>
+      )}
 
+      {produtosFinalizado.length > 0 && (
         <div className="finalizado">
           <div className="tituloprodutos">
             <h2>Vendas Finalizadas</h2>
@@ -117,8 +127,8 @@ export default function Vendas() {
             <div className="produto" key={produto.id}>
               <div className="fotoproduto">
                 <img
-                  src={produto.images?.[0] || "placeholder"}
-                  alt={produto.title}
+                  src={produto.images?.[0]}
+                  alt={produto.titulo}
                 />
               </div>
 
@@ -131,13 +141,13 @@ export default function Vendas() {
               </div>
 
               <div className="precoproduto">
-                <p>{produto.preco}</p>
+                <p>R$ {produto.preco}</p>
               </div>
             </div>
             ))}
           </div>
-
         </div>
+      )}
 
       </div>
     </div>

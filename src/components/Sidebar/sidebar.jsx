@@ -9,7 +9,7 @@ export default function Sidebar() {
 
   useEffect(() => {
     const base = import.meta.env.VITE_API_URL || "";
-    fetch(`${base}`)
+    fetch(base)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
         return res.json();
@@ -26,11 +26,11 @@ export default function Sidebar() {
     <div className="sidebar">
         <img src={logo} className="logo" />
             <div className="links">
-            <Link to="/perfil">Meu Perfil</Link>
+            <Link to="/">Meu Perfil</Link>
              {/* O LINK DO 'MEU PERFIL' TEM QUE SER O MESMO DO DASHBOARD */}
-            <Link to="/home">Home</Link>
-            <Link to="/compras">Minhas Compras</Link>
-            <Link to="/vendas">Minhas Vendas</Link>
+            <Link to="/">Home</Link>
+            <Link to="/">Minhas Compras</Link>
+            <Link to="/">Minhas Vendas</Link>
         </div>
     </div>
 );

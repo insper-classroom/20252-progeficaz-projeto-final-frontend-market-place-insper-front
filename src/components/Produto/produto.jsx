@@ -5,7 +5,7 @@ import "./produto.css";
 
 export default function Produto() {
   const { id } = useParams();
-  const [dados, setDados] = useState(null);
+  const [produto, setProduto] = useState(null);
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
@@ -16,20 +16,20 @@ export default function Produto() {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
         return res.json();
       })
-      .then((data) => setDados(data))
+      .then((data) => setProduto(data))
       .catch((err) => setErro(err.message));
   }, [id]);
 
   if (erro) return <p>Erro: {erro}</p>;
-  if (!dados) return <p>Carregando Dados</p>;
+  if (!produto) return <p>Carregando Dados</p>;
 
   return (
     <div className="tudo">
       <div className="produto">
         <div className="produto-imagem">
           <img
-            src={produto.images?.[0] || "placeholder"}
-            alt={produto.title}
+            src={produto.images?.[0]}
+            alt={produto.titulo}
           />
         </div>
         <div className="produto-info">
