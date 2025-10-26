@@ -94,3 +94,28 @@
   margin-bottom: 6px;
   font-weight: 500;
 }
+
+.error-message {
+    background-color: #fee;
+    color: #c33;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.cadastro-container form span.error-message {
+    display: block;
+    text-align: left;
+    font-size: 0.85rem;
+    padding: 5px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+input:disabled,
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
