@@ -6,8 +6,7 @@ export default function Home() {
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
-  const base = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
+  const base = "http://localhost:5000";
   fetch(`${base}/items`)
     .then((res) => {
       if (!res.ok) throw new Error("Erro ao conectar ao backend");
@@ -43,6 +42,7 @@ export default function Home() {
           <h2>Produtos</h2>
         </div>
 
+      {emDestaque.length > 0 && (
         <div className="emdestaque">
           <div className="tituloseccao">
             <div className="nomeseccao">
@@ -58,7 +58,7 @@ export default function Home() {
             <div className="produto" key={produto.id}>
               <div className="fotoproduto">
                 <img
-                  src={produto.images?.[0] || "placeholder"}
+                  src={produto.images?.[0]}
                   alt={produto.title}
                 />
               </div>
@@ -72,7 +72,7 @@ export default function Home() {
               </div>
 
               <div className="precoproduto">
-                <p>{produto.preco}</p>
+                <p>R${produto.preco}</p>
               </div>
 
               <div className="btncomprar">
@@ -82,7 +82,9 @@ export default function Home() {
             ))}
           </div>
         </div>
+      )}
 
+      {eletronicos.length > 0 && (
         <div className="eletronicos">
           <div className="nomeseccao">
               <h2>Eletrônicos</h2>
@@ -95,7 +97,7 @@ export default function Home() {
             {produtosEletronicos.map((produto) => (
             <div className="produto" key={produto.id}>
               <img
-                src={produto.images?.[0] || "placeholder"}
+                src={produto.images?.[0]}
                 alt={produto.title}
               />
 
@@ -109,7 +111,7 @@ export default function Home() {
               </div>
 
               <div className="precoproduto">
-                <p>{produto.preco}</p>
+                <p>R${produto.preco}</p>
               </div>
 
               <div className="btncomprar">
@@ -119,7 +121,9 @@ export default function Home() {
             ))}
           </div>
         </div>
+      )}
 
+      {eletrodomesticos.length > 0 && (
         <div className="eletrodomesticos">
           <div className="nomeseccao">
               <h2>Eletrodomésticos</h2>
@@ -133,7 +137,7 @@ export default function Home() {
             <div className="produto" key={produto.id}>
               <div className="fotoproduto">
                 <img
-                  src={produto.images?.[0] || "placeholder"}
+                  src={produto.images?.[0]}
                   alt={produto.title}
                 />
               </div>
@@ -147,7 +151,7 @@ export default function Home() {
               </div>
 
               <div className="precoproduto">
-                <p>{produto.preco}</p>
+                <p>R${produto.preco}</p>
               </div>
 
               <div className="btncomprar">
@@ -157,7 +161,9 @@ export default function Home() {
             ))}
           </div>
         </div>
+      )}
 
+      {moveis.length > 0 && (
         <div className="moveis">
           <div className="nomeseccao">
               <h2>Móveis</h2>
@@ -171,7 +177,7 @@ export default function Home() {
             <div className="produto" key={produto.id}>
               <div className="fotoproduto">
                 <img
-                  src={produto.images?.[0] || "placeholder"}
+                  src={produto.images?.[0]}
                   alt={produto.title}
                 />
               </div>
@@ -185,7 +191,7 @@ export default function Home() {
               </div>
 
               <div className="precoproduto">
-                <p>{produto.preco}</p>
+                <p>R${produto.preco}</p>
               </div>
 
               <div className="btncomprar">
@@ -195,7 +201,9 @@ export default function Home() {
             ))}
           </div>
         </div>
+      )}
 
+      {outros.length > 0 && (
         <div className="outros">
           <div className="nomeseccao">
               <h2>Outros</h2>
@@ -209,7 +217,7 @@ export default function Home() {
             <div className="produto" key={produto.id}>
               <div className="fotoproduto">
                 <img
-                  src={produto.images?.[0] || "placeholder"}
+                  src={produto.images?.[0]}
                   alt={produto.title}
                 />
               </div>
@@ -223,7 +231,7 @@ export default function Home() {
               </div>
 
               <div className="precoproduto">
-                <p>{produto.preco}</p>
+                <p>R${produto.preco}</p>
               </div>
 
               <div className="btncomprar">
@@ -233,6 +241,7 @@ export default function Home() {
             ))}
           </div>
         </div>
+      )}
 
       </div>
 

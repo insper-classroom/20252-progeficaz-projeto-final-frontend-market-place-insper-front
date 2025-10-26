@@ -1,37 +1,120 @@
-import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import axios from "axios";
 
 import Navbar from "./components/Navbar/navbar";
 import Footer from "./components/Footer/footer";
 import Home from "./components/Home/home";
 import Login from "./components/Login/login";
 import Cadastro from "./components/Cadastro/cadastro";
+import Compras from "./components/Compras/compras";
+import Dashboard from "./components/Dashboard/dashboard";
+import Header from "./components/Header/header";
+import Produto from "./components/Produto/produto";
+import Sidebar from "./components/Sidebar/sidebar";
+import Vendas from "./components/Vendas/vendas";
 
 function App() {
-  const [produtosEmDestaque, setProdutosEmDestaque] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/items")
-      .then((res) => {
-        setProdutosEmDestaque(res.data.produtos || []); // garante array
-      })
-      .catch((err) => {
-        console.error("Erro ao buscar produtos:", err);
-      });
-  }, []);
+  // Páginas:
 
+  // HOME: Navbar + Home + Footer
+
+  // DASHBOARD: Header + Sidebar + Dashboard + Footer
+  // MINHAS VENDAS: Header + Sidebar + Vendas + Footer
+  // MINHAS COMPRAS: Header + Sidebar + Compras + Footer
+
+  // PRODUTO: Navbar + Produto
+
+  // LOGIN: Login
+  // CADASTRO: Cadastro
+
+  // CADASTRAR UM PRODUTO:
+
+  // EDIÇÃO DE UM ITEM:
+
+  // CARRINHO:
+  // PAGAMENTO: 
+
+// CONFIRIR OS URLS E ROTAS
   return (
-    <>
-      <Navbar />
-
+    <Router>
       <main>
-        <Home />
-      </main>
+        <Routes>
 
-      <Footer />
-    </>
+          {/* HOME */}
+          <Route
+            path="/items"
+            element={
+              <>
+                <Navbar />
+                <Home />
+                <Footer />
+              </>
+            }/>
+
+          {/* LOGIN */}
+          <Route
+            path="/login"
+            element={
+                <Login />
+            }/>
+
+          {/* CADASTRO */}
+          <Route
+            path="/cadastro"
+            element={
+                <Cadastro />
+            }/>
+
+          {/* DASHBOARD */}
+          <Route
+            path="/cliente/:id"
+            element={
+              <>
+                <Header />
+                <Sidebar />
+                <Dashboard />
+                <Footer />
+              </>
+            }/>
+
+            {/* VENDAS */}
+          <Route
+            path="/cliente/:id/vendas"
+            element={
+              <>
+                <Header />
+                <Sidebar />
+                <Vendas />
+                <Footer />
+              </>
+            }/>
+
+          {/* COMPRAS */}
+          <Route
+            path="/cliente/:id/compras"
+            element={
+              <>
+                <Header />
+                <Sidebar />
+                <Compras />
+                <Footer />
+              </>
+            }/>
+
+            {/* PRODUTO */}
+          <Route
+            path="/produto/:id"
+            element={
+                <>
+                <Navbar />
+                <Produto />
+              </>
+            }/>
+          
+        </Routes>
+      </main>
+    </Router>
   );
 }
 
