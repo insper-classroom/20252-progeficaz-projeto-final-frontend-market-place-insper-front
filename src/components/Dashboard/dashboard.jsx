@@ -8,7 +8,7 @@ export default function Dashboard() {
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
-    const base = import.meta.env.VITE_API_URL || "";
+    const base = "http://localhost:5000";
     fetch(`${base}/api/usuarios/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");

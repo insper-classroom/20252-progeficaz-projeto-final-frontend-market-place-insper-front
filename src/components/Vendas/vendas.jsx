@@ -10,7 +10,7 @@ export default function Vendas() {
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
-    const base = import.meta.env.VITE_API_URL || "";
+    const base = "http://localhost:5000";
     // AJEITAR A URL
     fetch(`${base}/api/usuarios/${id}/vendas`)
       .then((res) => {

@@ -13,6 +13,7 @@ Dê os seguintes comandos:  ⁠ pip install -r requirements.txt ⁠ e ⁠ 
 
 No Front:
 
+npm install (instalar dependências)
 npm run dev
 
 

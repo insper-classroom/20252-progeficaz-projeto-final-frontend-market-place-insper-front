@@ -9,7 +9,7 @@ export default function Produto() {
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
-    const base = import.meta.env.VITE_API_URL || "";
+    const base = "http://localhost:5000";
     // AJUSTAR A URL DEPOIS
     fetch(`${base}/api/items/${id}`)
       .then((res) => {

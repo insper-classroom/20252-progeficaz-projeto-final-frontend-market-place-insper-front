@@ -9,7 +9,7 @@ export default function Header() {
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
-    const base = import.meta.env.VITE_API_URL || "";
+    const base = "http://localhost:5000";
     // AJEITAR URL
     fetch(`${base}/api/usuario/${id}`)
       .then((res) => {
