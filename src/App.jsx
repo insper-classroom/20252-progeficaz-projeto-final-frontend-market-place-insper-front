@@ -12,7 +12,7 @@ import Header from "./components/Header/header";
 import Produto from "./components/Produto/produto";
 import Sidebar from "./components/Sidebar/sidebar";
 import Vendas from "./components/Vendas/vendas";
-import Anunciar from "./components/Anunciar/anunciar";
+// import Anunciar from "./components/Anunciar/anunciar";
 
 function App() {
 
@@ -113,12 +113,12 @@ function App() {
               </>
             }/>
 
-          {/* ANUNCIAR PRODUTO */}
+          {/* ANUNCIAR PRODUTO
           <Route
             path="/anunciar"
             element={
                 <Anunciar />
-            }/>
+            }/> */}
           
         </Routes>
       </main>

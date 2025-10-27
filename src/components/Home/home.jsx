@@ -7,7 +7,7 @@ export default function Home() {
 
   useEffect(() => {
   const base = "http://localhost:5000";
-  fetch(base)
+  fetch(`${base}`)
     .then((res) => {
       if (!res.ok) throw new Error("Erro ao conectar ao backend");
       return res.json();
@@ -42,7 +42,7 @@ export default function Home() {
           <h2>Produtos</h2>
         </div>
 
-      {emDestaque.length > 0 && (
+      {produtosEmDestaque.length > 0 && (
         <div className="emdestaque">
           <div className="tituloseccao">
             <div className="nomeseccao">
@@ -84,7 +84,7 @@ export default function Home() {
         </div>
       )}
 
-      {eletronicos.length > 0 && (
+      {produtosEletronicos.length > 0 && (
         <div className="eletronicos">
           <div className="nomeseccao">
               <h2>Eletrônicos</h2>
@@ -123,7 +123,7 @@ export default function Home() {
         </div>
       )}
 
-      {eletrodomesticos.length > 0 && (
+      {produtosEletrodomesticos.length > 0 && (
         <div className="eletrodomesticos">
           <div className="nomeseccao">
               <h2>Eletrodomésticos</h2>
@@ -163,7 +163,7 @@ export default function Home() {
         </div>
       )}
 
-      {moveis.length > 0 && (
+      {produtosMoveis.length > 0 && (
         <div className="moveis">
           <div className="nomeseccao">
               <h2>Móveis</h2>
@@ -203,7 +203,7 @@ export default function Home() {
         </div>
       )}
 
-      {outros.length > 0 && (
+      {produtosOutros.length > 0 && (
         <div className="outros">
           <div className="nomeseccao">
               <h2>Outros</h2>
