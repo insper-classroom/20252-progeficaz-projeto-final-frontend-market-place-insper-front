@@ -33,7 +33,6 @@ export default function Vendas() {
   const nenhumaVenda = itemVenda.length === 0 && itemAndamento.length === 0 && itemFinalizado.length === 0;
 
 // PÁGINA MINHAS VENDAS = HEADER + SIDEBAR + MINHAS VENDAS + FOOTER
-// AGUARDAR PRA VER COMO QUE AS INFORMAÇÕES SERÃO ARMAZENADAS NO BACK
   return (
     <div className="vendas">
       <div className="exporprodutos">
@@ -41,8 +40,7 @@ export default function Vendas() {
         {nenhumaVenda && (
             <div className="mensagemvazio">
               <p>Você ainda não possui produtos à venda.</p>
-              {/* ADICIONAR ROTA QUE LEVE A PÁGINA DE CADASTRAR PRODUTO */}
-              <button className="btn-cadastrar" onClick={() => navigate("#")}> 
+              <button className="btn-cadastrar" onClick={() => navigate("/")}> 
                 Adicionar Produto a Venda
               </button>
             </div>

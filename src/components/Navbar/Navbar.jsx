@@ -7,17 +7,17 @@ import { Link } from "react-router-dom";
 // SE FOR UM LINK EXTERNO, USAR <a href="" >
 
 export default function Navbar() {
+    const userId = localStorage.getItem("userId");
+
     return (
         <header className="navbar">
             <div className="navbar-left">
                 <img src={logo} alt ="MarketInsper logo" className="navbar-logo" />
                 <nav className="navbar-links">
-                    {/* DEPOIS COLOCAR O FILTRO */}
+                    {/* DEPOIS COLOCAR O FILTRO -> QUANDO O FILTRO FOR CRIADO */}
                     <Link to="/">Em Destaque</Link>
-                    {/* DIFERENCIAR PRA POST */}
-                    <Link to="/anunciar">Anunciar Produto</Link>
-                    {/* AJUSTAR  PRA PEGAR O ID */}
-                    <Link to="/">Minha Conta</Link>
+                    <Link to={`/anunciar`}>Anunciar Produto</Link>
+                    <Link to={userId ? `/user/${userId}` : "/login"}>Minha Conta</Link>
                 </nav>
             </div>
 

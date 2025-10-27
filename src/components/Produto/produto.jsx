@@ -10,7 +10,6 @@ export default function Produto() {
 
   useEffect(() => {
     const base = "http://localhost:5000";
-    // AJUSTAR A URL DEPOIS
     fetch(`${base}/item/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");

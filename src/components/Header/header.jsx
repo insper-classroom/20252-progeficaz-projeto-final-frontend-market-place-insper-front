@@ -10,7 +10,6 @@ export default function Header() {
 
   useEffect(() => {
     const base = "http://localhost:5000";
-    // AJEITAR URL
     fetch(`${base}/user/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");

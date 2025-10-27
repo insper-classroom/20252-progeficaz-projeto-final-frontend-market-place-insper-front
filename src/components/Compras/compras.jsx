@@ -6,30 +6,29 @@ export default function Compras() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [cliente, setCliente] = useState(null);
+  const [user, setUser] = useState(null);
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
     const base = "http://localhost:5000";
     // CHECAR O URL CORRETO
-    fetch(`${base}/api/usuarios/${id}/compras`)
+    fetch(`${base}/user/${id}/compras`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
         return res.json();
       })
-      .then((data) => setCliente(data))
+      .then((data) => setUser(data))
       .catch((err) => setErro(err.message));
   }, [id]);
 
   if (erro) return <p>Erro: {erro}</p>;
-  if (!cliente) return <p>Carregando Dados</p>;
+  if (!user) return <p>Carregando Dados</p>;
 
-  const produtosAndamento = cliente.produtosAndamento || [];
-  const produtosFinalizado = cliente.produtosFinalizado || [];
+  const produtosAndamento = user.produtosAndamento || [];
+  const produtosFinalizado = user.produtosFinalizado || [];
   const nenhumaCompra = produtosAndamento.length === 0 && produtosFinalizado.length === 0
 
 // PÁGINA MINHAS COMPRAS = HEADER + SIDEBAR + MINHAS COMPRAS + FOOTER
-// AGUARDAR PRA VER COMO QUE AS INFORMAÇÕES SERÃO ARMAZENADAS NO BACK
   return (
     <div className="compras">
       <div className="exporprodutos">
@@ -37,8 +36,7 @@ export default function Compras() {
         {nenhumaCompra && (
          <div className="mensagemvazio">
               <p>Você ainda não possui nenhuma compra.</p>
-              {/* ADICIONAR ROTA QUE LEVE A HOME PAGE */}
-              <button className="btn-cadastrar" onClick={() => navigate("#")}> 
+              <button className="btn-cadastrar" onClick={() => navigate("/")}> 
                 Começar a Comprar
               </button>
           </div>
@@ -54,21 +52,21 @@ export default function Compras() {
                 <div className="produto" key={produto.id}>
                   <div className="fotoproduto">
                     <img
-                      src={produto.images?.[0] || "placeholder"}
-                      alt={produto.titulo}
+                      src={produto.images?.[0]}
+                      alt={produto.title}
                     />
                   </div>
 
                   <div className="tituloproduto">
-                    <h3>{produto.titulo}</h3>
+                    <h3>{produto.title}</h3>
                   </div>
 
                   <div className="descricaoproduto">
-                    <p>{produto.descricao}</p>
+                    <p>{produto.description}</p>
                   </div>
 
                   <div className="precoproduto">
-                    <p>R$ {produto.preco}</p>
+                    <p>R$ {produto.price}</p>
                   </div>
                 </div>
               ))}
@@ -87,21 +85,21 @@ export default function Compras() {
                 <div className="produto" key={produto.id}>
                   <div className="fotoproduto">
                     <img
-                      src={produto.images?.[0] || "placeholder"}
-                      alt={produto.titulo}
+                      src={produto.images?.[0]}
+                      alt={produto.title}
                     />
                   </div>
 
                   <div className="tituloproduto">
-                    <h3>{produto.titulo}</h3>
+                    <h3>{produto.title}</h3>
                   </div>
 
                   <div className="descricaoproduto">
-                    <p>{produto.descricao}</p>
+                    <p>{produto.description}</p>
                   </div>
 
                   <div className="precoproduto">
-                    <p>R$ {produto.preco}</p>
+                    <p>R$ {produto.price}</p>
                   </div>
                 </div>
               ))}
