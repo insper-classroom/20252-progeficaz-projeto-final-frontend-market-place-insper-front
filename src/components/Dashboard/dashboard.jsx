@@ -4,22 +4,22 @@ import { useParams } from "react-router-dom";
 
 export default function Dashboard() {
   const { id } = useParams();
-  const [cliente, setCliente] = useState(null);
+  const [user, setUser] = useState(null);
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
     const base = "http://localhost:5000";
-    fetch(`${base}/api/usuarios/${id}`)
+    fetch(`${base}/user${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
         return res.json();
       })
-      .then((data) => setCliente(data))
+      .then((data) => setUser(data))
       .catch((err) => setErro(err.message));
   }, [id]);
 
   if (erro) return <p>Erro: {erro}</p>;
-  if (!cliente) return <p>Carregando Dados</p>;
+  if (!user) return <p>Carregando Dados</p>;
 
 // DASHBOARD = HEADER + NAV BAR + SIDE BAR + DASHBOARD + FOOTER
 // VER COMO QUE AS INFORMAÇÕES SÃO PASSADAS DO BACK
@@ -32,39 +32,39 @@ export default function Dashboard() {
           <h2>Informações Pessoais</h2>
         </div>
         <div className="dados">
-          {/* endereço, nome completo, idade, status, email */}
+          {/* endereço, nome completo, telefone, status, email */}
           <div className="dadocontainer">
             <div className="titulodado">
               <h3 className="titulo">Nome Completo</h3>
-              <p>{cliente.nome}</p>
+              <p>{user.name}</p>
             </div>
           </div>
 
           <div className="dadocontainer">
             <div className="dado">
               <h3 className="titulo">Status</h3>
-              <p>{cliente.status}</p>
+              <p>{user.status}</p>
             </div>
           </div>
 
           <div className="dadocontainer">
             <div className="dado">
               <h3 className="titulo">Endereço</h3>
-              <p>{cliente.endereco}</p>
+              <p>{user.adress}</p>
             </div>
           </div>
 
           <div className="dadocontainer">
             <div className="dado">
               <h3 className="titulo">E-mail</h3>
-              <p>{cliente.email}</p>
+              <p>{user.email}</p>
             </div>
           </div>
 
           <div className="dadocontainer">
             <div className="dado">
-              <h3 className="titulo">Idade</h3>
-              <p>{cliente.idade}</p>
+              <h3 className="titulo">Telefone</h3>
+              <p>{user.phone}</p>
             </div>
           </div>
         </div>
