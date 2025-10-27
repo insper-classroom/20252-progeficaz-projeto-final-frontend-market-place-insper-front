@@ -2,33 +2,35 @@ import { useEffect, useState } from "react";
 import "./vendas.css";
 import { useParams, useNavigate } from "react-router-dom";
 
+// AJUSTAR ACESSO DEPOIS -> TA ARMAZENADO EM STATUS
+
 export default function Vendas() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [cliente, setCliente] = useState(null);
+  const [user, setUser] = useState(null);
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
     const base = "http://localhost:5000";
     // AJEITAR A URL
-    fetch(`${base}/api/usuarios/${id}/vendas`)
+    fetch(`${base}/user/${id}/vendas`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
         return res.json();
       })
-      .then((data) => setCliente(data))
+      .then((data) => setUser(data))
       .catch((err) => setErro(err.message));
   }, [id]);
 
   if (erro) return <p>Erro: {erro}</p>;
-  if (!cliente) return <p>Carregando Dados</p>;
+  if (!user) return <p>Carregando Dados</p>;
 
-  const produtosVenda = cliente.produtosVenda || [];
-  const produtosAndamento = cliente.produtosAndamento || [];
-  const produtosFinalizado = cliente.produtosFinalizado || [];
+  const itemVenda = user.itemVenda || [];
+  const itemAndamento = user.itemAndamento || [];
+  const itemFinalizado = user.itemFinalizado || [];
 
-  const nenhumaVenda = produtosVenda.length === 0 && produtosAndamento.length === 0 && produtosFinalizado.length === 0;
+  const nenhumaVenda = itemVenda.length === 0 && itemAndamento.length === 0 && itemFinalizado.length === 0;
 
 // PÁGINA MINHAS VENDAS = HEADER + SIDEBAR + MINHAS VENDAS + FOOTER
 // AGUARDAR PRA VER COMO QUE AS INFORMAÇÕES SERÃO ARMAZENADAS NO BACK
@@ -46,32 +48,32 @@ export default function Vendas() {
             </div>
         )}
 
-        {produtosVenda.length > 0 && (
+        {itemVenda.length > 0 && (
         <div className="avenda">
           <div className="tituloprodutos">
             <h2>Produtos a Venda</h2>
           </div>
 
           <div className="produtos-grid">
-            {produtosVenda.map((produto) => (
-            <div className="produto" key={produto.id}>
+            {produtosVenda.map((item) => (
+            <div className="produto" key={item.id}>
               <div className="fotoproduto">
                 <img
-                  src={produto.images?.[0]}
-                  alt={produto.titulo}
+                  src={item.images?.[0]}
+                  alt={item.title}
                 />
               </div>
 
               <div className="tituloproduto">
-                <h3>{produto.titulo}</h3>
+                <h3>{item.title}</h3>
               </div>
 
               <div className="descricaoproduto">
-                <p>{produto.descricao}</p>
+                <p>{item.description}</p>
               </div>
 
               <div className="precoproduto">
-                <p>R$ {produto.preco}</p>
+                <p>R$ {item.price}</p>
               </div>
 
               <div className="btnceditar">
@@ -83,32 +85,32 @@ export default function Vendas() {
         </div>
       )}
   
-      {produtosAndamento.length > 0 && (
+      {itemAndamento.length > 0 && (
         <div className="andamento">
           <div className="tituloprodutos">
             <h2>Vendas em Andamento</h2>
           </div>
 
           <div className="produtos-grid">
-            {produtosAndamento.map((produto) => (
-            <div className="produto" key={produto.id}>
+            {produtosAndamento.map((item) => (
+            <div className="produto" key={item.id}>
               <div className="fotoproduto">
                 <img
-                  src={produto.images?.[0]}
-                  alt={produto.titulo}
+                  src={item.images?.[0]}
+                  alt={item.title}
                 />
               </div>
 
               <div className="tituloproduto">
-                <h3>{produto.titulo}</h3>
+                <h3>{item.title}</h3>
               </div>
 
               <div className="descricaoproduto">
-                <p>{produto.descricao}</p>
+                <p>{item.description}</p>
               </div>
 
               <div className="precoproduto">
-                <p>R$ {produto.preco}</p>
+                <p>R$ {item.price}</p>
               </div>
             </div>
             ))}
@@ -116,32 +118,32 @@ export default function Vendas() {
         </div>
       )}
 
-      {produtosFinalizado.length > 0 && (
+      {itemFinalizado.length > 0 && (
         <div className="finalizado">
           <div className="tituloprodutos">
             <h2>Vendas Finalizadas</h2>
           </div>
 
             <div className="produtos-grid">
-            {produtosFinalizado.map((produto) => (
-            <div className="produto" key={produto.id}>
+            {produtosFinalizado.map((item) => (
+            <div className="produto" key={item.id}>
               <div className="fotoproduto">
                 <img
-                  src={produto.images?.[0]}
-                  alt={produto.titulo}
+                  src={item.images?.[0]}
+                  alt={item.title}
                 />
               </div>
 
               <div className="tituloproduto">
-                <h3>{produto.titulo}</h3>
+                <h3>{item.title}</h3>
               </div>
 
               <div className="descricaoproduto">
-                <p>{produto.descricao}</p>
+                <p>{item.description}</p>
               </div>
 
               <div className="precoproduto">
-                <p>R$ {produto.preco}</p>
+                <p>R$ {item.price}</p>
               </div>
             </div>
             ))}

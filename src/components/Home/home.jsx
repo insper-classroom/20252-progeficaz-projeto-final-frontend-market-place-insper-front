@@ -2,28 +2,28 @@ import { useEffect, useState } from "react";
 import "./home.css";
 
 export default function Home() {
-  const [dados, setDados] = useState(null);
+  const [item, setItem] = useState(null);
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
   const base = "http://localhost:5000";
-  fetch(`${base}/items`)
+  fetch(base)
     .then((res) => {
       if (!res.ok) throw new Error("Erro ao conectar ao backend");
       return res.json();
     })
-    .then((data) => setDados(data))
+    .then((data) => setItem(data))
     .catch((err) => setErro(err.message));
 }, []);
 
   if (erro) return <p>Erro: {erro}</p>;
-  if (!dados) return <p>Carregando Dados</p>;
+  if (!item) return <p>Carregando itens</p>;
 
-  const produtosEmDestaque = dados.emDestaque;
-  const produtosEletronicos = dados.eletronicos;
-  const produtosEletrodomesticos = dados.eletrodomesticos;
-  const produtosMoveis = dados.moveis;
-  const produtosOutros = dados.outros;
+  const produtosEmDestaque = item.emDestaque;
+  const produtosEletronicos = item.eletronicos;
+  const produtosEletrodomesticos = item.eletrodomesticos;
+  const produtosMoveis = item.moveis;
+  const produtosOutros = item.outros;
 
   return (
     <div className="tudo">
@@ -55,7 +55,7 @@ export default function Home() {
 
           <div className="produtos-grid">
             {produtosEmDestaque.map((produto) => (
-            <div className="produto" key={produto.id}>
+            <div className="produto" key={produto._id}>
               <div className="fotoproduto">
                 <img
                   src={produto.images?.[0]}
@@ -64,15 +64,15 @@ export default function Home() {
               </div>
 
               <div className="tituloproduto">
-                <h3>{produto.titulo}</h3>
+                <h3>{produto.title}</h3>
               </div>
 
               <div className="descricaoproduto">
-                <p>{produto.descricao}</p>
+                <p>{produto.description}</p>
               </div>
 
               <div className="precoproduto">
-                <p>R${produto.preco}</p>
+                <p>R${produto.price}</p>
               </div>
 
               <div className="btncomprar">
@@ -95,7 +95,7 @@ export default function Home() {
 
           <div className="produtos-grid">
             {produtosEletronicos.map((produto) => (
-            <div className="produto" key={produto.id}>
+            <div className="produto" key={produto._id}>
               <img
                 src={produto.images?.[0]}
                 alt={produto.title}
@@ -103,15 +103,15 @@ export default function Home() {
 
 
               <div className="tituloproduto">
-                <h3>{produto.titulo}</h3>
+                <h3>{produto.title}</h3>
               </div>
 
               <div className="descricaoproduto">
-                <p>{produto.descricao}</p>
+                <p>{produto.description}</p>
               </div>
 
               <div className="precoproduto">
-                <p>R${produto.preco}</p>
+                <p>R${produto.price}</p>
               </div>
 
               <div className="btncomprar">
@@ -134,7 +134,7 @@ export default function Home() {
 
           <div className="produtos-grid">
             {produtosEletrodomesticos.map((produto) => (
-            <div className="produto" key={produto.id}>
+            <div className="produto" key={produto._id}>
               <div className="fotoproduto">
                 <img
                   src={produto.images?.[0]}
@@ -143,15 +143,15 @@ export default function Home() {
               </div>
 
               <div className="tituloproduto">
-                <h3>{produto.titulo}</h3>
+                <h3>{produto.title}</h3>
               </div>
 
               <div className="descricaoproduto">
-                <p>{produto.descricao}</p>
+                <p>{produto.description}</p>
               </div>
 
               <div className="precoproduto">
-                <p>R${produto.preco}</p>
+                <p>R${produto.price}</p>
               </div>
 
               <div className="btncomprar">
@@ -174,7 +174,7 @@ export default function Home() {
 
           <div className="produtos-grid">
             {produtosMoveis.map((produto) => (
-            <div className="produto" key={produto.id}>
+            <div className="produto" key={produto._id}>
               <div className="fotoproduto">
                 <img
                   src={produto.images?.[0]}
@@ -183,15 +183,15 @@ export default function Home() {
               </div>
 
               <div className="tituloproduto">
-                <h3>{produto.titulo}</h3>
+                <h3>{produto.title}</h3>
               </div>
 
               <div className="descricaoproduto">
-                <p>{produto.descricao}</p>
+                <p>{produto.description}</p>
               </div>
 
               <div className="precoproduto">
-                <p>R${produto.preco}</p>
+                <p>R${produto.price}</p>
               </div>
 
               <div className="btncomprar">
@@ -214,7 +214,7 @@ export default function Home() {
 
           <div className="produtos-grid">
             {produtosOutros.map((produto) => (
-            <div className="produto" key={produto.id}>
+            <div className="produto" key={produto._id}>
               <div className="fotoproduto">
                 <img
                   src={produto.images?.[0]}
@@ -223,15 +223,15 @@ export default function Home() {
               </div>
 
               <div className="tituloproduto">
-                <h3>{produto.titulo}</h3>
+                <h3>{produto.title}</h3>
               </div>
 
               <div className="descricaoproduto">
-                <p>{produto.descricao}</p>
+                <p>{produto.description}</p>
               </div>
 
               <div className="precoproduto">
-                <p>R${produto.preco}</p>
+                <p>R${produto.price}</p>
               </div>
 
               <div className="btncomprar">

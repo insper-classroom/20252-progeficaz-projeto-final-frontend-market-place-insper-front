@@ -11,7 +11,7 @@ export default function Header() {
   useEffect(() => {
     const base = "http://localhost:5000";
     // AJEITAR URL
-    fetch(`${base}/api/usuario/${id}`)
+    fetch(`${base}/user/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
         return res.json();
@@ -26,10 +26,10 @@ export default function Header() {
   return (
     <div className="header">
         <div className="fotoperfil">
-          <img src={cliente.img  || "/pessoacinza.png"} />
+          <img src={cliente.image  || "/pessoacinza.png"} />
         </div>
         <div className="textoheader">
-            <h1>Olá {cliente.nome}!</h1>
+            <h1>Olá {cliente.name}!</h1>
             <p>{cliente.status} Insper</p>
         </div>
     </div>

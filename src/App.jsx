@@ -43,7 +43,7 @@ function App() {
 
           {/* HOME */}
           <Route
-            path="/items"
+            path="/"
             element={
               <>
                 <Navbar />
@@ -61,14 +61,14 @@ function App() {
 
           {/* CADASTRO */}
           <Route
-            path="/cadastro"
+            path="/register"
             element={
                 <Cadastro />
             }/>
 
           {/* DASHBOARD */}
           <Route
-            path="/cliente/:id"
+            path="/user/:user_id"
             element={
               <>
                 <Header />
@@ -80,7 +80,7 @@ function App() {
 
             {/* VENDAS */}
           <Route
-            path="/cliente/:id/vendas"
+            path="/user/:user_id/vendas"
             element={
               <>
                 <Header />
@@ -92,7 +92,7 @@ function App() {
 
           {/* COMPRAS */}
           <Route
-            path="/cliente/:id/compras"
+            path="/user/:user_id/compras"
             element={
               <>
                 <Header />
@@ -104,7 +104,7 @@ function App() {
 
             {/* PRODUTO */}
           <Route
-            path="/produto/:id"
+            path="/item/:id"
             element={
                 <>
                 <Navbar />

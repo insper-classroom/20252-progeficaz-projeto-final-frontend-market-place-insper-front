@@ -12,12 +12,12 @@ export default function Navbar() {
             <div className="navbar-left">
                 <img src={logo} alt ="MarketInsper logo" className="navbar-logo" />
                 <nav className="navbar-links">
-                    {/* <Link to="/categorias">Categorias</Link> */}
-                    <Link to="/destaques">Em Destaque</Link>
+                    {/* DEPOIS COLOCAR O FILTRO */}
+                    <Link to="/">Em Destaque</Link>
+                    {/* DIFERENCIAR PRA POST */}
                     <Link to="/anunciar">Anunciar Produto</Link>
-                    {/* LINK PARA O DASHBOARD */}
-                    <Link to="/minhaconta">Minha Conta</Link>
-                    {/* <Link to="/ajuda">Ajuda</Link> */}
+                    {/* AJUSTAR  PRA PEGAR O ID */}
+                    <Link to="/">Minha Conta</Link>
                 </nav>
             </div>
 

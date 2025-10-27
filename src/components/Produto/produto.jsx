@@ -11,7 +11,7 @@ export default function Produto() {
   useEffect(() => {
     const base = "http://localhost:5000";
     // AJUSTAR A URL DEPOIS
-    fetch(`${base}/api/items/${id}`)
+    fetch(`${base}/item/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
         return res.json();
@@ -29,13 +29,13 @@ export default function Produto() {
         <div className="produto-imagem">
           <img
             src={produto.images?.[0]}
-            alt={produto.titulo}
+            alt={produto.title}
           />
         </div>
         <div className="produto-info">
-          <h2>{produto.titulo}</h2>
-          <p className="descricao">{produto.descricao}</p>
-          <p className="preco">R$ {produto.preco}</p>
+          <h2>{produto.title}</h2>
+          <p className="descricao">{produto.description}</p>
+          <p className="preco">R$ {produto.price}</p>
         </div>
         <div className="btn-comprar">
           <button>
