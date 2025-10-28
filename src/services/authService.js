@@ -14,9 +14,10 @@ const authService = {
                 localStorage.setItem('token', resposta.data.token);
                 localStorage.setItem('user', JSON.stringify(resposta.data.user));
             }
-
+            console.log('deu certo')
             return resposta.data;
         } catch (error) {
+            console.log('erro');
             throw error.response?.data || { error : 'Erro ao realizar login' };
         }
     },
