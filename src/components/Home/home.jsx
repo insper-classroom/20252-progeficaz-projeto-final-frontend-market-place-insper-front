@@ -4,6 +4,7 @@ import "./home.css";
 export default function Home() {
   const [item, setItem] = useState(null);
   const [erro, setErro] = useState(null);
+  const [sellerPhones, setSellerPhones] = useState({});
 
   useEffect(() => {
   const base = import.meta.env.VITE_API_URL;
@@ -25,11 +26,40 @@ export default function Home() {
   const produtosMoveis = item.moveis;
   const produtosOutros = item.outros;
 
-  // helper para montar link do WhatsApp com mensagem contendo o título do produto
-  const waLink = (title) =>
-    `https://api.whatsapp.com/send?phone=5511995009881&text=${encodeURIComponent(
+  // Nova função para buscar o telefone do vendedor
+  const getSellerPhone = async (sellerId) => {
+    if (!sellerId) return null;
+    if (sellerPhones[sellerId]) return sellerPhones[sellerId];
+
+    try {
+      const response = await fetch(`http://localhost:5000/seller/phone/${sellerId}`);
+      const data = await response.json();
+      
+      if (response.ok) {
+        setSellerPhones(phones => ({...phones, [sellerId]: data.phone}));
+        return data.phone;
+      }
+      return null;
+    } catch (error) {
+      console.error("Erro ao buscar telefone:", error);
+      return null;
+    }
+  };
+
+  // Modificar o waLink para usar o telefone do vendedor ou fallback
+  const waLink = async (title, sellerId) => {
+    const phone = await getSellerPhone(sellerId);
+    return `https://api.whatsapp.com/send?phone=55${phone || '11995009881'}&text=${encodeURIComponent(
       `Olá! Quero saber mais sobre o produto ${title}`
     )}`;
+  };
+
+  // Função auxiliar para lidar com o clique no botão
+  const handleComprarClick = async (e, produto) => {
+    e.preventDefault();
+    const link = await waLink(produto.title, produto.seller_id);
+    window.open(link, '_blank');
+  };
 
   return (
     <div className="tudo">
@@ -81,8 +111,12 @@ export default function Home() {
                 <p>R${produto.price}</p>
               </div>
 
-              <div className="btncomprar" >
-                <a href={waLink(produto.title)} target="_blank" rel="noopener noreferrer">Quero Comprar</a>
+              <div className="btncomprar">
+                <a href="#" 
+                   onClick={(e) => handleComprarClick(e, produto)} 
+                   rel="noopener noreferrer">
+                  Quero Comprar
+                </a>
               </div>
             </div>
             ))}
@@ -121,7 +155,11 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                <a href={waLink(produto.title)} target="_blank" rel="noopener noreferrer">Quero Comprar</a>
+                <a href="#" 
+                   onClick={(e) => handleComprarClick(e, produto)} 
+                   rel="noopener noreferrer">
+                  Quero Comprar
+                </a>
               </div>
             </div>
             ))}
@@ -161,7 +199,11 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                <a href={waLink(produto.title)} target="_blank" rel="noopener noreferrer">Quero Comprar</a>
+                <a href="#" 
+                   onClick={(e) => handleComprarClick(e, produto)} 
+                   rel="noopener noreferrer">
+                  Quero Comprar
+                </a>
               </div>
             </div>
             ))}
@@ -201,7 +243,11 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                <a href={waLink(produto.title)} target="_blank" rel="noopener noreferrer">Quero Comprar</a>
+                <a href="#" 
+                   onClick={(e) => handleComprarClick(e, produto)} 
+                   rel="noopener noreferrer">
+                  Quero Comprar
+                </a>
               </div>
             </div>
             ))}
@@ -241,7 +287,11 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                <a href={waLink(produto.title)} target="_blank" rel="noopener noreferrer">Quero Comprar</a>
+                <a href="#" 
+                   onClick={(e) => handleComprarClick(e, produto)} 
+                   rel="noopener noreferrer">
+                  Quero Comprar
+                </a>
               </div>
             </div>
             ))}
