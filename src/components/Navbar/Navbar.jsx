@@ -45,6 +45,7 @@ export default function Navbar() {
                     <input id="priceRange" type="range" min="01" max="10000" step="1"/>
                     <span class="slider-label">$10k</span>
                 </div>
+
             </div>
 
             <button class="apply-btn-dom">Aplicar</button>
@@ -116,7 +117,7 @@ export default function Navbar() {
           <ShoppingCart className="icon" size={20} />
           <User className="icon" size={20} />
         </div>
-        <button className="navbar-button">Comprar Agora</button>
+        <button className="navbar-button">Criar anúncio</button>
       </div>
     </header>
   );

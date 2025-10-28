@@ -10,8 +10,7 @@ export default function Compras() {
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
-    const base = "http://localhost:5000";
-    // CHECAR O URL CORRETO
+    const base = import.meta.env.VITE_API_URL;
     fetch(`${base}/user/${id}/compras`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
@@ -24,8 +23,8 @@ export default function Compras() {
   if (erro) return <p>Erro: {erro}</p>;
   if (!user) return <p>Carregando Dados</p>;
 
-  const produtosAndamento = user.produtosAndamento || [];
-  const produtosFinalizado = user.produtosFinalizado || [];
+  const produtosAndamento = user.andamento || [];
+  const produtosFinalizado = user.finalizada || [];
   const nenhumaCompra = produtosAndamento.length === 0 && produtosFinalizado.length === 0
 
 // PÁGINA MINHAS COMPRAS = HEADER + SIDEBAR + MINHAS COMPRAS + FOOTER
@@ -49,7 +48,7 @@ export default function Compras() {
             </div>
             <div className="produtos-grid">
               {produtosAndamento.map((produto) => (
-                <div className="produto" key={produto.id}>
+                <div className="produto" key={produto._id}>
                   <div className="fotoproduto">
                     <img
                       src={produto.images?.[0]}
@@ -82,7 +81,7 @@ export default function Compras() {
 
             <div className="produtos-grid">
               {produtosFinalizado.map((produto) => (
-                <div className="produto" key={produto.id}>
+                <div className="produto" key={produto._id}>
                   <div className="fotoproduto">
                     <img
                       src={produto.images?.[0]}
