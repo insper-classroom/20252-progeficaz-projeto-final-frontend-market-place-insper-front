@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import authService from '../../services/authService';
 import './cadastro.css';
 
@@ -17,6 +18,7 @@ function Cadastro() {
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
     const [erroGeral, setErroGeral] = useState('');
+    const navigate = useNavigate();
 
     const validaNome = (nome) => {
         if (!nome) {
@@ -88,6 +90,7 @@ function Cadastro() {
             const resposta = await authService.register(nomeCompleto, email, password);
             console.log('Cadastro realizado com sucesso!', resposta);
             alert(`Cadastro realizado com sucesso! Bem-vindo ao Marketplace Insper, ${resposta.user.name}!`);
+            navigate('/');
 
         } catch (error) {
             setErroGeral(error.error || 'Erro ao criar conta. Por favor, tente novamente.');
