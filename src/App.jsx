@@ -34,7 +34,7 @@ function App() {
 
   // EDIÇÃO DE UM ITEM:
 
-  // CARRINHO:
+  // QUERO COMPRAR:
   // PAGAMENTO: 
 
 // CONFIRIR OS URLS E ROTAS

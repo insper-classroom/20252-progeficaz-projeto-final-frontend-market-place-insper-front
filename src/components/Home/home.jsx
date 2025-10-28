@@ -25,6 +25,12 @@ export default function Home() {
   const produtosMoveis = item.moveis;
   const produtosOutros = item.outros;
 
+  // helper para montar link do WhatsApp com mensagem contendo o título do produto
+  const waLink = (title) =>
+    `https://api.whatsapp.com/send?phone=5511995009881&text=${encodeURIComponent(
+      `Olá! Quero saber mais sobre o produto ${title}`
+    )}`;
+
   return (
     <div className="tudo">
 
@@ -75,8 +81,8 @@ export default function Home() {
                 <p>R${produto.price}</p>
               </div>
 
-              <div className="btncomprar">
-                Adicionar ao carrinho
+              <div className="btncomprar" >
+                <a href={waLink(produto.title)} target="_blank" rel="noopener noreferrer">Quero Comprar</a>
               </div>
             </div>
             ))}
@@ -115,7 +121,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                Adicionar ao carrinho
+                <a href={waLink(produto.title)} target="_blank" rel="noopener noreferrer">Quero Comprar</a>
               </div>
             </div>
             ))}
@@ -155,7 +161,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                Adicionar ao carrinho
+                <a href={waLink(produto.title)} target="_blank" rel="noopener noreferrer">Quero Comprar</a>
               </div>
             </div>
             ))}
@@ -195,7 +201,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                Adicionar ao carrinho
+                <a href={waLink(produto.title)} target="_blank" rel="noopener noreferrer">Quero Comprar</a>
               </div>
             </div>
             ))}
@@ -235,7 +241,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                Adicionar ao carrinho
+                <a href={waLink(produto.title)} target="_blank" rel="noopener noreferrer">Quero Comprar</a>
               </div>
             </div>
             ))}
