@@ -27,11 +27,10 @@ function Login() {
             const id = resposta.user.id
             console.log('Login realizado com sucesso!', resposta);
             alert(`Bem-vindo ao Marketplace Insper, ${resposta.user.name}!`);
-            console.log(id)
             navigate(`/user/${id}`);
-
         } catch (error) {
             setErro(error.error || 'Erro ao realizar login. Por favor, tente novamente.');
+            console.log('Erro ao realizar login:', error);
         } finally {
             setCarregando(false);
         }
