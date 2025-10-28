@@ -28,7 +28,9 @@ export default function Navbar() {
                     <ShoppingCart className="icon" size={20} />
                     <User className="icon" size={20} />
                 </div>
+                <Link to="/anunciar">
                 <button className="navbar-button">Criar anúncio</button>
+                </Link>
             </div>
         </header>
     );
