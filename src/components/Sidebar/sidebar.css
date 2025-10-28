@@ -6,6 +6,7 @@
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     padding: 3vh 2vh;
     width: 35vh;
+    border-radius: 5vh;
 }
 
 .logo {
