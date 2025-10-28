@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import authService from '../../services/authService';
+import cepService from '../../services/cepService'; // <-- seu serviço separado de CEP
 import './cadastro.css';
 
 function Cadastro() {
@@ -79,55 +80,51 @@ function Cadastro() {
         return '';
     };
 
-    // Função que chama sua API /cep
+    // Função que chama seu cepService (mantém comportamento parecido com seu fetch anterior)
     const buscarCepNaApi = async (cepParaBuscar) => {
         setCepError('');
         try {
-            const response = await fetch('/cep', { // rota relativa; ajuste se necessário (ex: '/auth/cep')
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ cep: cepParaBuscar })
-            });
-
-            if (!response.ok) {
-                const err = await response.json().catch(() => ({}));
-                const msg = err.erro || `Erro ao consultar CEP (status ${response.status})`;
-                setCepError(msg);
+            const cleaned = String(cepParaBuscar).replace(/\D/g, '');
+            if (!cleaned) {
+                setCepError('CEP inválido.');
                 return;
             }
 
-            const data = await response.json();
+            // espera-se que cepService.buscarCep retorne os dados do endereço (ou response.data)
+            const dataOrResponse = await cepService.buscarCep(cleaned);
 
-            // Mapeamento defensivo: diferentes APIs usam chaves diferentes.
-            // Exemplos comuns: logradouro / rua, bairro, localidade / cidade, uf / estado
-            const rua = data.logradouro || data.rua || data.address || '';
-            const bairroApi = data.bairro || '';
-            const cidadeApi = data.localidade || data.cidade || data.city || '';
-            const estadoApi = data.uf || data.estado || data.state || '';
+            // acomodar axios (response.data) e fetch (data) ao mesmo tempo
+            const payload = dataOrResponse?.data ? dataOrResponse.data : dataOrResponse;
 
-            // Se a API retornar um erro
-            if (data.erro || data.error || data.message) {
-                const mensagem = data.erro || data.error || data.message;
+            // checar formatos de erro comuns
+            if (!payload) {
+                setCepError('Resposta inválida da API de CEP.');
+                return;
+            }
+            if (payload.erro || payload.error || payload.message) {
+                const mensagem = payload.erro || payload.error || payload.message;
                 setCepError(mensagem);
                 return;
             }
 
-            // Se não veio endereço, mostra mensagem
+            const rua = payload.logradouro || payload.rua || payload.address || '';
+            const bairroApi = payload.bairro || '';
+            const cidadeApi = payload.localidade || payload.cidade || payload.city || '';
+            const estadoApi = payload.uf || payload.estado || payload.state || '';
+
             if (!rua && !bairroApi && !cidadeApi && !estadoApi) {
                 setCepError('CEP não retornou dados de endereço.');
                 return;
             }
 
-            // Preenche os campos (o usuário pode editar depois)
             setLogradouro(rua);
             setBairro(bairroApi);
             setCidade(cidadeApi);
             setEstado(estadoApi);
-            setCep(data.cep || cepParaBuscar);
+            setCep(payload.cep || cleaned);
         } catch (err) {
-            setCepError('Erro ao consultar o CEP. Tente novamente.');
+            const msg = err?.response?.data?.erro || err?.response?.data?.error || err?.message;
+            setCepError(msg || 'Erro ao consultar o CEP. Tente novamente.');
             console.error('Erro buscarCepNaApi:', err);
         }
     };
@@ -135,7 +132,6 @@ function Cadastro() {
     // Debounce: quando o usuário digita CEP, espera 600ms antes de consultar
     useEffect(() => {
         const cleaned = cep.replace(/\D/g, '');
-        // limpa erros ao digitar
         setCepError('');
 
         if (cepDebounceRef.current) {
@@ -143,13 +139,9 @@ function Cadastro() {
         }
 
         if (cleaned.length === 8) {
-            // checagem de formato OK — espera um pouco antes de chamar
             cepDebounceRef.current = setTimeout(() => {
                 buscarCepNaApi(cleaned);
             }, 600);
-        } else {
-            // se o CEP não tiver 8 dígitos, limpa campos de endereço automáticos (só se quiser)
-            // setLogradouro(''); setBairro(''); setCidade(''); setEstado('');
         }
 
         return () => {
@@ -209,7 +201,6 @@ function Cadastro() {
             console.log('Cadastro realizado com sucesso!', resposta);
             alert(`Cadastro realizado com sucesso! Bem-vindo ao Marketplace Insper, ${resposta.user?.name || nomeCompleto}!`);
         } catch (error) {
-            // se seu backend envia erro em formato diferente, adapte
             setErroGeral(error.error || error.message || 'Erro ao criar conta. Por favor, tente novamente.');
         } finally {
             setCarregando(false);
