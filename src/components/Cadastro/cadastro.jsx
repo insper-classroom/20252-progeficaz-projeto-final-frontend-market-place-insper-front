@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import authService from '../../services/authService';
 import cepService from '../../services/cepService'; // <-- seu serviço separado de CEP
 import './cadastro.css';
@@ -28,6 +30,7 @@ function Cadastro() {
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
     const [cepError, setCepError] = useState('');
     const [erroGeral, setErroGeral] = useState('');
+    const navigate = useNavigate();
 
     // Ref para debounce
     const cepDebounceRef = useRef(null);
@@ -199,6 +202,7 @@ function Cadastro() {
             const resposta = await authService.register(cadastroPayload);
 
             console.log('Cadastro realizado com sucesso!', resposta);
+            navigate('/');
             alert(`Cadastro realizado com sucesso! Bem-vindo ao Marketplace Insper, ${resposta.user?.name || nomeCompleto}!`);
         } catch (error) {
             setErroGeral(error.error || error.message || 'Erro ao criar conta. Por favor, tente novamente.');

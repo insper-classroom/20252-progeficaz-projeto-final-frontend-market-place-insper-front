@@ -16,7 +16,7 @@ export default function Navbar() {
                 <nav className="navbar-links">
                     {/* DEPOIS COLOCAR O FILTRO -> QUANDO O FILTRO FOR CRIADO */}
                     <Link to="/">Em Destaque</Link>
-                    <Link to={`/anunciar`}>Anunciar Produto</Link>
+                    <Link to={"/anunciar"}>Anunciar Produto</Link>
                     <Link to={userId ? `/user/${userId}` : "/login"}>Minha Conta</Link>
                 </nav>
             </div>
@@ -28,7 +28,7 @@ export default function Navbar() {
                     <ShoppingCart className="icon" size={20} />
                     <User className="icon" size={20} />
                 </div>
-                <button className="navbar-button">Comprar Agora</button>
+                <button className="navbar-button">Criar anúncio</button>
             </div>
         </header>
     );

@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import "./vendas.css";
 import { useParams, useNavigate } from "react-router-dom";
 
-// AJUSTAR ACESSO DEPOIS -> TA ARMAZENADO EM STATUS
-
 export default function Vendas() {
   const { id } = useParams();
   const navigate = useNavigate();
