@@ -24,10 +24,9 @@ function Login() {
         try {
 
             const resposta = await authService.login(email, password);
-            const id = resposta.user.id
-
+            const id = resposta.user.id || resposta.user._id;
             localStorage.setItem("userId", id);
-            
+
             console.log('Login realizado com sucesso!', resposta);
             alert(`Bem-vindo ao Marketplace Insper, ${resposta.user.name}!`);
             navigate(`/user/${id}`);

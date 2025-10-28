@@ -2,13 +2,14 @@ import "./Navbar.css";
 import { Search, Filter, ShoppingCart, User } from "lucide-react";
 import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 // SE FOR UM LINK DENTRO DO REACT, USAR <Link>
 // SE FOR UM LINK EXTERNO, USAR <a href="" >
 
 export default function Navbar() {
-  const userId = localStorage.getItem("userId");
+   const [userId] = useState(() => localStorage.getItem("userId"));
+
     // A PARTIR DAQUI SE INICIA A FILTRACAO
     useEffect(() => {
         // tudo que estava no script agora dentro de useEffect

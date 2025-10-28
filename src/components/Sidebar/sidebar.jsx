@@ -3,7 +3,13 @@ import logo from "../../assets/logo.png";
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
-  const userId = localStorage.getItem("userId");
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const id = localStorage.getItem("userId");
+    setUserId(id);
+  }, []);
+
   return (
     <div className="sidebar">
         <img src={logo} className="logo" />
