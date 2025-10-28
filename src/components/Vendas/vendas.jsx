@@ -3,7 +3,7 @@ import "./vendas.css";
 import { useParams, useNavigate } from "react-router-dom";
 
 export default function Vendas() {
-  const { id } = useParams();
+  const { user_id } = useParams();
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
@@ -11,14 +11,14 @@ export default function Vendas() {
 
   useEffect(() => {
     const base = import.meta.env.VITE_API_URL;
-    fetch(`${base}/user/${id}/vendas`)
+    fetch(`${base}/user/${user_id}/vendas`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
         return res.json();
       })
       .then((data) => setUser(data))
       .catch((err) => setErro(err.message));
-  }, [id]);
+  }, [user_id]);
 
   if (erro) return <p>Erro: {erro}</p>;
   if (!user) return <p>Carregando Dados</p>;
