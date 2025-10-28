@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import authService from '../../services/authService';
-import cepService from '../../services/cepService'; // <-- seu serviço separado de CEP
+import cepService from '../../services/cepService';
 import './cadastro.css';
 
 function Cadastro() {
@@ -12,6 +12,10 @@ function Cadastro() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [carregando, setCarregando] = useState(false);
+
+    // Telefone (novo)
+    const [telefone, setTelefone] = useState('');
+    const [telefoneError, setTelefoneError] = useState('');
 
     // Endereço
     const [cep, setCep] = useState('');
@@ -75,6 +79,13 @@ function Cadastro() {
         return '';
     };
 
+    const validaTelefone = (telefone) => {
+        const cleaned = telefone.replace(/\D/g, '');
+        if (!cleaned) return 'O telefone é obrigatório.';
+        if (cleaned.length < 10 || cleaned.length > 11) return 'Telefone inválido. Use 10 ou 11 dígitos (DDDNÚM).';
+        return '';
+    };
+
     // Validação simples do CEP: apenas dígitos e 8 caracteres
     const validaCepFormato = (cep) => {
         const cleaned = cep.replace(/\D/g, '');
@@ -83,7 +94,7 @@ function Cadastro() {
         return '';
     };
 
-    // Função que chama seu cepService (mantém comportamento parecido com seu fetch anterior)
+    // Função que chama seu cepService
     const buscarCepNaApi = async (cepParaBuscar) => {
         setCepError('');
         try {
@@ -93,13 +104,9 @@ function Cadastro() {
                 return;
             }
 
-            // espera-se que cepService.buscarCep retorne os dados do endereço (ou response.data)
             const dataOrResponse = await cepService.buscarCep(cleaned);
-
-            // acomodar axios (response.data) e fetch (data) ao mesmo tempo
             const payload = dataOrResponse?.data ? dataOrResponse.data : dataOrResponse;
 
-            // checar formatos de erro comuns
             if (!payload) {
                 setCepError('Resposta inválida da API de CEP.');
                 return;
@@ -163,6 +170,7 @@ function Cadastro() {
         const emailErr = validaEmail(email);
         const passwordErr = validaSenha(password);
         const confirmPasswordErr = validaConfirmacaoSenha(password, confirmPassword);
+        const telefoneErr = validaTelefone(telefone);
         const cepFormatErr = validaCepFormato(cep);
 
         setNomeError(nomeErr);
@@ -170,9 +178,10 @@ function Cadastro() {
         setEmailError(emailErr);
         setPasswordError(passwordErr);
         setConfirmPasswordError(confirmPasswordErr);
+        setTelefoneError(telefoneErr);
         setCepError(cepFormatErr);
 
-        if (nomeErr || sobrenomeErr || emailErr || passwordErr || confirmPasswordErr || cepFormatErr) {
+        if (nomeErr || sobrenomeErr || emailErr || passwordErr || confirmPasswordErr || telefoneErr || cepFormatErr) {
             console.log('Formulário com erro!');
             return;
         }
@@ -182,11 +191,15 @@ function Cadastro() {
         try {
             const nomeCompleto = `${nome} ${sobrenome}`;
 
-            // Monta objeto de cadastro incluindo endereço
+            // limpa telefone (apenas dígitos) antes de enviar
+            const telefoneClean = telefone.replace(/\D/g, '');
+
+            // Monta objeto de cadastro incluindo endereço e telefone obrigatório
             const cadastroPayload = {
-                name: nomeCompleto,   // <-- aqui: 'name' (o backend espera 'name'), não 'nome'
+                name: nomeCompleto,
                 email,
                 password,
+                phone: telefoneClean,
                 endereco: {
                     cep: cep.replace(/\D/g, ''),
                     logradouro,
@@ -247,6 +260,16 @@ function Cadastro() {
                     disabled={carregando}
                 />
                 {emailError && <span className="error-message">{emailError}</span>}
+
+                {/* campo de telefone obrigatório */}
+                <input
+                    type="tel"
+                    placeholder="Telefone (somente números)"
+                    value={telefone}
+                    onChange={(e) => setTelefone(e.target.value)}
+                    disabled={carregando}
+                />
+                {telefoneError && <span className="error-message">{telefoneError}</span>}
 
                 <input 
                     type="password" 
