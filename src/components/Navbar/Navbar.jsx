@@ -46,6 +46,10 @@ export default function Navbar() {
                     <span class="slider-label">$10k</span>
                 </div>
 
+                <Link to="/anunciar">
+                <button className="navbar-button">Criar anúncio</button>
+                </Link>
+
             </div>
 
             <button class="apply-btn-dom">Aplicar</button>
