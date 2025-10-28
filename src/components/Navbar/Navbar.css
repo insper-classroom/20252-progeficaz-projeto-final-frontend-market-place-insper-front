@@ -9,6 +9,7 @@
   justify-content: space-between;
   padding: 10px 40px;
   border-bottom: 1px solid #1f2836;
+  border-radius: 2vh;
   z-index: 1000;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
@@ -22,6 +23,7 @@
 .navbar-logo {
   width: 90px;
   height: auto;
+  border-radius: 8px;
 }
 
 .navbar-links {
@@ -34,6 +36,7 @@
   text-decoration: none;
   font-size: 0.95rem;
   transition: color 0.2s;
+  border-radius: 3vh;
 }
 
 .navbar-links a:hover {
@@ -120,4 +123,14 @@
 
 .apply-btn-dom:hover {
   background-color: #a20d24;
+}
+
+.navbar-text {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #0d1321;
+  color: white;
 }

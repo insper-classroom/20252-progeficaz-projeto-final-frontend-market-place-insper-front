@@ -14,7 +14,7 @@ export default function Footer() {
             <p>Marketplace exclusivo da comunidade Insper</p>
         </div>
 
-        <div className="footer-column">
+        {/* <div className="footer-column">
           <h4>Produto</h4>
           <ul>
             <li><Link to="/como-funciona">Como Funciona</Link></li>
@@ -30,7 +30,7 @@ export default function Footer() {
             <li><Link to="/termos">Termos de Uso</Link></li>
             <li><Link to="/politica">Política de Privacidade</Link></li>
           </ul>
-        </div>
+        </div> */}
 
         <div className="footer-column">
           <h4>Equipe BrainStormers</h4>

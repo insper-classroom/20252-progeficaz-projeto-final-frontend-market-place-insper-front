@@ -28,13 +28,6 @@ export default function Navbar() {
             <label><input type="checkbox" /> Móveis</label>
             <label><input type="checkbox" /> Eletrodomésticos</label>
             <label><input type="checkbox" /> Outros</label>
-            <label> Cores: </label>
-            <label><input type="checkbox" /> azul </label>
-            <label><input type="checkbox" /> vermelho </label>
-            <label><input type="checkbox" /> amarelo </label>
-            <label><input type="checkbox" /> verde </label>
-            <label><input type="checkbox" /> preto </label>
-            <label><input type="checkbox" /> prata </label>
 
             <div class="filter-slider-section">
                 <label for="priceRange">
@@ -105,10 +98,10 @@ export default function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar-left">
-        <img src={logo} alt="MarketInsper logo" className="navbar-logo" />
+        <Link to="/">
+          <img src={logo} alt="MarketInsper logo" className="navbar-logo" />
+        </Link>
         <nav className="navbar-links">
-          {/* DEPOIS COLOCAR O FILTRO -> QUANDO O FILTRO FOR CRIADO */}
-          <Link to="/">Em Destaque</Link>
           <Link to={`/anunciar`}>Anunciar Produto</Link>
           <Link to={userId ? `/user/${userId}` : "/login"}>Minha Conta</Link>
         </nav>
@@ -116,10 +109,13 @@ export default function Navbar() {
 
       <div className="navbar-right">
         <div className="navbar-icons">
-          <Search className="icon" size={20} />
+          {/* <Search className="icon" size={20} /> */}
           <Filter className="icon" size={20} />
-          <ShoppingCart className="icon" size={20} />
-          <User className="icon" size={20} />
+          {!userId && (
+            <Link to="/login">
+              <button className="navbar-text">Login</button>
+            </Link>
+          )}
         </div>
         <Link to="/anunciar">
         <button className="navbar-button">Criar anúncio</button>

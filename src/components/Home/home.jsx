@@ -92,15 +92,12 @@ export default function Home() {
           <div className="produtos-grid">
             {produtosEmDestaque.map((produto) => (
             <div className="produto" key={produto._id}>
-              <div className="fotoproduto">
-                <img
-                  src={produto.images?.[0]}
-                  alt={produto.title}
-                />
-              </div>
-
               <div className="tituloproduto">
                 <h3>{produto.title}</h3>
+              </div>
+
+              <div className="fotoproduto">
+                <img src={produto.images?.[0]} alt={produto.title}/>
               </div>
 
               <div className="descricaoproduto">
@@ -112,9 +109,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                <a href="#" 
-                   onClick={(e) => handleComprarClick(e, produto)} 
-                   rel="noopener noreferrer">
+                <a href="#" onClick={(e) => handleComprarClick(e, produto)} rel="noopener noreferrer">
                   Quero Comprar
                 </a>
               </div>
@@ -136,14 +131,12 @@ export default function Home() {
           <div className="produtos-grid">
             {produtosEletronicos.map((produto) => (
             <div className="produto" key={produto._id}>
-              <img
-                src={produto.images?.[0]}
-                alt={produto.title}
-              />
-
-
               <div className="tituloproduto">
                 <h3>{produto.title}</h3>
+              </div>
+
+              <div className="fotoproduto">
+                <img src={produto.images?.[0]} alt={produto.title}/>
               </div>
 
               <div className="descricaoproduto">
@@ -155,9 +148,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                <a href="#" 
-                   onClick={(e) => handleComprarClick(e, produto)} 
-                   rel="noopener noreferrer">
+                <a href="#" onClick={(e) => handleComprarClick(e, produto)} rel="noopener noreferrer">
                   Quero Comprar
                 </a>
               </div>
@@ -179,15 +170,12 @@ export default function Home() {
           <div className="produtos-grid">
             {produtosEletrodomesticos.map((produto) => (
             <div className="produto" key={produto._id}>
-              <div className="fotoproduto">
-                <img
-                  src={produto.images?.[0]}
-                  alt={produto.title}
-                />
-              </div>
-
               <div className="tituloproduto">
                 <h3>{produto.title}</h3>
+              </div>
+
+              <div className="fotoproduto">
+                <img src={produto.images?.[0]} alt={produto.title}/>
               </div>
 
               <div className="descricaoproduto">
@@ -199,9 +187,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                <a href="#" 
-                   onClick={(e) => handleComprarClick(e, produto)} 
-                   rel="noopener noreferrer">
+                <a href="#" onClick={(e) => handleComprarClick(e, produto)} rel="noopener noreferrer">
                   Quero Comprar
                 </a>
               </div>
@@ -223,15 +209,12 @@ export default function Home() {
           <div className="produtos-grid">
             {produtosMoveis.map((produto) => (
             <div className="produto" key={produto._id}>
-              <div className="fotoproduto">
-                <img
-                  src={produto.images?.[0]}
-                  alt={produto.title}
-                />
-              </div>
-
               <div className="tituloproduto">
                 <h3>{produto.title}</h3>
+              </div>
+
+              <div className="fotoproduto">
+                <img src={produto.images?.[0]} alt={produto.title}/>
               </div>
 
               <div className="descricaoproduto">
@@ -243,9 +226,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                <a href="#" 
-                   onClick={(e) => handleComprarClick(e, produto)} 
-                   rel="noopener noreferrer">
+                <a href="#" onClick={(e) => handleComprarClick(e, produto)} rel="noopener noreferrer">
                   Quero Comprar
                 </a>
               </div>
@@ -266,16 +247,13 @@ export default function Home() {
 
           <div className="produtos-grid">
             {produtosOutros.map((produto) => (
-            <div className="produto" key={produto._id}>
-              <div className="fotoproduto">
-                <img
-                  src={produto.images?.[0]}
-                  alt={produto.title}
-                />
-              </div>
-
+              <div className="produto" key={produto._id}>
               <div className="tituloproduto">
                 <h3>{produto.title}</h3>
+              </div>
+
+              <div className="fotoproduto">
+                <img src={produto.images?.[0]} alt={produto.title}/>
               </div>
 
               <div className="descricaoproduto">
@@ -287,9 +265,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                <a href="#" 
-                   onClick={(e) => handleComprarClick(e, produto)} 
-                   rel="noopener noreferrer">
+                <a href="#" onClick={(e) => handleComprarClick(e, produto)} rel="noopener noreferrer">
                   Quero Comprar
                 </a>
               </div>
