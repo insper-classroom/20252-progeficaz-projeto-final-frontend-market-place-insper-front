@@ -13,7 +13,7 @@ export default function Navbar() {
     useEffect(() => {
         // tudo que estava no script agora dentro de useEffect
         const icons = document.querySelectorAll(".icon");
-        const filterIcon = icons && icons[1]; // 0=Search, 1=Filter
+        const filterIcon = icons && icons[1];
         if (!filterIcon) return;
 
         let popup = null;
@@ -23,12 +23,12 @@ export default function Navbar() {
         popup.className = "filter-box-dom"; //items para filtracao a seguir
         popup.innerHTML = `
             <h4>Filtrar por:</h4>
-            <label> Tipo </label>
+            <label> Tipo: </label>
             <label><input type="checkbox" /> Eletrônicos</label>
             <label><input type="checkbox" /> Móveis</label>
             <label><input type="checkbox" /> Eletrodomésticos</label>
             <label><input type="checkbox" /> Outros</label>
-            <label> Cores </label>
+            <label> Cores: </label>
             <label><input type="checkbox" /> azul </label>
             <label><input type="checkbox" /> vermelho </label>
             <label><input type="checkbox" /> amarelo </label>
