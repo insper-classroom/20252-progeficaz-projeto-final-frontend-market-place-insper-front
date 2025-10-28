@@ -7,8 +7,10 @@ export default function Sidebar() {
   const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    const id = localStorage.getItem("userId");
-    setUserId(id);
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user.id) {
+      setUserId(user.id);
+    }
   }, []);
 
   return (

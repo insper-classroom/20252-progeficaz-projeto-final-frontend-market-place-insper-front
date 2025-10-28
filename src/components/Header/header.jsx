@@ -10,7 +10,11 @@ export default function Header() {
 
   useEffect(() => {
     const base = import.meta.env.VITE_API_URL;
-    fetch(`${base}/user/${user_id}`)
+    fetch(`${base}/user/${user_id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
         return res.json();

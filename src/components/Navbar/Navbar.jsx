@@ -8,7 +8,10 @@ import { useEffect, useState } from "react";
 // SE FOR UM LINK EXTERNO, USAR <a href="" >
 
 export default function Navbar() {
-   const [userId] = useState(() => localStorage.getItem("userId"));
+   const [userId] = useState(() => {
+   const user = JSON.parse(localStorage.getItem("user"));
+   return user?.id || null;
+  });
 
     // A PARTIR DAQUI SE INICIA A FILTRACAO
     useEffect(() => {
