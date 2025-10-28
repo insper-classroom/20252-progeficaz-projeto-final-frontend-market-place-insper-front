@@ -8,17 +8,23 @@ export default function Anunciar() {
     price: "",
     category: "",
     condition: "Novo",
+    image: null,
   });
 
   const [mensagem, setMensagem] = useState("");
   const [erro, setErro] = useState("");
 
-  // Atualiza o estado do formulário conforme o usuário digita
+  // Atualiza os campos do formulário
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, files } = e.target;
+    if (name === "image") {
+      setFormData({ ...formData, image: files[0] });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
-  // Envia o produto para o backend
+  // Envia o produto pro backend
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMensagem("");
@@ -26,15 +32,23 @@ export default function Anunciar() {
 
     try {
       const base = import.meta.env.VITE_API_URL || "http://localhost:5000";
-      const token = localStorage.getItem("token"); // JWT salvo após login
+      const token = localStorage.getItem("token"); // precisa estar logado!
+
+      // Monta o corpo do formulário com arquivo
+      const data = new FormData();
+      data.append("title", formData.title);
+      data.append("description", formData.description);
+      data.append("price", formData.price);
+      data.append("category", formData.category);
+      data.append("condition", formData.condition);
+      data.append("image", formData.image); 
 
       const response = await fetch(`${base}/`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
+        body: data, // FormData, não JSON
       });
 
       if (!response.ok) {
@@ -42,9 +56,9 @@ export default function Anunciar() {
         throw new Error(errorData.error || "Erro ao criar o produto");
       }
 
-      const data = await response.json();
+      const result = await response.json();
       setMensagem(`✅ Produto "${formData.title}" criado com sucesso!`);
-      console.log("Resposta da API:", data);
+      console.log("Imagem salva em:", result.image_url);
 
       // limpa os campos
       setFormData({
@@ -53,16 +67,17 @@ export default function Anunciar() {
         price: "",
         category: "",
         condition: "Novo",
+        image: null,
       });
     } catch (err) {
-      setErro(`❌ ${err.message}`);
+      setErro(`${err.message}`);
     }
   };
 
   return (
     <div className="anunciar-container">
       <h1>Anunciar Produto</h1>
-      <p>Cadastre um novo item para venda no MarketInsper 🦊</p>
+      <p>Cadastre um novo item para venda no MarketInsper</p>
 
       <form onSubmit={handleSubmit} className="anunciar-form">
         <label>
@@ -124,6 +139,18 @@ export default function Anunciar() {
             <option value="Novo">Novo</option>
             <option value="Usado">Usado</option>
           </select>
+        </label>
+
+        //Campo que escolhe foto
+        <label>
+          Foto do Produto:
+          <input
+            type="file"
+            name="image"
+            accept="image/*"
+            onChange={handleChange}
+            required
+          />
         </label>
 
         <button type="submit">Cadastrar</button>
