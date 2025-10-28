@@ -12,7 +12,7 @@ export default function Vendas() {
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
-    const base = "http://localhost:5000";
+    const base = import.meta.env.VITE_API_URL;
     fetch(`${base}/user/${id}/vendas`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
