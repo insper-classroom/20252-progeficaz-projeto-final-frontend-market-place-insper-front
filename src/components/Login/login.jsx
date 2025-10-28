@@ -59,7 +59,7 @@ function Login() {
                     {carregando ? 'Entrando...' : 'Entrar'}
                 </button>
             </form>
-            <p>Novo no MarketInsper? <a href="/cadastro">Criar conta</a></p>
+            <p>Novo no MarketInsper? <a href="/register">Criar conta</a></p>
         </div>
     );
 }
