@@ -13,7 +13,6 @@ export default function Vendas() {
 
   useEffect(() => {
     const base = "http://localhost:5000";
-    // AJEITAR A URL
     fetch(`${base}/user/${id}/vendas`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
@@ -26,9 +25,9 @@ export default function Vendas() {
   if (erro) return <p>Erro: {erro}</p>;
   if (!user) return <p>Carregando Dados</p>;
 
-  const itemVenda = user.itemVenda || [];
-  const itemAndamento = user.itemAndamento || [];
-  const itemFinalizado = user.itemFinalizado || [];
+  const itemVenda = user.avenda || [];
+  const itemAndamento = user.andamento || [];
+  const itemFinalizado = user.finalizada || [];
 
   const nenhumaVenda = itemVenda.length === 0 && itemAndamento.length === 0 && itemFinalizado.length === 0;
 
@@ -54,7 +53,7 @@ export default function Vendas() {
 
           <div className="produtos-grid">
             {produtosVenda.map((item) => (
-            <div className="produto" key={item.id}>
+            <div className="produto" key={item._id}>
               <div className="fotoproduto">
                 <img
                   src={item.images?.[0]}
@@ -91,7 +90,7 @@ export default function Vendas() {
 
           <div className="produtos-grid">
             {produtosAndamento.map((item) => (
-            <div className="produto" key={item.id}>
+            <div className="produto" key={item._id}>
               <div className="fotoproduto">
                 <img
                   src={item.images?.[0]}
@@ -124,7 +123,7 @@ export default function Vendas() {
 
             <div className="produtos-grid">
             {produtosFinalizado.map((item) => (
-            <div className="produto" key={item.id}>
+            <div className="produto" key={item._id}>
               <div className="fotoproduto">
                 <img
                   src={item.images?.[0]}
