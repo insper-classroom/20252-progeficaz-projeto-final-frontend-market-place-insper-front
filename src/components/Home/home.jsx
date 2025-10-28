@@ -75,8 +75,8 @@ export default function Home() {
                 <p>R${produto.price}</p>
               </div>
 
-              <div className="btncomprar">
-                Quero Comprar
+              <div className="btncomprar" >
+                <a href="https://api.whatsapp.com/send?phone=5511995009881&text=oieeee" target="_blank">Quero Comprar</a>
               </div>
             </div>
             ))}
@@ -115,7 +115,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                Quero Comprar
+                <a href="https://api.whatsapp.com/send?phone=5511995009881&text=oieeee" target="_blank">Quero Comprar</a>
               </div>
             </div>
             ))}
@@ -155,7 +155,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                Quero Comprar
+                <a href="https://api.whatsapp.com/send?phone=5511995009881&text=oieeee" target="_blank">Quero Comprar</a>
               </div>
             </div>
             ))}
@@ -195,7 +195,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                Quero Comprar
+                <a href="https://api.whatsapp.com/send?phone=5511995009881&text=oieeee" target="_blank">Quero Comprar</a>
               </div>
             </div>
             ))}
@@ -235,7 +235,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                Quero Comprar
+                <a href="https://api.whatsapp.com/send?phone=5511995009881&text=oieeee" target="_blank">Quero Comprar</a>
               </div>
             </div>
             ))}
