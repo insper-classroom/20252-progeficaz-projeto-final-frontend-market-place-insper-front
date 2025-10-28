@@ -14,19 +14,19 @@ const authService = {
                 localStorage.setItem('token', resposta.data.token);
                 localStorage.setItem('user', JSON.stringify(resposta.data.user));
             }
-            
+
             return resposta.data;
         } catch (error) {
             throw error.response?.data || { error : 'Erro ao realizar login' };
         }
     },
-    register: async (name, email, password) => {
+
+    // <-- SUBSTITUIR/USAR ESTA VERSÃO
+    register: async (payload) => {
         try {
-            const resposta = await axios.post(`${API_URL}/register`, {
-                name: name,
-                email: email,
-                password: password
-            });
+            // payload deve ser: { name, email, password, endereco: { cep, logradouro, numero, complemento, bairro, cidade, estado } }
+            const resposta = await axios.post(`${API_URL}/register`, payload);
+
             if (resposta.data.token) {
                 localStorage.setItem('token', resposta.data.token);
                 localStorage.setItem('user', JSON.stringify(resposta.data.user));
@@ -36,6 +36,7 @@ const authService = {
             throw error.response?.data || { error : 'Erro ao realizar cadastro' };
         }
     },
+
     logout: () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');

@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import authService from '../../services/authService';
+import cepService from '../../services/cepService'; // <-- seu serviço separado de CEP
 import './cadastro.css';
 
 function Cadastro() {
@@ -10,13 +11,26 @@ function Cadastro() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [carregando, setCarregando] = useState(false);
 
+    // Endereço
+    const [cep, setCep] = useState('');
+    const [logradouro, setLogradouro] = useState('');
+    const [bairro, setBairro] = useState('');
+    const [cidade, setCidade] = useState('');
+    const [estado, setEstado] = useState('');
+    const [numero, setNumero] = useState('');
+    const [complemento, setComplemento] = useState('');
+
     // Mensagens de erro
     const [nomeError, setNomeError] = useState('');
     const [sobrenomeError, setSobrenomeError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    const [cepError, setCepError] = useState('');
     const [erroGeral, setErroGeral] = useState('');
+
+    // Ref para debounce
+    const cepDebounceRef = useRef(null);
 
     const validaNome = (nome) => {
         if (!nome) {
@@ -46,7 +60,6 @@ function Cadastro() {
             return "A senha deve ter pelo menos 6 caracteres.";
         }
         return '';
-
     };
 
     const validaConfirmacaoSenha = (password, confirmPassword) => {
@@ -59,6 +72,84 @@ function Cadastro() {
         return '';
     };
 
+    // Validação simples do CEP: apenas dígitos e 8 caracteres
+    const validaCepFormato = (cep) => {
+        const cleaned = cep.replace(/\D/g, '');
+        if (!cleaned) return "O CEP é obrigatório.";
+        if (cleaned.length !== 8) return "CEP inválido. Deve ter 8 dígitos.";
+        return '';
+    };
+
+    // Função que chama seu cepService (mantém comportamento parecido com seu fetch anterior)
+    const buscarCepNaApi = async (cepParaBuscar) => {
+        setCepError('');
+        try {
+            const cleaned = String(cepParaBuscar).replace(/\D/g, '');
+            if (!cleaned) {
+                setCepError('CEP inválido.');
+                return;
+            }
+
+            // espera-se que cepService.buscarCep retorne os dados do endereço (ou response.data)
+            const dataOrResponse = await cepService.buscarCep(cleaned);
+
+            // acomodar axios (response.data) e fetch (data) ao mesmo tempo
+            const payload = dataOrResponse?.data ? dataOrResponse.data : dataOrResponse;
+
+            // checar formatos de erro comuns
+            if (!payload) {
+                setCepError('Resposta inválida da API de CEP.');
+                return;
+            }
+            if (payload.erro || payload.error || payload.message) {
+                const mensagem = payload.erro || payload.error || payload.message;
+                setCepError(mensagem);
+                return;
+            }
+
+            const rua = payload.logradouro || payload.rua || payload.address || '';
+            const bairroApi = payload.bairro || '';
+            const cidadeApi = payload.localidade || payload.cidade || payload.city || '';
+            const estadoApi = payload.uf || payload.estado || payload.state || '';
+
+            if (!rua && !bairroApi && !cidadeApi && !estadoApi) {
+                setCepError('CEP não retornou dados de endereço.');
+                return;
+            }
+
+            setLogradouro(rua);
+            setBairro(bairroApi);
+            setCidade(cidadeApi);
+            setEstado(estadoApi);
+            setCep(payload.cep || cleaned);
+        } catch (err) {
+            const msg = err?.response?.data?.erro || err?.response?.data?.error || err?.message;
+            setCepError(msg || 'Erro ao consultar o CEP. Tente novamente.');
+            console.error('Erro buscarCepNaApi:', err);
+        }
+    };
+
+    // Debounce: quando o usuário digita CEP, espera 600ms antes de consultar
+    useEffect(() => {
+        const cleaned = cep.replace(/\D/g, '');
+        setCepError('');
+
+        if (cepDebounceRef.current) {
+            clearTimeout(cepDebounceRef.current);
+        }
+
+        if (cleaned.length === 8) {
+            cepDebounceRef.current = setTimeout(() => {
+                buscarCepNaApi(cleaned);
+            }, 600);
+        }
+
+        return () => {
+            if (cepDebounceRef.current) clearTimeout(cepDebounceRef.current);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [cep]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setErroGeral('');
@@ -69,14 +160,16 @@ function Cadastro() {
         const emailErr = validaEmail(email);
         const passwordErr = validaSenha(password);
         const confirmPasswordErr = validaConfirmacaoSenha(password, confirmPassword);
+        const cepFormatErr = validaCepFormato(cep);
 
         setNomeError(nomeErr);
         setSobrenomeError(sobrenomeErr);
         setEmailError(emailErr);
         setPasswordError(passwordErr);
         setConfirmPasswordError(confirmPasswordErr);
+        setCepError(cepFormatErr);
 
-        if (nomeErr || sobrenomeErr || emailErr || passwordErr || confirmPasswordErr) {
+        if (nomeErr || sobrenomeErr || emailErr || passwordErr || confirmPasswordErr || cepFormatErr) {
             console.log('Formulário com erro!');
             return;
         }
@@ -85,12 +178,30 @@ function Cadastro() {
 
         try {
             const nomeCompleto = `${nome} ${sobrenome}`;
-            const resposta = await authService.register(nomeCompleto, email, password);
-            console.log('Cadastro realizado com sucesso!', resposta);
-            alert(`Cadastro realizado com sucesso! Bem-vindo ao Marketplace Insper, ${resposta.user.name}!`);
 
+            // Monta objeto de cadastro incluindo endereço
+            const cadastroPayload = {
+                name: nomeCompleto,   // <-- aqui: 'name' (o backend espera 'name'), não 'nome'
+                email,
+                password,
+                endereco: {
+                    cep: cep.replace(/\D/g, ''),
+                    logradouro,
+                    numero,
+                    complemento,
+                    bairro,
+                    cidade,
+                    estado
+                }
+            };
+
+            // Envia o payload completo para a rota /register
+            const resposta = await authService.register(cadastroPayload);
+
+            console.log('Cadastro realizado com sucesso!', resposta);
+            alert(`Cadastro realizado com sucesso! Bem-vindo ao Marketplace Insper, ${resposta.user?.name || nomeCompleto}!`);
         } catch (error) {
-            setErroGeral(error.error || 'Erro ao criar conta. Por favor, tente novamente.');
+            setErroGeral(error.error || error.message || 'Erro ao criar conta. Por favor, tente novamente.');
         } finally {
             setCarregando(false);
         }
@@ -114,6 +225,7 @@ function Cadastro() {
                     disabled={carregando}
                 />
                 {nomeError && <span className="error-message">{nomeError}</span>}
+
                 <input 
                     type="text" 
                     placeholder="Sobrenome"
@@ -122,6 +234,7 @@ function Cadastro() {
                     disabled={carregando}
                 />
                 {sobrenomeError && <span className="error-message">{sobrenomeError}</span>}
+
                 <input 
                     type="email" 
                     placeholder="E-mail" 
@@ -130,6 +243,7 @@ function Cadastro() {
                     disabled={carregando}
                 />
                 {emailError && <span className="error-message">{emailError}</span>}
+
                 <input 
                     type="password" 
                     placeholder="Senha" 
@@ -138,6 +252,7 @@ function Cadastro() {
                     disabled={carregando}
                 />
                 {passwordError && <span className="error-message">{passwordError}</span>}
+
                 <input 
                     type="password" 
                     placeholder="Confirmar Senha" 
@@ -146,6 +261,69 @@ function Cadastro() {
                     disabled={carregando}
                 />
                 {confirmPasswordError && <span className="error-message">{confirmPasswordError}</span>}
+
+                {/* Bloco de endereço */}
+                <input
+                    type="text"
+                    placeholder="CEP (somente números)"
+                    value={cep}
+                    onChange={(e) => setCep(e.target.value)}
+                    disabled={carregando}
+                />
+                {cepError && <span className="error-message">{cepError}</span>}
+
+                <input
+                    type="text"
+                    placeholder="Logradouro (Rua)"
+                    value={logradouro}
+                    onChange={(e) => setLogradouro(e.target.value)}
+                    disabled={carregando}
+                />
+
+                <div style={{ display: 'flex', gap: '8px' }}>
+                    <input
+                        type="text"
+                        placeholder="Número"
+                        value={numero}
+                        onChange={(e) => setNumero(e.target.value)}
+                        disabled={carregando}
+                        style={{ flex: '0 0 120px' }}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Complemento"
+                        value={complemento}
+                        onChange={(e) => setComplemento(e.target.value)}
+                        disabled={carregando}
+                        style={{ flex: '1' }}
+                    />
+                </div>
+
+                <input
+                    type="text"
+                    placeholder="Bairro"
+                    value={bairro}
+                    onChange={(e) => setBairro(e.target.value)}
+                    disabled={carregando}
+                />
+                <div style={{ display: 'flex', gap: '8px' }}>
+                    <input
+                        type="text"
+                        placeholder="Cidade"
+                        value={cidade}
+                        onChange={(e) => setCidade(e.target.value)}
+                        disabled={carregando}
+                        style={{ flex: '1' }}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Estado (UF)"
+                        value={estado}
+                        onChange={(e) => setEstado(e.target.value)}
+                        disabled={carregando}
+                        style={{ width: '90px' }}
+                    />
+                </div>
 
                 <button type="submit" disabled={carregando}>
                     {carregando ? 'Realizando cadastro...' : 'Criar Conta'}
