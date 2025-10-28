@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:5000';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const authService = {
     login: async (email, password) => {
@@ -14,9 +14,10 @@ const authService = {
                 localStorage.setItem('token', resposta.data.token);
                 localStorage.setItem('user', JSON.stringify(resposta.data.user));
             }
-
+            console.log('deu certo')
             return resposta.data;
         } catch (error) {
+            console.log('erro');
             throw error.response?.data || { error : 'Erro ao realizar login' };
         }
     },

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import authService from '../../services/authService';
 import './login.css';
+import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [erro, setErro] = useState('');
@@ -13,18 +15,22 @@ function Login() {
         e.preventDefault();
         setErro('');
         setCarregando(true);
-        
+
         if (!email || !password) {
             setErro('Por favor, preencha os campos indicados');
             setCarregando(false);
             return;
         }
         try {
+
             const resposta = await authService.login(email, password);
+            const id = resposta.user.id
             console.log('Login realizado com sucesso!', resposta);
             alert(`Bem-vindo ao Marketplace Insper, ${resposta.user.name}!`);
+            navigate(`/user/${id}`);
         } catch (error) {
             setErro(error.error || 'Erro ao realizar login. Por favor, tente novamente.');
+            console.log('Erro ao realizar login:', error);
         } finally {
             setCarregando(false);
         }
@@ -56,10 +62,11 @@ function Login() {
                     disabled={carregando}
                 />
                 <button type="submit" disabled={carregando}>
-                    {carregando ? 'Entrando...' : 'Entrar'}
+                    {carregando ? 'Entrando...' : 'Entrar'} 
                 </button>
             </form>
             <p>Novo no MarketInsper? <a href="/register">Criar conta</a></p>
+            
         </div>
     );
 }
