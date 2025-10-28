@@ -13,6 +13,7 @@ import Produto from "./components/Produto/produto";
 import Sidebar from "./components/Sidebar/sidebar";
 import Vendas from "./components/Vendas/vendas";
 import Anunciar from "./components/Anunciar/anunciar";
+import EditarItem from "./components/Atualizar-Editar/editarItem";
 // import Anunciar from "./components/Anunciar/anunciar";
 
 function App() {
@@ -113,7 +114,17 @@ function App() {
                 <Produto />
               </>
             }/>
-
+          {/* EDITAR PRODUTO */}
+          <Route
+            path="/item/:id/editar"
+            element={
+              <>
+                <Navbar />
+                <EditarItem />
+                <Footer />
+              </>
+            }
+          />
           {/* ANUNCIAR PRODUTO */}
           <Route
             path="/anunciar"

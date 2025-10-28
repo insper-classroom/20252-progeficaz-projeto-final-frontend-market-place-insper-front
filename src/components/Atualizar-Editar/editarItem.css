@@ -1,0 +1,175 @@
+.editar-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.editar-container h1 {
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.editar-container > p {
+  color: #666;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+
+.imagem-atual {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.imagem-atual p {
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.imagem-atual img {
+  max-width: 200px;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+}
+
+
+.editar-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.editar-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  color: #333;
+  gap: 8px;
+}
+
+.editar-form input,
+.editar-form textarea,
+.editar-form select {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.editar-form input:focus,
+.editar-form textarea:focus,
+.editar-form select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.editar-form textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+
+.editar-form input[type="file"] {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.editar-form input[type="file"]::file-selector-button {
+  padding: 8px 16px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: all 0.3s ease;
+}
+
+.editar-form input[type="file"]::file-selector-button:hover {
+  background-color: #e9ecef;
+}
+
+.botoes-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.editar-form button {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-salvar {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-salvar:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.btn-cancelar {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-cancelar:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+.editar-form button:active {
+  transform: translateY(0);
+}
+
+.mensagem-sucesso {
+  padding: 15px;
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 6px;
+  margin-top: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.mensagem-erro {
+  padding: 15px;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 6px;
+  margin-top: 20px;
+  text-align: center;
+  font-weight: 500;
+}
+
+
+.loading {
+  text-align: center;
+  padding: 50px;
+  color: #666;
+  font-size: 18px;
+}
