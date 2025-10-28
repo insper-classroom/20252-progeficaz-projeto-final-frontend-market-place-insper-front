@@ -9,7 +9,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     const base = "http://localhost:5000";
-    fetch(`${base}/user${id}`)
+    fetch(`${base}/user/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
         return res.json();
@@ -22,7 +22,6 @@ export default function Dashboard() {
   if (!user) return <p>Carregando Dados</p>;
 
 // DASHBOARD = HEADER + NAV BAR + SIDE BAR + DASHBOARD + FOOTER
-// VER COMO QUE AS INFORMAÇÕES SÃO PASSADAS DO BACK
   return (
     <div className="dashboard">
         <div className="btnregistrarproduto">
@@ -50,7 +49,7 @@ export default function Dashboard() {
           <div className="dadocontainer">
             <div className="dado">
               <h3 className="titulo">Endereço</h3>
-              <p>{user.adress}</p>
+              <p>{user.address}</p>
             </div>
           </div>
 
