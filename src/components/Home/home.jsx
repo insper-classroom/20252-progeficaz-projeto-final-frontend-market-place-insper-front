@@ -76,7 +76,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                Adicionar ao carrinho
+                Quero Comprar
               </div>
             </div>
             ))}
@@ -115,7 +115,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                Adicionar ao carrinho
+                Quero Comprar
               </div>
             </div>
             ))}
@@ -155,7 +155,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                Adicionar ao carrinho
+                Quero Comprar
               </div>
             </div>
             ))}
@@ -195,7 +195,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                Adicionar ao carrinho
+                Quero Comprar
               </div>
             </div>
             ))}
@@ -235,7 +235,7 @@ export default function Home() {
               </div>
 
               <div className="btncomprar">
-                Adicionar ao carrinho
+                Quero Comprar
               </div>
             </div>
             ))}

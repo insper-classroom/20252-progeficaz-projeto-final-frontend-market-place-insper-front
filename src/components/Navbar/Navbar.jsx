@@ -25,7 +25,6 @@ export default function Navbar() {
                 <div className="navbar-icons">
                     <Search className="icon" size={20} />
                     <Filter className="icon" size={20} />
-                    <ShoppingCart className="icon" size={20} />
                     <User className="icon" size={20} />
                 </div>
                 <button className="navbar-button">Criar anúncio</button>
