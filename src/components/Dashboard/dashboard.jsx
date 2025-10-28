@@ -11,7 +11,7 @@ export default function Dashboard() {
     const base = import.meta.env.VITE_API_URL;
     fetch(`${base}/user/${user_id}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: token ? `Bearer ${token}` : "",
       },
     })
       .then((res) => {
