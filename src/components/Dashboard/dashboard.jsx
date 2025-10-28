@@ -3,20 +3,20 @@ import "./dashboard.css";
 import { useParams } from "react-router-dom";
 
 export default function Dashboard() {
-  const { id } = useParams();
+  const { user_id } = useParams();
   const [user, setUser] = useState(null);
   const [erro, setErro] = useState(null);
 
   useEffect(() => {
     const base = import.meta.env.VITE_API_URL;
-    fetch(`${base}/user${id}`)
+    fetch(`${base}/user${user_id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Erro ao conectar ao backend");
         return res.json();
       })
       .then((data) => setUser(data))
       .catch((err) => setErro(err.message));
-  }, [id]);
+  }, [user_id]);
 
   if (erro) return <p>Erro: {erro}</p>;
   if (!user) return <p>Carregando Dados</p>;
