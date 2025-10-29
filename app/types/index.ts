@@ -72,6 +72,16 @@ export interface RegisterResponse {
 // ============================================================================
 
 /**
+ * Product category options
+ */
+export type ProductCategory = "eletrodomésticos" | "eletrônicos" | "móveis" | "outros"
+
+/**
+ * Product condition options
+ */
+export type ProductCondition = "novo" | "seminovo" | "usado"
+
+/**
  * Represents a product in the marketplace
  */
 export interface Product {
@@ -83,6 +93,12 @@ export interface Product {
   description: string
   /** Product price (>= 0) */
   price: number
+  /** Product category */
+  category: ProductCategory
+  /** Product condition/state */
+  estado_de_conservacao: ProductCondition
+  /** Whether product is featured */
+  em_destaque: boolean
   /** Owner/seller user object */
   owner: User
   /** Buyer user object (null if not sold) */
@@ -105,6 +121,10 @@ export interface CreateProductRequest {
   description?: string
   /** Product price (must be >= 0) */
   price: number
+  /** Product category */
+  category: ProductCategory
+  /** Product condition/state */
+  estado_de_conservacao: ProductCondition
 }
 
 /**
@@ -153,6 +173,8 @@ export interface ConfirmPurchaseResponse {
 export interface ProductSearchParams {
   /** Search term for title/description (case-insensitive) */
   q?: string
+  /** Filter by category */
+  category?: ProductCategory
 }
 
 /**
