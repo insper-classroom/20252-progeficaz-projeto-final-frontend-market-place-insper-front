@@ -24,7 +24,10 @@ import {
   Calendar,
   CheckCircle2,
   AlertCircle,
-  Shield
+  Shield,
+  User,
+  MessageCircle,
+  ImageIcon
 } from "lucide-react"
 
 export function meta({}: Route.MetaArgs) {
@@ -42,6 +45,35 @@ export default function ProductDetail() {
   const [isLoading, setIsLoading] = useState(true)
   const [confirmationCode, setConfirmationCode] = useState("")
   const [isConfirming, setIsConfirming] = useState(false)
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+
+  const getWhatsAppMessage = (isSeller: boolean) => {
+    if (!product || !user) return ""
+
+    const productUrl = `${window.location.origin}/product/${product.id}`
+
+    if (isSeller) {
+      // Mensagem para o vendedor (enviada pelo comprador interessado)
+      return encodeURIComponent(
+        `Olá, ${product.owner.name}!\n\n` +
+        `Meu nome é ${user.name} e tenho interesse no seu produto:\n\n` +
+        `*${product.title}*\n` +
+        `Preço: ${formatPrice(product.price)}\n\n` +
+        `Podemos negociar?\n\n` +
+        `Link: ${productUrl}`
+      )
+    } else {
+      // Mensagem para o comprador (enviada pelo vendedor)
+      return encodeURIComponent(
+        `Olá, ${product.buyer?.name}! 👋\n\n` +
+        `Sou ${user.name}, vendedor do produto que você comprou:\n\n` +
+        `📦 *${product.title}*\n` +
+        `💰 Preço: ${formatPrice(product.price)}\n\n` +
+        `Vamos combinar a entrega?\n\n` +
+        `Link: ${productUrl}`
+      )
+    }
+  }
 
   useEffect(() => {
     if (id) {
@@ -56,7 +88,7 @@ export default function ProductDetail() {
     if (response.success) {
       setProduct(response.data)
     } else {
-      setError("Produto não encontrado")
+      toast.error("Produto não encontrado")
     }
     setIsLoading(false)
   }
@@ -103,7 +135,7 @@ export default function ProductDetail() {
     )
   }
 
-  const isOwner = user?.id === product.owner_id
+  const isOwner = user?.id === product.owner.id
   const isSold = isProductSold(product)
 
   return (
@@ -120,6 +152,55 @@ export default function ProductDetail() {
       <div className="grid gap-6 md:grid-cols-3">
         {/* Main content */}
         <div className="md:col-span-2 space-y-6">
+          {/* Image Gallery */}
+          {product.images && product.images.length > 0 ? (
+            <Card>
+              <CardContent className="p-0">
+                <div className="relative w-full h-96 bg-muted">
+                  <img
+                    src={product.images[selectedImageIndex]}
+                    alt={`${product.title} - Imagem ${selectedImageIndex + 1}`}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                {product.images.length > 1 && (
+                  <div className="p-4 border-t">
+                    <div className="grid grid-cols-5 gap-2">
+                      {product.images.map((image, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setSelectedImageIndex(index)}
+                          className={`relative w-full h-20 rounded border-2 overflow-hidden transition-all ${
+                            selectedImageIndex === index
+                              ? 'border-primary'
+                              : 'border-transparent hover:border-muted-foreground/50'
+                          }`}
+                        >
+                          <img
+                            src={image}
+                            alt={`Miniatura ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          ) : (
+            <Card>
+              <CardContent className="p-0">
+                <div className="relative w-full h-96 bg-muted flex items-center justify-center">
+                  <div className="text-center">
+                    <ImageIcon className="h-24 w-24 mx-auto text-muted-foreground/30 mb-4" />
+                    <p className="text-muted-foreground">Sem imagens disponíveis</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
           <Card>
             <CardHeader>
               <div className="flex items-start justify-between">
@@ -196,7 +277,7 @@ export default function ProductDetail() {
 
           {isSold && (
             <Card className="border-green-200 bg-green-50/50">
-              <CardContent className="pt-6">
+              <CardContent className="pt-6 space-y-4">
                 <div className="flex items-center gap-3 text-green-800">
                   <CheckCircle2 className="h-6 w-6" />
                   <div>
@@ -206,6 +287,34 @@ export default function ProductDetail() {
                     </p>
                   </div>
                 </div>
+
+                {isOwner && product.buyer && (
+                  <div className="border-t border-green-200 pt-4">
+                    <p className="text-xs text-green-700 font-medium mb-3">Comprador</p>
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100">
+                        <User className="h-5 w-5 text-green-700" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-green-900">{product.buyer.name}</p>
+                        <p className="text-sm text-green-700">{product.buyer.email}</p>
+                      </div>
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="w-full mt-3 border-green-300 text-green-800 hover:bg-green-100 hover:text-green-900"
+                      onClick={() => {
+                        const phone = product.buyer!.cellphone.replace(/\D/g, '')
+                        const message = getWhatsAppMessage(false)
+                        window.open(`https://wa.me/${phone}?text=${message}`, '_blank')
+                      }}
+                    >
+                      <MessageCircle className="h-4 w-4 mr-2" />
+                      Contatar comprador via WhatsApp
+                    </Button>
+                  </div>
+                )}
               </CardContent>
             </Card>
           )}
@@ -239,6 +348,32 @@ export default function ProductDetail() {
               <p className="text-4xl font-bold">{formatPrice(product.price)}</p>
             </CardContent>
           </Card>
+
+          {!isOwner && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">Vendedor</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <User className="h-4 w-4 text-muted-foreground" />
+                  <span className="font-medium">{product.owner.name}</span>
+                </div>
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={() => {
+                    const phone = product.owner.cellphone.replace(/\D/g, '')
+                    const message = getWhatsAppMessage(true)
+                    window.open(`https://wa.me/${phone}?text=${message}`, '_blank')
+                  }}
+                >
+                  <MessageCircle className="h-4 w-4 mr-2" />
+                  Contatar via WhatsApp
+                </Button>
+              </CardContent>
+            </Card>
+          )}
 
           <Card>
             <CardHeader>

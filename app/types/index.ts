@@ -19,6 +19,8 @@ export interface User {
   email: string
   /** User's display name */
   name: string
+  /** User's cellphone number (with country code, e.g., +5511999999999) */
+  cellphone: string
   /** Account creation timestamp (ISO 8601 format) */
   created_at: string
 }
@@ -33,6 +35,8 @@ export interface RegisterRequest {
   name: string
   /** Password (will be hashed on server) */
   password: string
+  /** User's cellphone number (with country code, e.g., +5511999999999) */
+  cellphone: string
 }
 
 /**
@@ -79,10 +83,14 @@ export interface Product {
   description: string
   /** Product price (>= 0) */
   price: number
-  /** Owner/seller user ID */
-  owner_id: string
-  /** Buyer user ID (null if not sold) */
-  buyer_id: string | null
+  /** Owner/seller user object */
+  owner: User
+  /** Buyer user object (null if not sold) */
+  buyer: User | null
+  /** List of image URLs from Cloudinary */
+  images: string[]
+  /** URL of the first image (used for thumbnail in listings) */
+  thumbnail: string | null
   /** Product creation timestamp (ISO 8601 format) */
   created_at: string
 }
@@ -135,7 +143,7 @@ export interface ConfirmPurchaseRequest {
 export interface ConfirmPurchaseResponse {
   /** Success message */
   message: string
-  /** Updated product data with buyer_id set */
+  /** Updated product data with buyer set */
   product: Product
 }
 
@@ -145,6 +153,26 @@ export interface ConfirmPurchaseResponse {
 export interface ProductSearchParams {
   /** Search term for title/description (case-insensitive) */
   q?: string
+}
+
+/**
+ * Payload for adding image to product
+ */
+export interface AddImageRequest {
+  /** Base64 encoded image string or image URL */
+  image: string
+}
+
+/**
+ * Response from adding image to product
+ */
+export interface AddImageResponse {
+  /** Success message */
+  message: string
+  /** URL of the uploaded image */
+  image_url: string
+  /** Updated product data with new image */
+  product: Product
 }
 
 // ============================================================================

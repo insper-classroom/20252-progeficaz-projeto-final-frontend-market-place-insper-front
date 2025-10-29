@@ -106,7 +106,7 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
       }
       return {
         success: false,
-        detail: data.detail || data.message || data.error || `Erro inesperado (${response.status})`,
+        detail: data.message || data.detail || data.error || `Erro inesperado (${response.status})`,
         status: response.status,
       }
     }

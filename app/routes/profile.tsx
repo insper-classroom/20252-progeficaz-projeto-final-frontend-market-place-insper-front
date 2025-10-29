@@ -61,6 +61,11 @@ export default function Profile() {
           </div>
 
           <div className="grid gap-2">
+            <Label>Telefone</Label>
+            <p className="text-lg">{user.cellphone}</p>
+          </div>
+
+          <div className="grid gap-2">
             <Label>Membro desde</Label>
             <p className="text-lg">{formatDate(user.created_at)}</p>
           </div>

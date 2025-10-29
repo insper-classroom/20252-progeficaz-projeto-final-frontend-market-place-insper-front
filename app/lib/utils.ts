@@ -91,8 +91,8 @@ export function isValidPrice(price: number): boolean {
 // ============================================================================
 
 /** Check if product is sold */
-export function isProductSold(product: { buyer_id: string | null }): boolean {
-  return product.buyer_id !== null
+export function isProductSold(product: { buyer: unknown }): boolean {
+  return product.buyer !== null
 }
 
 // ============================================================================

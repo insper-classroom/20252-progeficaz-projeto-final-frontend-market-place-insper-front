@@ -14,6 +14,8 @@ import type {
   ConfirmPurchaseRequest,
   ConfirmPurchaseResponse,
   ProductSearchParams,
+  AddImageRequest,
+  AddImageResponse,
 } from '../types'
 
 export const productsService = {
@@ -71,7 +73,7 @@ export const productsService = {
     const response = await httpClient.get<Product[]>('/products', { useAuth: false })
 
     if (response.success) {
-      const myProducts = response.data.filter((product) => product.owner_id === userId)
+      const myProducts = response.data.filter((product) => product.owner.id === userId)
       return {
         ...response,
         data: myProducts,
@@ -79,6 +81,39 @@ export const productsService = {
     }
 
     return response
+  },
+
+  /**
+   * Upload image to product (converts file to base64 and sends to API)
+   * Only the owner can upload images
+   */
+  uploadImage: async (
+    productId: string,
+    imageFile: File,
+  ): Promise<ApiResponse<AddImageResponse>> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader()
+
+      reader.onloadend = async () => {
+        const base64String = reader.result as string
+
+        const response = await httpClient.post<AddImageResponse>(
+          `/products/${productId}/images`,
+          { image: base64String } as AddImageRequest
+        )
+
+        resolve(response)
+      }
+
+      reader.onerror = () => {
+        resolve({
+          success: false,
+          detail: 'Erro ao ler o arquivo de imagem',
+        })
+      }
+
+      reader.readAsDataURL(imageFile)
+    })
   },
 }
 

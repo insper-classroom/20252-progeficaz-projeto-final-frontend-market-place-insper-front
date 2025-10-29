@@ -14,7 +14,7 @@ import {
   CardTitle,
 } from "~/components/ui/card"
 import { Input } from "~/components/ui/input"
-import { Search, Package, PlusCircle } from "lucide-react"
+import { Search, Package, PlusCircle, User, ImageIcon } from "lucide-react"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -135,22 +135,48 @@ export default function Home() {
 
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {products.map((product) => (
-                  <Card key={product.id} className="hover:shadow-lg transition-shadow flex flex-col">
-                    <CardHeader>
-                      <CardTitle className="line-clamp-1">{product.title}</CardTitle>
-                      <CardDescription>
-                        {formatRelativeTime(product.created_at)}
+                  <Card key={product.id} className="hover:shadow-lg transition-all duration-200 hover:scale-[1.02] flex flex-col overflow-hidden">
+                    {product.thumbnail ? (
+                      <div className="relative w-full h-48 bg-muted">
+                        <img
+                          src={product.thumbnail}
+                          alt={product.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="relative w-full h-48 bg-muted flex items-center justify-center">
+                        <ImageIcon className="h-16 w-16 text-muted-foreground/30" />
+                      </div>
+                    )}
+                    <CardHeader className="pb-3">
+                      <CardTitle className="line-clamp-1 text-lg">{product.title}</CardTitle>
+                      <CardDescription className="flex items-center gap-2 text-xs">
+                        <span>{formatRelativeTime(product.created_at)}</span>
                       </CardDescription>
                     </CardHeader>
-                    <CardContent className="flex-1">
-                      <p className="text-sm text-muted-foreground line-clamp-2 mb-4">
+                    <CardContent className="flex-1 space-y-4 pb-4">
+                      <p className="text-sm text-muted-foreground line-clamp-2 min-h-[40px]">
                         {product.description || "Sem descrição"}
                       </p>
-                      <p className="text-2xl font-bold">
-                        {formatPrice(product.price)}
-                      </p>
+
+                      <div className="pt-2 space-y-3">
+                        <p className="text-3xl font-bold text-primary">
+                          {formatPrice(product.price)}
+                        </p>
+
+                        <div className="flex items-center gap-2.5 text-sm border-t pt-3">
+                          <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 shrink-0">
+                            <User className="h-4 w-4 text-primary" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs text-muted-foreground">Vendedor</p>
+                            <p className="font-medium text-sm truncate">{product.owner.name}</p>
+                          </div>
+                        </div>
+                      </div>
                     </CardContent>
-                    <CardFooter>
+                    <CardFooter className="pt-3">
                       <Link to={`/product/${product.id}`} className="w-full">
                         <Button className="w-full">Ver detalhes</Button>
                       </Link>

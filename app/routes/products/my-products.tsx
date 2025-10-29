@@ -34,6 +34,10 @@ import {
   QrCode,
   AlertCircle,
   Loader2,
+  User,
+  MessageCircle,
+  ImagePlus,
+  X,
 } from "lucide-react"
 
 export function meta({}: Route.MetaArgs) {
@@ -51,6 +55,23 @@ export default function MyProducts() {
   const [isCreating, setIsCreating] = useState(false)
   const [generatingCodeFor, setGeneratingCodeFor] = useState<string | null>(null)
   const [codes, setCodes] = useState<Record<string, string>>({})
+  const [selectedImages, setSelectedImages] = useState<File[]>([])
+  const [uploadingImagesFor, setUploadingImagesFor] = useState<string | null>(null)
+
+  const getWhatsAppMessageToBuyer = (product: Product) => {
+    if (!user || !product.buyer) return ""
+
+    const productUrl = `${window.location.origin}/product/${product.id}`
+
+    return encodeURIComponent(
+      `Olá, ${product.buyer.name}!\n\n` +
+      `Sou ${user.name}, vendedor do produto que você comprou:\n\n` +
+      `*${product.title}*\n` +
+      `Preço: ${formatPrice(product.price)}\n\n` +
+      `Vamos combinar a entrega?\n\n` +
+      `Link: ${productUrl}`
+    )
+  }
 
   useEffect(() => {
     if (user) {
@@ -84,14 +105,50 @@ export default function MyProducts() {
     })
 
     if (response.success) {
-      toast.success("Produto criado com sucesso!")
+      const productId = response.data.product.id
+
+      // Upload images if any were selected
+      if (selectedImages.length > 0) {
+        setUploadingImagesFor(productId)
+        let uploadedCount = 0
+
+        for (const imageFile of selectedImages) {
+          const uploadResponse = await productsService.uploadImage(productId, imageFile)
+          if (uploadResponse.success) {
+            uploadedCount++
+          }
+        }
+
+        setUploadingImagesFor(null)
+
+        if (uploadedCount > 0) {
+          toast.success(`Produto criado com ${uploadedCount} imagem(ns)!`)
+        } else {
+          toast.success("Produto criado, mas erro ao fazer upload das imagens")
+        }
+      } else {
+        toast.success("Produto criado com sucesso!")
+      }
+
       setIsCreateDialogOpen(false)
+      setSelectedImages([])
       loadMyProducts()
       e.currentTarget.reset()
     } else {
       toast.error(response.detail)
     }
     setIsCreating(false)
+  }
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const files = Array.from(e.target.files)
+      setSelectedImages((prev) => [...prev, ...files])
+    }
+  }
+
+  const handleRemoveImage = (index: number) => {
+    setSelectedImages((prev) => prev.filter((_, i) => i !== index))
   }
 
   const handleGenerateCode = async (productId: string) => {
@@ -174,15 +231,54 @@ export default function MyProducts() {
                     disabled={isCreating}
                   />
                 </div>
+
+                <div className="grid gap-2">
+                  <Label htmlFor="images">Imagens (opcional)</Label>
+                  <Input
+                    id="images"
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageSelect}
+                    disabled={isCreating}
+                    className="cursor-pointer"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Selecione uma ou mais imagens do produto
+                  </p>
+
+                  {selectedImages.length > 0 && (
+                    <div className="grid grid-cols-3 gap-2 mt-2">
+                      {selectedImages.map((file, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={URL.createObjectURL(file)}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-20 object-cover rounded border"
+                          />
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="icon"
+                            className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => handleRemoveImage(index)}
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </form>
             <DialogFooter>
               <Button
                 type="submit"
                 form="create-product-form"
-                disabled={isCreating}
+                disabled={isCreating || uploadingImagesFor !== null}
               >
-                {isCreating ? "Criando..." : "Criar produto"}
+                {uploadingImagesFor ? "Fazendo upload das imagens..." : isCreating ? "Criando..." : "Criar produto"}
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -238,13 +334,41 @@ export default function MyProducts() {
                   <p className="text-2xl font-bold">{formatPrice(product.price)}</p>
 
                   {sold ? (
-                    <div className="rounded-lg bg-green-50 border border-green-200 p-4">
+                    <div className="rounded-lg bg-green-50 border border-green-200 p-4 space-y-3">
                       <div className="flex items-center gap-2 text-green-800">
                         <CheckCircle2 className="h-5 w-5" />
                         <p className="text-sm font-medium">
                           Produto vendido com sucesso!
                         </p>
                       </div>
+
+                      {product.buyer && (
+                        <div className="border-t border-green-200 pt-3 space-y-2">
+                          <p className="text-xs text-green-700 font-medium">Comprador</p>
+                          <div className="flex items-center gap-2">
+                            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100">
+                              <User className="h-4 w-4 text-green-700" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-green-900">{product.buyer.name}</p>
+                              <p className="text-xs text-green-700">{product.buyer.email}</p>
+                            </div>
+                          </div>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="w-full border-green-300 text-green-800 hover:bg-green-100 hover:text-green-900"
+                            onClick={() => {
+                              const phone = product.buyer!.cellphone.replace(/\D/g, '')
+                              const message = getWhatsAppMessageToBuyer(product)
+                              window.open(`https://wa.me/${phone}?text=${message}`, '_blank')
+                            }}
+                          >
+                            <MessageCircle className="h-3 w-3 mr-2" />
+                            Contatar comprador
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <div className="space-y-3">

@@ -35,6 +35,7 @@ export default function Register() {
     const formData = new FormData(e.currentTarget)
     const name = formData.get("name") as string
     const email = formData.get("email") as string
+    const cellphone = formData.get("cellphone") as string
     const password = formData.get("password") as string
     const confirmPassword = formData.get("confirmPassword") as string
 
@@ -44,7 +45,7 @@ export default function Register() {
       return
     }
 
-    const result = await register({ name, email, password })
+    const result = await register({ name, email, cellphone, password })
 
     if (result.success) {
       toast.success("Conta criada com sucesso! Faça login para continuar")
@@ -90,6 +91,17 @@ export default function Register() {
                   name="email"
                   type="email"
                   placeholder="seu.nome@insper.edu.br"
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="cellphone">Telefone (com código do país)</Label>
+                <Input
+                  id="cellphone"
+                  name="cellphone"
+                  type="tel"
+                  placeholder="+5511999999999"
                   required
                   disabled={isLoading}
                 />
