@@ -197,6 +197,46 @@ export interface AddImageResponse {
   product: Product
 }
 
+/**
+ * Response from getting user sales
+ */
+export interface SalesResponse {
+  /** Total number of sales */
+  total: number
+  /** List of sold products */
+  sales: Product[]
+}
+
+/**
+ * Response from getting user purchases
+ */
+export interface PurchasesResponse {
+  /** Total number of purchases */
+  total: number
+  /** List of purchased products */
+  purchases: Product[]
+}
+
+/**
+ * Response from getting user favorites
+ */
+export interface FavoritesResponse {
+  /** Total number of favorites */
+  total: number
+  /** List of favorite products */
+  favorites: Product[]
+}
+
+/**
+ * Response from favoriting a product
+ */
+export interface FavoriteProductResponse {
+  /** Success message */
+  message: string
+  /** Product data (optional) */
+  product?: Product
+}
+
 // ============================================================================
 // API Response Types
 // ============================================================================

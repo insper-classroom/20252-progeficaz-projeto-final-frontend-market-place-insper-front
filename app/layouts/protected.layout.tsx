@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 import { Outlet, useNavigate } from 'react-router'
 import { useAuth } from '../contexts/auth.context'
 import { Header } from '../components/header'
+import { Footer } from '../components/footer'
 
 export default function ProtectedLayout() {
   const { isAuthenticated, isLoading } = useAuth()
@@ -39,6 +40,7 @@ export default function ProtectedLayout() {
       <main className="flex-1">
         <Outlet />
       </main>
+      <Footer />
     </div>
   )
 }

@@ -48,6 +48,9 @@ import type {
   RegisterResponse,
   LoginRequest,
   LoginResponse,
+  SalesResponse,
+  PurchasesResponse,
+  FavoritesResponse,
 } from '../types'
 
 // ============================================================================
@@ -149,6 +152,33 @@ export const authService = {
    */
   getCurrentUser: async (): Promise<ApiResponse<User>> => {
     return httpClient.get<User>('/auth/me')
+  },
+
+  /**
+   * Get user sales
+   *
+   * Retrieves all products sold by the current user
+   */
+  getMySales: async (): Promise<ApiResponse<SalesResponse>> => {
+    return httpClient.get<SalesResponse>('/auth/me/sales')
+  },
+
+  /**
+   * Get user purchases
+   *
+   * Retrieves all products purchased by the current user
+   */
+  getMyPurchases: async (): Promise<ApiResponse<PurchasesResponse>> => {
+    return httpClient.get<PurchasesResponse>('/auth/me/purchases')
+  },
+
+  /**
+   * Get user favorites
+   *
+   * Retrieves all products favorited by the current user
+   */
+  getMyFavorites: async (): Promise<ApiResponse<FavoritesResponse>> => {
+    return httpClient.get<FavoritesResponse>('/auth/me/favorites')
   },
 
   /**

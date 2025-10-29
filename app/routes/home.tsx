@@ -4,6 +4,7 @@ import { Link } from "react-router"
 import { productsService } from "~/services"
 import type { Product, ProductCategory } from "~/types"
 import { formatPrice, formatRelativeTime } from "~/lib/utils"
+import { toast } from "sonner"
 import { Button } from "~/components/ui/button"
 import {
   Card,
@@ -22,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select"
-import { Search, Package, PlusCircle, User, ImageIcon, Star, Filter, X } from "lucide-react"
+import { Search, Package, PlusCircle, User, ImageIcon, Star, Filter, X, Heart, Loader2 } from "lucide-react"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -50,6 +51,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [search, setSearch] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory | "all">("all")
+  const [favoritedIds, setFavoritedIds] = useState<Set<string>>(new Set())
+  const [favoritingId, setFavoritingId] = useState<string | null>(null)
 
   useEffect(() => {
     loadProducts()
@@ -92,10 +95,10 @@ export default function Home() {
   const hasActiveFilters = search !== "" || selectedCategory !== "all"
 
   const ProductCard = ({ product, isFeatured = false }: { product: Product; isFeatured?: boolean }) => (
-    <Card 
-      key={product.id} 
-      className={`hover:shadow-lg transition-all duration-200 hover:scale-[1.02] flex flex-col overflow-hidden ${
-        isFeatured ? 'border-yellow-300 bg-gradient-to-br from-yellow-50/50 to-orange-50/30' : ''
+    <Card
+      key={product.id}
+      className={`hover:shadow-xl transition-all duration-300 hover:scale-[1.03] flex flex-col overflow-hidden border-2 ${
+        isFeatured ? 'border-primary/60 bg-gradient-to-br from-red-50/80 via-white to-red-50/40 shadow-lg shadow-red-100' : 'border-border hover:border-primary/30'
       }`}
     >
       {product.thumbnail ? (
@@ -106,13 +109,13 @@ export default function Home() {
             className="w-full h-full object-cover"
           />
           {isFeatured && (
-            <Badge className="absolute top-2 right-2 bg-yellow-500 hover:bg-yellow-600 text-white shadow-lg">
+            <Badge className="absolute top-2 right-2 bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white shadow-xl border-2 border-white/50 font-bold">
               <Star className="h-3 w-3 mr-1 fill-white" />
-              Destaque
+              DESTAQUE
             </Badge>
           )}
-          <Badge 
-            className={`absolute top-2 left-2 ${CONSERVATION_STATES[product.estado_de_conservacao]?.color || 'bg-gray-500'} text-white`}
+          <Badge
+            className={`absolute top-2 left-2 ${CONSERVATION_STATES[product.estado_de_conservacao]?.color || 'bg-gray-500'} text-white font-semibold shadow-md`}
           >
             {CONSERVATION_STATES[product.estado_de_conservacao]?.label || product.estado_de_conservacao}
           </Badge>
@@ -121,13 +124,13 @@ export default function Home() {
         <div className="relative w-full h-48 bg-muted flex items-center justify-center">
           <ImageIcon className="h-16 w-16 text-muted-foreground/30" />
           {isFeatured && (
-            <Badge className="absolute top-2 right-2 bg-yellow-500 hover:bg-yellow-600 text-white shadow-lg">
+            <Badge className="absolute top-2 right-2 bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white shadow-xl border-2 border-white/50 font-bold">
               <Star className="h-3 w-3 mr-1 fill-white" />
-              Destaque
+              DESTAQUE
             </Badge>
           )}
-          <Badge 
-            className={`absolute top-2 left-2 ${CONSERVATION_STATES[product.estado_de_conservacao]?.color || 'bg-gray-500'} text-white`}
+          <Badge
+            className={`absolute top-2 left-2 ${CONSERVATION_STATES[product.estado_de_conservacao]?.color || 'bg-gray-500'} text-white font-semibold shadow-md`}
           >
             {CONSERVATION_STATES[product.estado_de_conservacao]?.label || product.estado_de_conservacao}
           </Badge>
@@ -263,16 +266,18 @@ export default function Home() {
 
       {/* Featured Products Section */}
       {!isLoading && featuredProducts.length > 0 && (
-        <section className="py-8 px-4 bg-gradient-to-b from-yellow-50/30 to-background">
+        <section className="py-10 px-4 bg-gradient-to-br from-red-50 via-red-50/50 to-background border-y-2 border-red-100">
           <div className="container mx-auto">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-2">
-                <div className="p-2 bg-yellow-500/10 rounded-lg">
-                  <Star className="h-6 w-6 text-yellow-600 fill-yellow-500" />
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-3">
+                <div className="p-3 bg-gradient-to-br from-primary to-red-600 rounded-xl shadow-lg">
+                  <Star className="h-7 w-7 text-white fill-white" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-bold">Produtos em Destaque</h2>
-                  <p className="text-sm text-muted-foreground">
+                  <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-red-600 bg-clip-text text-transparent">
+                    Produtos em Destaque
+                  </h2>
+                  <p className="text-sm font-medium text-foreground/70">
                     Selecionados especialmente para você
                   </p>
                 </div>

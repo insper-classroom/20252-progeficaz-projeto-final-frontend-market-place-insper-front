@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu"
-import { Home, Package, PlusCircle, User, LogOut, Menu } from "lucide-react"
+import { Home, Package, PlusCircle, User, LogOut, Menu, Heart, ShoppingBag, TrendingUp } from "lucide-react"
 
 export function Header() {
   const { user, logout } = useAuth()
@@ -24,38 +24,77 @@ export function Header() {
   const isActive = (path: string) => location.pathname === path
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-16 items-center justify-around">
+    <header className="sticky top-0 z-50 w-full bg-gradient-to-r from-primary via-red-600 to-primary shadow-lg">
+      <div className="flex h-20 items-center justify-around px-4">
         {/* Logo */}
         <div className="flex items-center">
-          <Link to="/" className="flex items-center gap-2">
-            <Package className="h-6 w-6" />
-            <span className="font-bold text-xl">Marketplace Insper</span>
+          <Link to="/" className="flex items-center gap-3 group">
+            <img
+              src="/logo.png"
+              alt="Market Insper Logo"
+              className="h-14 w-14 object-contain transition-transform group-hover:scale-110 drop-shadow-lg"
+            />
+            <span className="font-bold text-xl hidden sm:block text-white drop-shadow-md">
+              Market Insper
+            </span>
           </Link>
         </div>
 
         {/* Navigation - centered */}
-        <nav className="hidden md:flex items-center gap-8 absolute left-1/2 transform -translate-x-1/2">
+        <nav className="hidden lg:flex items-center gap-6 absolute left-1/2 transform -translate-x-1/2">
           <Link
             to="/"
-            className={`text-sm font-medium transition-colors hover:text-primary ${
-              isActive("/") ? "text-primary" : "text-muted-foreground"
+            className={`text-sm font-semibold transition-all hover:scale-105 ${
+              isActive("/") ? "text-white border-b-2 border-white pb-1" : "text-white/80 hover:text-white"
             }`}
           >
             <div className="flex items-center gap-2">
-              <Home className="h-4 w-4" />
+              <Home className="h-5 w-5" />
               Início
             </div>
           </Link>
           <Link
-            to="/my-products"
-            className={`text-sm font-medium transition-colors hover:text-primary ${
-              isActive("/my-products") ? "text-primary" : "text-muted-foreground"
+            to="/favorites"
+            className={`text-sm font-semibold transition-all hover:scale-105 ${
+              isActive("/favorites") ? "text-white border-b-2 border-white pb-1" : "text-white/80 hover:text-white"
             }`}
           >
             <div className="flex items-center gap-2">
-              <PlusCircle className="h-4 w-4" />
-              Meus Anúncios
+              <Heart className="h-5 w-5" />
+              Favoritos
+            </div>
+          </Link>
+          <Link
+            to="/purchases"
+            className={`text-sm font-semibold transition-all hover:scale-105 ${
+              isActive("/purchases") ? "text-white border-b-2 border-white pb-1" : "text-white/80 hover:text-white"
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <ShoppingBag className="h-5 w-5" />
+              Compras
+            </div>
+          </Link>
+          <Link
+            to="/sales"
+            className={`text-sm font-semibold transition-all hover:scale-105 ${
+              isActive("/sales") ? "text-white border-b-2 border-white pb-1" : "text-white/80 hover:text-white"
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <TrendingUp className="h-5 w-5" />
+              Vendas
+            </div>
+          </Link>
+          <Link
+            to="/my-products"
+            className={`text-sm font-semibold transition-all hover:scale-105 ${
+              isActive("/my-products") ? "text-white border-b-2 border-white pb-1" : "text-white/80 hover:text-white"
+            }`}
+          >
+            <div className="flex items-center gap-2">
+              <PlusCircle className="h-5 w-5" />
+              Anunciar
             </div>
           </Link>
         </nav>
@@ -63,10 +102,10 @@ export function Header() {
         {/* User menu */}
         <div className="flex items-center gap-4">
           {/* Desktop user menu */}
-          <div className="hidden md:block">
+          <div className="hidden lg:block">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm">
+                <Button variant="outline" size="sm" className="font-semibold border-2 border-white text-white hover:bg-white hover:text-primary bg-transparent">
                   <User className="h-4 w-4 mr-2" />
                   {user?.name?.split(" ")[0]}
                 </Button>
@@ -90,10 +129,10 @@ export function Header() {
           </div>
 
           {/* Mobile menu */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="text-white hover:bg-white/20">
                   <Menu className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
@@ -104,6 +143,24 @@ export function Header() {
                   <Link to="/" className="cursor-pointer">
                     <Home className="h-4 w-4 mr-2" />
                     Início
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/favorites" className="cursor-pointer">
+                    <Heart className="h-4 w-4 mr-2" />
+                    Favoritos
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/purchases" className="cursor-pointer">
+                    <ShoppingBag className="h-4 w-4 mr-2" />
+                    Minhas Compras
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/sales" className="cursor-pointer">
+                    <TrendingUp className="h-4 w-4 mr-2" />
+                    Minhas Vendas
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>

@@ -16,6 +16,7 @@ import type {
   ProductSearchParams,
   AddImageRequest,
   AddImageResponse,
+  FavoriteProductResponse,
 } from '../types'
 
 export const productsService = {
@@ -114,6 +115,20 @@ export const productsService = {
 
       reader.readAsDataURL(imageFile)
     })
+  },
+
+  /**
+   * Add product to favorites
+   */
+  favoriteProduct: async (productId: string): Promise<ApiResponse<FavoriteProductResponse>> => {
+    return httpClient.post<FavoriteProductResponse>(`/products/${productId}/favorite`, {})
+  },
+
+  /**
+   * Remove product from favorites
+   */
+  unfavoriteProduct: async (productId: string): Promise<ApiResponse<FavoriteProductResponse>> => {
+    return httpClient.delete<FavoriteProductResponse>(`/products/${productId}/favorite`)
   },
 }
 

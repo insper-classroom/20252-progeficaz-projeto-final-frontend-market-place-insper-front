@@ -1,0 +1,10 @@
+# Padroniza finais de linha
+* text=auto
+
+# Força arquivos de código a usar LF
+*.js text eol=lf
+*.jsx text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.css text eol=lf
+*.html text eol=lf
