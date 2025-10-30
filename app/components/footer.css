@@ -1,7 +1,5 @@
-/* Footer Component Styles */
-
 .footer {
-  background: linear-gradient(to right, hsl(var(--primary)), rgb(220 38 38), hsl(var(--primary)));
+  background: #991b1b;
   color: white;
   margin-top: auto;
 }
@@ -36,7 +34,6 @@
   height: 3rem;
   width: 3rem;
   object-fit: contain;
-  filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .footer-brand-title {
@@ -46,7 +43,7 @@
 }
 
 .footer-brand-description {
-  color: rgba(255, 255, 255, 0.9);
+  color: #e5e5e5;
   font-size: 0.875rem;
   line-height: 1.25rem;
   margin-bottom: 0;
@@ -71,7 +68,7 @@
 }
 
 .footer-link {
-  color: rgba(255, 255, 255, 0.9);
+  color: #e5e5e5;
   transition: color 0.15s ease-in-out;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -88,7 +85,7 @@
 .footer-text {
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: #e5e5e5;
 }
 
 .footer-contact-list {
@@ -97,7 +94,7 @@
   gap: 0.75rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: rgba(255, 255, 255, 0.9);
+  color: #e5e5e5;
 }
 
 .footer-contact-item {
@@ -121,7 +118,7 @@
 
 .footer-social-link {
   padding: 0.5rem;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #ffffff1a;
   border-radius: 0.5rem;
   transition: background-color 0.15s ease-in-out;
   text-decoration: none;
@@ -131,7 +128,7 @@
 }
 
 .footer-social-link:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #ffffff33;
 }
 
 .footer-social-icon {
@@ -140,28 +137,28 @@
 }
 
 .footer-bottom-bar {
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid #ffffff33;
   margin-top: 2rem;
   padding-top: 1.5rem;
   text-align: center;
 }
 
 .footer-copyright {
-  color: rgba(255, 255, 255, 0.8);
+  color: #cccccc;
   font-size: 0.875rem;
   line-height: 1.25rem;
   margin-bottom: 0;
 }
 
 .footer-tagline {
-  color: rgba(255, 255, 255, 0.7);
+  color: #b3b3b3;
   font-size: 0.75rem;
   line-height: 1rem;
   margin-top: 0.5rem;
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .footer-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
-}
+} */
