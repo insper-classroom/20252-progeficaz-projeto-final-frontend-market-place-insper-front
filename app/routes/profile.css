@@ -17,7 +17,7 @@
 }
 
 .profile-subtitle {
-  color: hsl(var(--muted-foreground));
+  color: #71717a;
 }
 
 .profile-card {
@@ -36,7 +36,7 @@
 }
 
 .profile-card-subtitle {
-  color: hsl(var(--muted-foreground));
+  color: #71717a;
 }
 
 .profile-info-grid {

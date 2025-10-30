@@ -37,7 +37,7 @@
 }
 
 .favorites-subtitle {
-  color: hsl(var(--muted-foreground));
+  color: #71717a;
 }
 
 .favorites-loading {
@@ -74,7 +74,7 @@
 }
 
 .favorites-empty-description {
-  color: hsl(var(--muted-foreground));
+  color: #71717a;
   margin-bottom: 1.5rem;
 }
 
@@ -171,7 +171,7 @@
 .favorites-description {
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: hsl(var(--muted-foreground));
+  color: #71717a;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -228,7 +228,7 @@
 .favorites-seller-label {
   font-size: 0.75rem;
   line-height: 1rem;
-  color: hsl(var(--muted-foreground));
+  color: #71717a;
 }
 
 .favorites-seller-name {
