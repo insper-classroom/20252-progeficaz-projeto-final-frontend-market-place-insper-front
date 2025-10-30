@@ -1,0 +1,64 @@
+/* Profile Page Styles */
+.profile-container {
+  margin: 0 auto;
+  padding: 1rem;
+  max-width: 42rem;
+}
+
+.profile-header {
+  margin-bottom: 2rem;
+}
+
+.profile-title {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.profile-subtitle {
+  color: hsl(var(--muted-foreground));
+}
+
+.profile-card {
+  margin-top: 1.5rem;
+}
+
+.profile-card-header {
+  margin-bottom: 2rem;
+}
+
+.profile-card-title {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.profile-card-subtitle {
+  color: hsl(var(--muted-foreground));
+}
+
+.profile-info-grid {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.profile-label {
+  font-weight: 500;
+}
+
+.profile-value {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.profile-buttons {
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.profile-button {
+  width: 100%;
+}
