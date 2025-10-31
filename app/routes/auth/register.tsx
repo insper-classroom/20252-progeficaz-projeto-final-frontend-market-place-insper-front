@@ -15,7 +15,11 @@ import {
 } from "~/components/ui/card"
 import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
+
 import * as emailjs from "@emailjs/browser"
+
+import "../auth/register.css"
+
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -142,26 +146,24 @@ export default function Register() {
   // fim de qualquer acao password
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
-      <Card className="w-full max-w-sm">
-        <CardHeader>
-          <CardTitle>Criar conta</CardTitle>
-          <CardDescription>
+    <div className="register-container">
+      <Card className="register-card">
+        <CardHeader className="register-header">
+          <CardTitle className="register-title">Criar conta</CardTitle>
+          <CardDescription className="register-description">
             Preencha os dados abaixo para criar sua conta
           </CardDescription>
-          <CardAction>
+          <CardAction className="register-action">
             <Link to="/login">
-              <Button variant="link">Já tenho conta</Button>
+              <Button variant="link" className="register-link">Já tenho conta</Button>
             </Link>
           </CardAction>
         </CardHeader>
-
-        <CardContent>
-          {/* Formulário de registro */}
+        <CardContent className="register-content">
           <form onSubmit={handleSubmit} id="register-form">
             <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Nome completo</Label>
+              <div className="register-field">
+                <Label htmlFor="name" className="register-label">Nome completo</Label>
                 <Input
                   id="name"
                   name="name"
@@ -169,10 +171,11 @@ export default function Register() {
                   placeholder="João Silva"
                   required
                   disabled={isLoading}
+                  className="register-input"
                 />
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+              <div className="register-field">
+                <Label htmlFor="email" className="register-label">Email</Label>
                 <Input
                   id="email"
                   name="email"
@@ -180,10 +183,11 @@ export default function Register() {
                   placeholder="seu.nome@insper.edu.br"
                   required
                   disabled={isLoading}
+                  className="register-input"
                 />
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="cellphone">Telefone (com código do país)</Label>
+              <div className="register-field">
+                <Label htmlFor="cellphone" className="register-label">Telefone (com código do país)</Label>
                 <Input
                   id="cellphone"
                   name="cellphone"
@@ -191,26 +195,29 @@ export default function Register() {
                   placeholder="+5511999999999"
                   required
                   disabled={isLoading}
+                  className="register-input"
                 />
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="password">Senha</Label>
+              <div className="register-field">
+                <Label htmlFor="password" className="register-label">Senha</Label>
                 <Input
                   id="password"
                   name="password"
                   type="password"
                   required
                   disabled={isLoading}
+                  className="register-input"
                 />
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="confirmPassword">Confirmar senha</Label>
+              <div className="register-field">
+                <Label htmlFor="confirmPassword" className="register-label">Confirmar senha</Label>
                 <Input
                   id="confirmPassword"
                   name="confirmPassword"
                   type="password"
                   required
                   disabled={isLoading}
+                  className="register-input"
                 />
               </div>
             </div>
@@ -254,18 +261,15 @@ export default function Register() {
             </div>
           )}
         </CardContent>
-
-        <CardFooter>
-          {!verificacaoEnviada && (
-            <Button
-              type="submit"
-              form="register-form"
-              className="w-full"
-              disabled={isLoading}
-            >
-              {isLoading ? "Criando conta..." : "Criar conta"}
-            </Button>
-          )}
+        <CardFooter className="register-footer">
+          <Button
+            type="submit"
+            form="register-form"
+            className="register-button"
+            disabled={isLoading}
+          >
+            {isLoading ? "Criando conta..." : "Criar conta"}
+          </Button>
         </CardFooter>
       </Card>
     </div>

@@ -24,6 +24,7 @@ import {
   ImageIcon,
   CheckCircle2,
 } from "lucide-react"
+import "./sales.css"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -68,33 +69,33 @@ export default function Sales() {
   const totalRevenue = sales.reduce((sum, product) => sum + product.price, 0)
 
   return (
-    <div className="container mx-auto p-4 py-8">
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 bg-primary/10 rounded-lg">
-            <TrendingUp className="h-6 w-6 text-primary" />
+    <div className="sales-container">
+      <div className="sales-header">
+        <div className="sales-header-content">
+          <div className="sales-icon-container">
+            <TrendingUp className="sales-icon" />
           </div>
-          <h1 className="text-3xl font-bold">Minhas Vendas</h1>
+          <h1 className="sales-title">Minhas Vendas</h1>
         </div>
-        <p className="text-muted-foreground">
+        <p className="sales-subtitle">
           Produtos que você vendeu no marketplace
         </p>
       </div>
 
       {isLoading ? (
-        <div className="flex items-center justify-center py-20">
+        <div className="sales-loading">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       ) : sales.length === 0 ? (
-        <Card className="border-dashed">
-          <CardContent className="pt-12 pb-12 text-center">
-            <TrendingUp className="h-16 w-16 mx-auto mb-4 text-muted-foreground/50" />
-            <h3 className="text-lg font-semibold mb-2">Nenhuma venda realizada</h3>
-            <p className="text-muted-foreground mb-6">
+        <Card className="sales-empty-card">
+          <CardContent className="sales-empty-content">
+            <TrendingUp className="sales-empty-icon" />
+            <h3 className="sales-empty-title">Nenhuma venda realizada</h3>
+            <p className="sales-empty-description">
               Você ainda não vendeu nenhum produto. Comece anunciando!
             </p>
             <Link to="/my-products">
-              <Button>
+              <Button className="sales-empty-button">
                 <Package className="h-4 w-4 mr-2" />
                 Anunciar Produto
               </Button>
@@ -104,95 +105,95 @@ export default function Sales() {
       ) : (
         <>
           {/* Revenue Card */}
-          <Card className="mb-6 bg-gradient-to-r from-green-50 to-emerald-50 border-green-200">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-green-800">Total em Vendas</p>
-                  <p className="text-3xl font-bold text-green-900 mt-1">
+          <Card className="sales-revenue-card">
+            <CardContent className="sales-revenue-content">
+              <div className="sales-revenue-flex">
+                <div className="sales-revenue-info">
+                  <p className="sales-revenue-label">Total em Vendas</p>
+                  <p className="sales-revenue-amount">
                     {formatPrice(totalRevenue)}
                   </p>
-                  <p className="text-xs text-green-700 mt-1">
+                  <p className="sales-revenue-stats">
                     {sales.length} {sales.length === 1 ? "produto vendido" : "produtos vendidos"}
                   </p>
                 </div>
-                <div className="p-4 bg-green-100 rounded-full">
-                  <CheckCircle2 className="h-8 w-8 text-green-600" />
+                <div className="sales-revenue-icon-container">
+                  <CheckCircle2 className="sales-revenue-icon" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="sales-grid">
             {sales.map((product) => (
-              <Card key={product.id} className="flex flex-col border-green-200 bg-green-50/30">
+              <Card key={product.id} className="sales-card">
                 {product.thumbnail ? (
-                  <div className="relative w-full h-48 bg-muted">
+                  <div className="sales-image-container">
                     <img
                       src={product.thumbnail}
                       alt={product.title}
-                      className="w-full h-full object-cover"
+                      className="sales-image"
                     />
-                    <Badge className="absolute top-2 right-2 bg-green-600">
-                      <CheckCircle2 className="h-3 w-3 mr-1" />
+                    <Badge className="sales-badge">
+                      <CheckCircle2 className="sales-badge-icon" />
                       Vendido
                     </Badge>
                   </div>
                 ) : (
-                  <div className="relative w-full h-48 bg-muted flex items-center justify-center">
-                    <ImageIcon className="h-16 w-16 text-muted-foreground/30" />
-                    <Badge className="absolute top-2 right-2 bg-green-600">
-                      <CheckCircle2 className="h-3 w-3 mr-1" />
+                  <div className="sales-no-image">
+                    <ImageIcon className="sales-no-image-icon" />
+                    <Badge className="sales-badge">
+                      <CheckCircle2 className="sales-badge-icon" />
                       Vendido
                     </Badge>
                   </div>
                 )}
-                <CardHeader className="pb-3">
-                  <CardTitle className="truncate">{product.title}</CardTitle>
-                  <CardDescription>
+                <CardHeader className="sales-card-header">
+                  <CardTitle className="sales-card-title">{product.title}</CardTitle>
+                  <CardDescription className="sales-card-description">
                     {formatRelativeTime(product.created_at)}
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="flex-1 space-y-4">
-                  <p className="text-sm text-muted-foreground line-clamp-2">
+                <CardContent className="sales-card-content">
+                  <p className="sales-description">
                     {product.description || "Sem descrição"}
                   </p>
-                  <p className="text-2xl font-bold text-green-700">
+                  <p className="sales-price">
                     {formatPrice(product.price)}
                   </p>
 
                   {/* Buyer Info */}
                   {product.buyer && (
-                    <div className="rounded-lg bg-green-50 border border-green-200 p-4 space-y-3">
-                      <p className="text-xs font-medium text-green-800">Comprador</p>
-                      <div className="flex items-center gap-2">
-                        <div className="flex items-center justify-center w-8 h-8 rounded-full bg-green-100">
-                          <User className="h-4 w-4 text-green-700" />
+                    <div className="sales-buyer-section">
+                      <p className="sales-buyer-label">Comprador</p>
+                      <div className="sales-buyer-info">
+                        <div className="sales-buyer-avatar">
+                          <User className="sales-buyer-icon" />
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-medium text-green-900">{product.buyer.name}</p>
-                          <p className="text-xs text-green-700">{product.buyer.email}</p>
+                        <div className="sales-buyer-details">
+                          <p className="sales-buyer-name">{product.buyer.name}</p>
+                          <p className="sales-buyer-email">{product.buyer.email}</p>
                         </div>
                       </div>
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-full border-green-300 text-green-800 hover:bg-green-100 hover:text-green-900"
+                        className="sales-contact-button"
                         onClick={() => {
                           const phone = product.buyer!.cellphone.replace(/\D/g, '')
                           const message = getWhatsAppMessage(product)
                           window.open(`https://wa.me/${phone}?text=${message}`, '_blank')
                         }}
                       >
-                        <MessageCircle className="h-3 w-3 mr-2" />
+                        <MessageCircle className="sales-contact-icon" />
                         Contatar comprador
                       </Button>
                     </div>
                   )}
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="sales-card-footer">
                   <Link to={`/product/${product.id}`} className="w-full">
-                    <Button variant="outline" className="w-full border-green-300 hover:bg-green-100">
+                    <Button variant="outline" className="sales-details-button">
                       Ver detalhes
                     </Button>
                   </Link>

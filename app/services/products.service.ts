@@ -130,6 +130,24 @@ export const productsService = {
   unfavoriteProduct: async (productId: string): Promise<ApiResponse<FavoriteProductResponse>> => {
     return httpClient.delete<FavoriteProductResponse>(`/products/${productId}/favorite`)
   },
+
+  /**
+   * Update a product (edit existing one)
+   * Only the owner can update
+   */
+  updateProduct: async (
+    productId: string,
+    data: any, // permite enviar campos adicionais como em_destaque
+  ): Promise<ApiResponse<Product>> => {
+    return httpClient.put<Product>(`/products/${productId}`, data)
+  },
+  /**
+   * Delete a product (requires authentication)
+   */
+  deleteProduct: async (productId: string): Promise<ApiResponse<null>> => {
+    return httpClient.delete<null>(`/products/${productId}`)
+  },
+  
 }
 
 export default productsService
