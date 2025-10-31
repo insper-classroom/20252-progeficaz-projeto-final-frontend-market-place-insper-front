@@ -29,6 +29,7 @@ import {
   MessageCircle,
   ImageIcon
 } from "lucide-react"
+import "./detail.css"
 
 export function meta({}: Route.MetaArgs) {
   return [

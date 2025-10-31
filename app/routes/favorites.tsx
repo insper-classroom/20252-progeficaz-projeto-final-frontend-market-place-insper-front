@@ -22,6 +22,7 @@ import {
   Loader2,
   ImageIcon,
   Trash2,
+  Star,
 } from "lucide-react"
 import "./favorites.css"
 
