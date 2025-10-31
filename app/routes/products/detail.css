@@ -1,0 +1,510 @@
+/* Product Detail Page Styles */
+.detail-container {
+  margin: 0 auto;
+  padding: 1rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  max-width: 64rem;
+}
+
+.detail-back-button {
+  margin-bottom: 1.5rem;
+}
+
+.detail-back-icon {
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.5rem;
+}
+
+.detail-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.detail-main-content {
+  grid-column: span 2 / span 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detail-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detail-image-card {
+  position: relative;
+  width: 100%;
+  height: 24rem;
+  background-color: hsl(var(--muted));
+}
+
+.detail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.detail-no-image {
+  position: relative;
+  width: 100%;
+  height: 24rem;
+  background-color: hsl(var(--muted));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-no-image-icon {
+  height: 6rem;
+  width: 6rem;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  color: hsl(var(--muted-foreground) / 0.3);
+}
+
+.detail-no-image-text {
+  color: #71717a;
+}
+
+.detail-thumbnails {
+  padding: 1rem;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.detail-thumbnails-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.detail-thumbnail-button {
+  position: relative;
+  width: 100%;
+  height: 5rem;
+  border-radius: 0.25rem;
+  border: 2px solid transparent;
+  overflow: hidden;
+  transition: all 0.15s ease-in-out;
+}
+
+.detail-thumbnail-selected {
+  border-color: hsl(var(--primary));
+}
+
+.detail-thumbnail-default {
+  border-color: transparent;
+}
+
+.detail-thumbnail-default:hover {
+  border-color: hsl(var(--muted-foreground) / 0.5);
+}
+
+.detail-thumbnail-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.detail-info-card {
+  position: relative;
+}
+
+.detail-info-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.detail-info-title {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.detail-info-description {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.detail-info-calendar {
+  height: 1rem;
+  width: 1rem;
+}
+
+.detail-sold-badge {
+  margin-left: 1rem;
+}
+
+.detail-sold-icon {
+  height: 0.75rem;
+  width: 0.75rem;
+  margin-right: 0.125rem;
+}
+
+.detail-owner-badge {
+  margin-left: 1rem;
+}
+
+.detail-description-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detail-description-header {
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.detail-description-icon {
+  height: 1rem;
+  width: 1rem;
+}
+
+.detail-description-text {
+  color: #71717a;
+  line-height: 1.625;
+}
+
+.detail-purchase-card {
+  position: relative;
+}
+
+.detail-purchase-header {
+  margin-bottom: 2rem;
+}
+
+.detail-purchase-title {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.detail-purchase-description {
+  color: #71717a;
+}
+
+.detail-purchase-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detail-code-label {
+  font-weight: 500;
+}
+
+.detail-code-input {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Inconsolata, "Roboto Mono", "Source Code Pro", monospace;
+  text-align: center;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.detail-code-hint {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: #71717a;
+}
+
+.detail-purchase-button {
+  width: 100%;
+}
+
+.detail-purchase-icon {
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.5rem;
+}
+
+.detail-sold-card {
+  border-color: hsl(120 60% 70%);
+  background-color: hsl(120 60% 97% / 0.5);
+}
+
+.detail-sold-content {
+  padding-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detail-sold-status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: hsl(120 60% 40%);
+}
+
+.detail-sold-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.detail-sold-text {
+  font-weight: 600;
+}
+
+.detail-sold-description {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: hsl(120 60% 35%);
+}
+
+.detail-buyer-section {
+  border-top: 1px solid hsl(120 60% 80%);
+  padding-top: 1rem;
+}
+
+.detail-buyer-label {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: hsl(120 60% 35%);
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+.detail-buyer-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.detail-buyer-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: hsl(120 60% 85%);
+}
+
+.detail-buyer-icon {
+  height: 1.25rem;
+  width: 1.25rem;
+  color: hsl(120 60% 50%);
+}
+
+.detail-buyer-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.detail-buyer-name {
+  font-weight: 500;
+  color: hsl(120 60% 45%);
+}
+
+.detail-buyer-email {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: hsl(120 60% 35%);
+}
+
+.detail-contact-buyer-button {
+  width: 100%;
+  margin-top: 0.75rem;
+  border-color: hsl(120 60% 70%);
+  color: hsl(120 60% 40%);
+}
+
+.detail-contact-buyer-button:hover {
+  background-color: hsl(120 60% 90%);
+  color: hsl(120 60% 45%);
+}
+
+.detail-contact-buyer-icon {
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.5rem;
+}
+
+.detail-owner-card {
+  border-color: hsl(220 70% 70%);
+  background-color: hsl(220 70% 97% / 0.5);
+}
+
+.detail-owner-content {
+  padding-top: 1.5rem;
+}
+
+.detail-owner-status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: hsl(220 70% 40%);
+}
+
+.detail-owner-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.detail-owner-text {
+  font-weight: 600;
+}
+
+.detail-owner-description {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: hsl(220 70% 35%);
+}
+
+.detail-price-card {
+  position: relative;
+}
+
+.detail-price-header {
+  margin-bottom: 2rem;
+}
+
+.detail-price-title {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.detail-price-amount {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  font-weight: 700;
+}
+
+.detail-seller-card {
+  position: relative;
+}
+
+.detail-seller-header {
+  margin-bottom: 2rem;
+}
+
+.detail-seller-title {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.detail-seller-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.detail-seller-details {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.detail-seller-icon {
+  height: 1rem;
+  width: 1rem;
+  color: #71717a;
+}
+
+.detail-seller-name {
+  font-weight: 500;
+}
+
+.detail-seller-contact-button {
+  width: 100%;
+}
+
+.detail-security-card {
+  position: relative;
+}
+
+.detail-security-header {
+  margin-bottom: 2rem;
+}
+
+.detail-security-title {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.detail-security-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.detail-security-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.detail-security-check {
+  height: 1rem;
+  width: 1rem;
+  color: hsl(120 60% 50%);
+  margin-top: 0;
+}
+
+.detail-security-text {
+  color: #71717a;
+}
+
+.detail-loading {
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.detail-loading-text {
+  text-align: center;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.detail-error-card {
+  position: relative;
+}
+
+.detail-error-content {
+  padding-top: 1.5rem;
+  text-align: center;
+}
+
+.detail-error-icon {
+  height: 3rem;
+  width: 3rem;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  color: #71717a;
+}
+
+.detail-error-text {
+  color: #71717a;
+  margin-bottom: 1rem;
+}
+
+.detail-error-button {
+  width: 100%;
+}
+
+.detail-error-button-icon {
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .detail-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .detail-main-content {
+    grid-column: span 2 / span 2;
+  }
+}

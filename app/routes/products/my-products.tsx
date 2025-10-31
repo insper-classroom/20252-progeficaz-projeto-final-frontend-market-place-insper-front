@@ -49,6 +49,7 @@ import {
   X,
   Star,
 } from "lucide-react"
+import "./my-products.css"
 
 export function meta({}: Route.MetaArgs) {
   return [

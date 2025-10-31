@@ -23,6 +23,7 @@ import {
   Loader2,
   ImageIcon,
 } from "lucide-react"
+import "./purchases.css"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -63,33 +64,33 @@ export default function Purchases() {
   }
 
   return (
-    <div className="container mx-auto p-4 py-8">
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 bg-primary/10 rounded-lg">
-            <ShoppingBag className="h-6 w-6 text-primary" />
+    <div className="purchases-container">
+      <div className="purchases-header">
+        <div className="purchases-header-content">
+          <div className="purchases-icon-container">
+            <ShoppingBag className="purchases-icon" />
           </div>
-          <h1 className="text-3xl font-bold">Minhas Compras</h1>
+          <h1 className="purchases-title">Minhas Compras</h1>
         </div>
-        <p className="text-muted-foreground">
+        <p className="purchases-subtitle">
           Produtos que você adquiriu no marketplace
         </p>
       </div>
 
       {isLoading ? (
-        <div className="flex items-center justify-center py-20">
+        <div className="purchases-loading">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       ) : purchases.length === 0 ? (
-        <Card className="border-dashed">
-          <CardContent className="pt-12 pb-12 text-center">
-            <ShoppingBag className="h-16 w-16 mx-auto mb-4 text-muted-foreground/50" />
-            <h3 className="text-lg font-semibold mb-2">Nenhuma compra realizada</h3>
-            <p className="text-muted-foreground mb-6">
+        <Card className="purchases-empty-card">
+          <CardContent className="purchases-empty-content">
+            <ShoppingBag className="purchases-empty-icon" />
+            <h3 className="purchases-empty-title">Nenhuma compra realizada</h3>
+            <p className="purchases-empty-description">
               Você ainda não comprou nenhum produto. Explore o marketplace!
             </p>
             <Link to="/">
-              <Button>
+              <Button className="purchases-empty-button">
                 <Package className="h-4 w-4 mr-2" />
                 Ver Produtos Disponíveis
               </Button>
@@ -97,72 +98,72 @@ export default function Purchases() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="purchases-grid">
           {purchases.map((product) => (
-            <Card key={product.id} className="flex flex-col">
+            <Card key={product.id} className="purchases-card">
               {product.thumbnail ? (
-                <div className="relative w-full h-48 bg-muted">
+                <div className="purchases-image-container">
                   <img
                     src={product.thumbnail}
                     alt={product.title}
-                    className="w-full h-full object-cover"
+                    className="purchases-image"
                   />
-                  <Badge className="absolute top-2 right-2 bg-green-600">
+                  <Badge className="purchases-badge">
                     Comprado
                   </Badge>
                 </div>
               ) : (
-                <div className="relative w-full h-48 bg-muted flex items-center justify-center">
-                  <ImageIcon className="h-16 w-16 text-muted-foreground/30" />
-                  <Badge className="absolute top-2 right-2 bg-green-600">
+                <div className="purchases-no-image">
+                  <ImageIcon className="purchases-no-image-icon" />
+                  <Badge className="purchases-badge">
                     Comprado
                   </Badge>
                 </div>
               )}
-              <CardHeader className="pb-3">
-                <CardTitle className="truncate">{product.title}</CardTitle>
-                <CardDescription>
+              <CardHeader className="purchases-card-header">
+                <CardTitle className="purchases-card-title">{product.title}</CardTitle>
+                <CardDescription className="purchases-card-description">
                   {formatRelativeTime(product.created_at)}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="flex-1 space-y-4">
-                <p className="text-sm text-muted-foreground line-clamp-2">
+              <CardContent className="purchases-card-content">
+                <p className="purchases-description">
                   {product.description || "Sem descrição"}
                 </p>
-                <p className="text-2xl font-bold text-primary">
+                <p className="purchases-price">
                   {formatPrice(product.price)}
                 </p>
 
                 {/* Seller Info */}
-                <div className="rounded-lg bg-muted p-4 space-y-3">
-                  <p className="text-xs font-medium text-muted-foreground">Vendedor</p>
-                  <div className="flex items-center gap-2">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10">
-                      <User className="h-4 w-4 text-primary" />
+                <div className="purchases-seller-section">
+                  <p className="purchases-seller-label">Vendedor</p>
+                  <div className="purchases-seller-info">
+                    <div className="purchases-seller-avatar">
+                      <User className="purchases-seller-icon" />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium">{product.owner.name}</p>
-                      <p className="text-xs text-muted-foreground">{product.owner.email}</p>
+                    <div className="purchases-seller-details">
+                      <p className="purchases-seller-name">{product.owner.name}</p>
+                      <p className="purchases-seller-email">{product.owner.email}</p>
                     </div>
                   </div>
                   <Button
                     variant="outline"
                     size="sm"
-                    className="w-full"
+                    className="purchases-contact-button"
                     onClick={() => {
                       const phone = product.owner.cellphone.replace(/\D/g, '')
                       const message = getWhatsAppMessage(product)
                       window.open(`https://wa.me/${phone}?text=${message}`, '_blank')
                     }}
                   >
-                    <MessageCircle className="h-3 w-3 mr-2" />
+                    <MessageCircle className="purchases-contact-icon" />
                     Contatar vendedor
                   </Button>
                 </div>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="purchases-card-footer">
                 <Link to={`/product/${product.id}`} className="w-full">
-                  <Button variant="outline" className="w-full">Ver detalhes</Button>
+                  <Button variant="outline" className="purchases-details-button">Ver detalhes</Button>
                 </Link>
               </CardFooter>
             </Card>
