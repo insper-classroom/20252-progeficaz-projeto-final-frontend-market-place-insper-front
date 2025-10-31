@@ -1,9 +1,9 @@
-/* Favorites Page Styles */
 .favorites-container {
   margin: 0 auto;
-  padding: 1rem;
-  padding-top: 2rem;
+  padding: 2rem 1rem;
+  padding-top: 3rem;
   padding-bottom: 2rem;
+  max-width: 1280px;
 }
 
 .favorites-header {
