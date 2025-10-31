@@ -1,7 +1,7 @@
 import type { Route } from "./+types/detail"
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router"
-import { productsService } from "~/services"
+import { productsService, authService } from "~/services"
 import { useAuth } from "~/contexts/auth.context"
 import type { Product } from "~/types"
 import { toast } from "sonner"
@@ -27,7 +27,9 @@ import {
   Shield,
   User,
   MessageCircle,
-  ImageIcon
+  ImageIcon,
+  Heart,
+  Loader2
 } from "lucide-react"
 import "./detail.css"
 
@@ -47,6 +49,8 @@ export default function ProductDetail() {
   const [confirmationCode, setConfirmationCode] = useState("")
   const [isConfirming, setIsConfirming] = useState(false)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+  const [isFavorited, setIsFavorited] = useState(false)
+  const [isFavoriting, setIsFavoriting] = useState(false)
 
   const getWhatsAppMessage = (isSeller: boolean) => {
     if (!product || !user) return ""
@@ -82,6 +86,12 @@ export default function ProductDetail() {
     }
   }, [id])
 
+  useEffect(() => {
+    if (user && id) {
+      checkIfFavorited()
+    }
+  }, [user, id, product])
+
   const loadProduct = async () => {
     if (!id) return
     setIsLoading(true)
@@ -92,6 +102,35 @@ export default function ProductDetail() {
       toast.error("Produto não encontrado")
     }
     setIsLoading(false)
+  }
+
+  const checkIfFavorited = async () => {
+    if (!user || !id) return
+    const response = await authService.getMyFavorites()
+    if (response.success) {
+      const isFav = response.data.favorites.some((p: Product) => p.id === id)
+      setIsFavorited(isFav)
+    }
+  }
+
+  const handleToggleFavorite = async () => {
+    if (!user) {
+      toast.error("Você precisa estar logado para favoritar produtos")
+      return
+    }
+
+    setIsFavoriting(true)
+    const response = isFavorited
+      ? await productsService.unfavoriteProduct(id!)
+      : await productsService.favoriteProduct(id!)
+
+    if (response.success) {
+      setIsFavorited(!isFavorited)
+      toast.success(isFavorited ? "Removido dos favoritos" : "Adicionado aos favoritos")
+    } else {
+      toast.error(response.detail || "Erro ao atualizar favorito")
+    }
+    setIsFavoriting(false)
   }
 
   const handleConfirmPurchase = async (e: React.FormEvent) => {
@@ -212,17 +251,34 @@ export default function ProductDetail() {
                     Publicado em {formatDate(product.created_at)}
                   </CardDescription>
                 </div>
-                {isSold && (
-                  <Badge variant="secondary" className="ml-4">
-                    <CheckCircle2 className="h-3 w-3 mr-1" />
-                    Vendido
-                  </Badge>
-                )}
-                {isOwner && !isSold && (
-                  <Badge className="ml-4">
-                    Seu produto
-                  </Badge>
-                )}
+                <div className="flex items-center gap-2">
+                  {user && !isOwner && (
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      className="w-10 h-10 rounded-full transition-all bg-white/90 hover:bg-white"
+                      onClick={handleToggleFavorite}
+                      disabled={isFavoriting}
+                    >
+                      {isFavoriting ? (
+                        <Loader2 className="h-4 w-4 animate-spin text-gray-600" />
+                      ) : (
+                        <Heart className={`h-4 w-4 ${isFavorited ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
+                      )}
+                    </Button>
+                  )}
+                  {isSold && (
+                    <Badge variant="secondary">
+                      <CheckCircle2 className="h-3 w-3 mr-1" />
+                      Vendido
+                    </Badge>
+                  )}
+                  {isOwner && !isSold && (
+                    <Badge>
+                      Seu produto
+                    </Badge>
+                  )}
+                </div>
               </div>
             </CardHeader>
             <CardContent className="space-y-6">
