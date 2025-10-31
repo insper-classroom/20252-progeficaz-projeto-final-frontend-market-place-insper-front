@@ -1,46 +1,46 @@
 /* Purchases Page Styles */
-.container {
+.purchases-container {
   margin: 0 auto;
-  padding: 1rem;
-  padding-top: 2rem;
+  padding: 2rem 1rem;
+  padding-top: 3rem;
   padding-bottom: 2rem;
   max-width: 1280px;
 }
 
-.header {
+.purchases-header {
   margin-bottom: 2rem;
 }
 
-.header-content {
+.purchases-header-content {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 0.5rem;
 }
 
-.icon-container {
+.purchases-icon-container {
   padding: 0.5rem;
-  background-color: rgba(22, 101, 52, 0.1);
+  background-color: rgba(153, 27, 27, 0.1);
   border-radius: 0.5rem;
 }
 
-.icon {
+.purchases-icon {
   height: 1.5rem;
   width: 1.5rem;
-  color: #166534;
+  color: #991b1b;
 }
 
-.title {
+.purchases-title {
   font-size: 1.875rem;
   line-height: 2.25rem;
   font-weight: 700;
 }
 
-.subtitle {
+.purchases-subtitle {
   color: #71717a;
 }
 
-.loading {
+.purchases-loading {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,7 +48,7 @@
   padding-bottom: 5rem;
 }
 
-.loading-icon {
+.purchases-loading-icon {
   height: 2rem;
   width: 2rem;
   color: #71717a;
@@ -64,17 +64,17 @@
   }
 }
 
-.empty-card {
+.purchases-empty-card {
   border-style: dashed;
 }
 
-.empty-content {
+.purchases-empty-content {
   padding-top: 3rem;
   padding-bottom: 3rem;
   text-align: center;
 }
 
-.empty-icon {
+.purchases-empty-icon {
   height: 4rem;
   width: 4rem;
   margin: 0 auto;
@@ -82,54 +82,60 @@
   color: #d1d5db;
 }
 
-.empty-title {
+.purchases-empty-title {
   font-size: 1.125rem;
   line-height: 1.75rem;
   font-weight: 600;
   margin-bottom: 0.5rem;
 }
 
-.empty-description {
+.purchases-empty-description {
   color: #71717a;
   margin-bottom: 1.5rem;
 }
 
-.empty-button {
+.purchases-empty-button {
   width: 100%;
 }
 
-.empty-button-icon {
+.purchases-empty-button-icon {
   height: 1rem;
   width: 1rem;
   margin-right: 0.5rem;
 }
 
-.grid {
+.purchases-grid {
   display: grid;
   gap: 1.5rem;
 }
 
-.card {
+.purchases-card {
   display: flex;
   flex-direction: column;
-  border-color: #166534;
-  background-color: rgba(240, 253, 244, 0.3);
+  border-color: #991b1b;
+  background-color: rgba(254, 242, 242, 0.3);
+  transition: all 0.15s ease-in-out;
 }
 
-.image-container {
+.purchases-card:hover {
+  border-color: #991b1b;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.purchases-image-container {
   position: relative;
   width: 100%;
   height: 12rem;
   background-color: #f3f4f6;
 }
 
-.image {
+.purchases-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.no-image {
+.purchases-no-image {
   position: relative;
   width: 100%;
   height: 12rem;
@@ -139,42 +145,42 @@
   justify-content: center;
 }
 
-.no-image-icon {
+.purchases-no-image-icon {
   height: 4rem;
   width: 4rem;
   color: #d1d5db;
 }
 
-.badge {
+.purchases-badge {
   position: absolute;
   top: 0.5rem;
   right: 0.5rem;
-  background-color: #166534;
+  background-color: #991b1b;
 }
 
-.badge-icon {
+.purchases-badge-icon {
   height: 0.75rem;
   width: 0.75rem;
   margin-right: 0.125rem;
 }
 
-.card-header {
+.purchases-card-header {
   padding-bottom: 0.75rem;
 }
 
-.card-title {
+.purchases-card-title {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.card-description {
+.purchases-card-description {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.card-content {
+.purchases-card-content {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -182,7 +188,7 @@
   padding-bottom: 1rem;
 }
 
-.description {
+.purchases-description {
   font-size: 0.875rem;
   line-height: 1.25rem;
   color: #71717a;
@@ -192,107 +198,120 @@
   overflow: hidden;
 }
 
-.price {
+.purchases-price {
   font-size: 1.5rem;
   line-height: 2rem;
   font-weight: 700;
-  color: #166534;
+  color: #991b1b;
 }
 
-.seller-section {
+.purchases-seller-section {
   border-radius: 0.5rem;
-  background-color: #f0fdf4;
-  border: 1px solid #bbf7d0;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.seller-label {
+.purchases-seller-label {
   font-size: 0.75rem;
   line-height: 1rem;
   font-weight: 500;
-  color: #166534;
+  color: #991b1b;
   margin-bottom: 0.75rem;
 }
 
-.seller-info {
+.purchases-seller-info {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.seller-avatar {
+.purchases-seller-avatar {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  background-color: #dcfce7;
+  background-color: #fee2e2;
 }
 
-.seller-icon {
+.purchases-seller-icon {
   height: 1rem;
   width: 1rem;
-  color: #166534;
+  color: #991b1b;
 }
 
-.seller-details {
+.purchases-seller-details {
   flex: 1;
   min-width: 0;
 }
 
-.seller-name {
+.purchases-seller-name {
   font-weight: 500;
-  color: #166534;
+  color: #991b1b;
 }
 
-.seller-email {
+.purchases-seller-email {
   font-size: 0.75rem;
   line-height: 1rem;
-  color: #166534;
+  color: #991b1b;
 }
 
-.contact-button {
+.purchases-contact-button {
   width: 100%;
-  border-color: #bbf7d0;
-  color: #166534;
+  border-color: #fecaca;
+  color: #991b1b;
+  transition: all 0.15s ease-in-out;
 }
 
-.contact-button:hover {
-  background-color: #dcfce7;
-  color: #166534;
+.purchases-contact-button:hover {
+  background-color: #fee2e2;
+  color: #991b1b;
 }
 
-.contact-icon {
+.purchases-contact-icon {
   height: 0.75rem;
   width: 0.75rem;
   margin-right: 0.5rem;
 }
 
-.card-footer {
+.purchases-card-footer {
   padding-top: 0.75rem;
 }
 
-.details-button {
+.purchases-details-button {
   width: 100%;
-  border-color: #166534;
+  border-color: #991b1b;
+  transition: all 0.15s ease-in-out;
 }
 
-.details-button:hover {
-  background-color: #dcfce7;
+.purchases-details-button:hover {
+  background-color: #fee2e2;
 }
 
-/* @media (min-width: 768px) {
-  .grid {
+@media (min-width: 768px) {
+  .purchases-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    padding-top: 4rem;
+  }
+
+  .purchases-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1024px) {
-  .grid {
+  .purchases-container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  .purchases-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-} */
+}

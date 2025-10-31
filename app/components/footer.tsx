@@ -18,7 +18,7 @@ export function Footer() {
               <h3 className="footer-brand-title">Market Insper</h3>
             </div>
             <p className="footer-brand-description">
-              Marketplace exclusivo para a comunidade Insper. Compre e venda produtos entre alunos com segurança e praticidade.
+              Marketplace exclusivo para a comunidade Insper. Compra e venda de produtos second-hand, com toda a segurança e pertencimento da comunidade Insper.
             </p>
           </div>
 
@@ -44,17 +44,6 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* About */}
-          <div className="footer-section">
-            <h4 className="footer-section-title">Sobre</h4>
-            <ul className="footer-list footer-text">
-              <li>Como funciona</li>
-              <li>Segurança</li>
-              <li>Termos de uso</li>
-              <li>Política de privacidade</li>
-            </ul>
-          </div>
-
           {/* Contact */}
           <div className="footer-section">
             <h4 className="footer-section-title">Contato</h4>
@@ -73,8 +62,8 @@ export function Footer() {
               </li>
             </ul>
 
-            {/* Social Links */}
-            <div className="footer-social-links">
+            {/* Redes Sociais*/}
+            {/* <div className="footer-social-links">
               <a
                 href="https://instagram.com/insper"
                 target="_blank"
@@ -102,7 +91,7 @@ export function Footer() {
               >
                 <Github className="footer-social-icon" />
               </a>
-            </div>
+            </div> */}
           </div>
         </div>
 
@@ -112,7 +101,7 @@ export function Footer() {
             © {new Date().getFullYear()} Market Insper. Todos os direitos reservados.
           </p>
           <p className="footer-tagline">
-            Desenvolvido com ❤️ para a comunidade Insper
+            Desenvolvido para a comunidade Insper, pela comunidade Insper.
           </p>
         </div>
       </div>

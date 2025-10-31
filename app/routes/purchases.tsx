@@ -64,33 +64,33 @@ export default function Purchases() {
   }
 
   return (
-    <div className="container">
-      <div className="header">
-        <div className="header-content">
-          <div className="icon-container">
-            <ShoppingBag className="icon" />
+    <div className="purchases-container">
+      <div className="purchases-header">
+        <div className="purchases-header-content">
+          <div className="purchases-icon-container">
+            <ShoppingBag className="purchases-icon" />
           </div>
-          <h1 className="title">Minhas Compras</h1>
+          <h1 className="purchases-title">Minhas Compras</h1>
         </div>
-        <p className="subtitle">
+        <p className="purchases-subtitle">
           Produtos que você adquiriu no marketplace
         </p>
       </div>
 
       {isLoading ? (
-        <div className="loading">
+        <div className="purchases-loading">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       ) : purchases.length === 0 ? (
-        <Card className="empty-card">
-          <CardContent className="empty-content">
-            <ShoppingBag className="empty-icon" />
-            <h3 className="empty-title">Nenhuma compra realizada</h3>
-            <p className="empty-description">
+        <Card className="purchases-empty-card">
+          <CardContent className="purchases-empty-content">
+            <ShoppingBag className="purchases-empty-icon" />
+            <h3 className="purchases-empty-title">Nenhuma compra realizada</h3>
+            <p className="purchases-empty-description">
               Você ainda não comprou nenhum produto. Explore o marketplace!
             </p>
             <Link to="/">
-              <Button className="empty-button">
+              <Button className="purchases-empty-button">
                 <Package className="h-4 w-4 mr-2" />
                 Ver Produtos Disponíveis
               </Button>
@@ -98,72 +98,72 @@ export default function Purchases() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid">
+        <div className="purchases-grid">
           {purchases.map((product) => (
-            <Card key={product.id} className="card">
+            <Card key={product.id} className="purchases-card">
               {product.thumbnail ? (
-                <div className="image-container">
+                <div className="purchases-image-container">
                   <img
                     src={product.thumbnail}
                     alt={product.title}
-                    className="image"
+                    className="purchases-image"
                   />
-                  <Badge className="badge">
+                  <Badge className="purchases-badge">
                     Comprado
                   </Badge>
                 </div>
               ) : (
-                <div className="no-image">
-                  <ImageIcon className="no-image-icon" />
-                  <Badge className="badge">
+                <div className="purchases-no-image">
+                  <ImageIcon className="purchases-no-image-icon" />
+                  <Badge className="purchases-badge">
                     Comprado
                   </Badge>
                 </div>
               )}
-              <CardHeader className="card-header">
-                <CardTitle className="card-title">{product.title}</CardTitle>
-                <CardDescription className="card-description">
+              <CardHeader className="purchases-card-header">
+                <CardTitle className="purchases-card-title">{product.title}</CardTitle>
+                <CardDescription className="purchases-card-description">
                   {formatRelativeTime(product.created_at)}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="card-content">
-                <p className="description">
+              <CardContent className="purchases-card-content">
+                <p className="purchases-description">
                   {product.description || "Sem descrição"}
                 </p>
-                <p className="price">
+                <p className="purchases-price">
                   {formatPrice(product.price)}
                 </p>
 
                 {/* Seller Info */}
-                <div className="seller-section">
-                  <p className="seller-label">Vendedor</p>
-                  <div className="seller-info">
-                    <div className="seller-avatar">
-                      <User className="seller-icon" />
+                <div className="purchases-seller-section">
+                  <p className="purchases-seller-label">Vendedor</p>
+                  <div className="purchases-seller-info">
+                    <div className="purchases-seller-avatar">
+                      <User className="purchases-seller-icon" />
                     </div>
-                    <div className="seller-details">
-                      <p className="seller-name">{product.owner.name}</p>
-                      <p className="seller-email">{product.owner.email}</p>
+                    <div className="purchases-seller-details">
+                      <p className="purchases-seller-name">{product.owner.name}</p>
+                      <p className="purchases-seller-email">{product.owner.email}</p>
                     </div>
                   </div>
                   <Button
                     variant="outline"
                     size="sm"
-                    className="contact-button"
+                    className="purchases-contact-button"
                     onClick={() => {
                       const phone = product.owner.cellphone.replace(/\D/g, '')
                       const message = getWhatsAppMessage(product)
                       window.open(`https://wa.me/${phone}?text=${message}`, '_blank')
                     }}
                   >
-                    <MessageCircle className="contact-icon" />
+                    <MessageCircle className="purchases-contact-icon" />
                     Contatar vendedor
                   </Button>
                 </div>
               </CardContent>
-              <CardFooter className="card-footer">
+              <CardFooter className="purchases-card-footer">
                 <Link to={`/product/${product.id}`} className="w-full">
-                  <Button variant="outline" className="details-button">Ver detalhes</Button>
+                  <Button variant="outline" className="purchases-details-button">Ver detalhes</Button>
                 </Link>
               </CardFooter>
             </Card>
