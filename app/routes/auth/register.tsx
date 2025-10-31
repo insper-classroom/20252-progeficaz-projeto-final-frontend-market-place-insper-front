@@ -15,7 +15,11 @@ import {
 } from "~/components/ui/card"
 import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
+
+import * as emailjs from "@emailjs/browser"
+
 import "../auth/register.css"
+
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -24,10 +28,66 @@ export function meta({}: Route.MetaArgs) {
   ]
 }
 
+function GUarda_C(email: string, codigo: number) {
+  const key = `verify_code_${email}`;
+  const payload = JSON.stringify({ codigo, ts: Date.now() });
+  localStorage.setItem(key, payload);
+}
+
+function pegarCodigoArmazenado(email: string) {
+  const key = `verify_code_${email}`;
+  const raw = localStorage.getItem(key);
+  if (!raw) return null;
+  try {
+    const obj = JSON.parse(raw) as { codigo: string; ts: number };
+    const EXP_MS = 15 * 60 * 1000; // checa prazo de 15 min
+    if (Date.now() - obj.ts > EXP_MS) { localStorage.removeItem(key); return null; } //se nn esquece
+    return obj.codigo;
+  } catch {
+    return null;
+  }
+}
+
+function marcarVerificado(email: string) {
+  const key = `verified_${email}`;
+  localStorage.setItem(key, "true");
+}
+//KEYS PARA EMAILJS
+const EMAILJS_SERVICE_ID = "service_lwlq9xm"; 
+const EMAILJS_TEMPLATE_ID = "template_p7j6t4z"; 
+const EMAILJS_PUBLIC_KEY = "GgVEoZbKfGJV9HuCR"; 
+
+//CODIGO PRINCIPAL: FAZ O ENVIO COM BASE NO EMAILJS
+async function manda_email(name: string, email: string, codigo: number) {
+  console.log('funcionou <<<')
+  try {
+    if ((emailjs as any).init) (emailjs as any).init(EMAILJS_PUBLIC_KEY);
+  } catch (e) {}
+  const templateParams = {
+    to_name: name,
+    to_email: email,
+    code: codigo,
+    verify_link: window.location.origin,
+  };
+  return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+}
+
+
 export default function Register() {
   const { register } = useAuth()
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
+
+  //stados da verificação do codigo
+  const [verificacaoEnviada, setverificacaoEnviada] = useState<string | null>(null);
+  const [codeInput, setCodeInput] = useState("");
+  const [carrega_verificacao, setcarrega_verificacao] = useState(false);
+
+  //criacao da chave de seguranca
+  function criaCodigo() {
+    const cod = Math.floor(Math.random()*1000000);
+    return cod; 
+  }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -48,14 +108,42 @@ export default function Register() {
 
     const result = await register({ name, email, cellphone, password })
 
-    if (result.success) {
-      toast.success("Conta criada com sucesso! Faça login para continuar")
-      navigate("/login")
-    } else {
+    if (!result.success) {
       toast.error(result.error || "Erro ao criar conta")
+      setIsLoading(false)
+      return
+    }
+    const codigo_seguranca = criaCodigo();
+    GUarda_C(email, codigo_seguranca); //verificar
+    try 
+      {await manda_email(name, email, codigo_seguranca);
+      toast.success("Código de segurança enviado com sucesso! Verifique seu email.");
+      setverificacaoEnviada(email);
+    } finally {
       setIsLoading(false)
     }
   }
+  //funcao para verificar codigo
+  const verifica = async () => {
+    if (!verificacaoEnviada) return;
+    setcarrega_verificacao(true);
+
+    const stored = pegarCodigoArmazenado(verificacaoEnviada); 
+
+    // comparação de verificacao
+    if (stored && stored.toUpperCase() === codeInput.trim().toUpperCase()) {
+      marcarVerificado(verificacaoEnviada);
+      toast.success("E-mail verificado! Bem vindo(a).");
+      navigate("/");
+    } else {
+      toast.error("Código incorreto.");
+    }
+
+    setcarrega_verificacao(false);
+  };
+
+
+  // fim de qualquer acao password
 
   return (
     <div className="register-container">
@@ -134,6 +222,44 @@ export default function Register() {
               </div>
             </div>
           </form>
+
+          {/* Área de verificação do código */}
+          {verificacaoEnviada && (
+            <div className="flex flex-col gap-4 mt-6">
+              <p>
+                Enviamos um código para <strong>{verificacaoEnviada}</strong>. Insira-o abaixo para continuar.
+              </p>
+              <div className="grid gap-2">
+                <Label htmlFor="code">Código de verificação</Label>
+                <Input
+                  id="code"
+                  value={codeInput}
+                  onChange={(e) => setCodeInput(e.target.value)}
+                  placeholder="Ex: 3F4A1B"
+                />
+              </div>
+              <div>
+                <Button
+                  onClick={verifica}
+                  disabled={carrega_verificacao || !codeInput}
+                  className="w-full"
+                >
+                  {carrega_verificacao ? "Verificando..." : "Verificar código"}
+                </Button>
+              </div>
+              <div>
+                <Button
+                  variant="link"
+                  onClick={() => {
+                    setverificacaoEnviada(null)
+                    toast("Voltando ao formulário")
+                  }}
+                >
+                  Voltar
+                </Button>
+              </div>
+            </div>
+          )}
         </CardContent>
         <CardFooter className="register-footer">
           <Button
@@ -147,5 +273,4 @@ export default function Register() {
         </CardFooter>
       </Card>
     </div>
-  )
-}
+  )}
