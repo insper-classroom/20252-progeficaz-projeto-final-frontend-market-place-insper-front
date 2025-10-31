@@ -1,0 +1,164 @@
+.footer {
+  background: #991b1b;
+  color: white;
+  margin-top: auto;
+}
+
+.footer-container {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.footer-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.footer-brand-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.footer-brand-img {
+  height: 3rem;
+  width: 3rem;
+  object-fit: contain;
+}
+
+.footer-brand-title {
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.footer-brand-description {
+  color: #e5e5e5;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin-bottom: 0;
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-section-title {
+  font-weight: 700;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.footer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.footer-link {
+  color: #e5e5e5;
+  transition: color 0.15s ease-in-out;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-link:hover {
+  color: white;
+}
+
+.footer-text {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #e5e5e5;
+}
+
+.footer-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #e5e5e5;
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.footer-contact-icon {
+  height: 1rem;
+  width: 1rem;
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+}
+
+.footer-social-links {
+  display: flex;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.footer-social-link {
+  padding: 0.5rem;
+  background-color: #ffffff1a;
+  border-radius: 0.5rem;
+  transition: background-color 0.15s ease-in-out;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-social-link:hover {
+  background-color: #ffffff33;
+}
+
+.footer-social-icon {
+  height: 1.25rem;
+  width: 1.25rem;
+}
+
+.footer-bottom-bar {
+  border-top: 1px solid #ffffff33;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  text-align: center;
+}
+
+.footer-copyright {
+  color: #cccccc;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  margin-bottom: 0;
+}
+
+.footer-tagline {
+  color: #b3b3b3;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* @media (min-width: 768px) {
+  .footer-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+} */

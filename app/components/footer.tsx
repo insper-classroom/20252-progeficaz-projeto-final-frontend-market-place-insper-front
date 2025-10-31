@@ -1,42 +1,43 @@
+import "./footer.css"
 import { Link } from "react-router"
 import { Mail, MapPin, Phone, Github, Linkedin, Instagram } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-primary via-red-600 to-primary text-white mt-auto">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="footer">
+      <div className="footer-container">
+        <div className="footer-grid">
           {/* Brand Section */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
+          <div className="footer-brand-section">
+            <div className="footer-brand-logo">
               <img
                 src="/logo.png"
                 alt="Market Insper Logo"
-                className="h-12 w-12 object-contain drop-shadow-lg"
+                className="footer-brand-img"
               />
-              <h3 className="font-bold text-xl">Market Insper</h3>
+              <h3 className="footer-brand-title">Market Insper</h3>
             </div>
-            <p className="text-white/90 text-sm leading-relaxed">
+            <p className="footer-brand-description">
               Marketplace exclusivo para a comunidade Insper. Compre e venda produtos entre alunos com segurança e praticidade.
             </p>
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-4">
-            <h4 className="font-bold text-lg">Links Rápidos</h4>
-            <ul className="space-y-2">
+          <div className="footer-section">
+            <h4 className="footer-section-title">Links Rápidos</h4>
+            <ul className="footer-list">
               <li>
-                <Link to="/" className="text-white/90 hover:text-white transition-colors text-sm flex items-center gap-2">
+                <Link to="/" className="footer-link">
                   Início
                 </Link>
               </li>
               <li>
-                <Link to="/my-products" className="text-white/90 hover:text-white transition-colors text-sm flex items-center gap-2">
+                <Link to="/my-products" className="footer-link">
                   Meus Anúncios
                 </Link>
               </li>
               <li>
-                <Link to="/profile" className="text-white/90 hover:text-white transition-colors text-sm flex items-center gap-2">
+                <Link to="/profile" className="footer-link">
                   Meu Perfil
                 </Link>
               </li>
@@ -44,9 +45,9 @@ export function Footer() {
           </div>
 
           {/* About */}
-          <div className="space-y-4">
-            <h4 className="font-bold text-lg">Sobre</h4>
-            <ul className="space-y-2 text-sm text-white/90">
+          <div className="footer-section">
+            <h4 className="footer-section-title">Sobre</h4>
+            <ul className="footer-list footer-text">
               <li>Como funciona</li>
               <li>Segurança</li>
               <li>Termos de uso</li>
@@ -55,62 +56,62 @@ export function Footer() {
           </div>
 
           {/* Contact */}
-          <div className="space-y-4">
-            <h4 className="font-bold text-lg">Contato</h4>
-            <ul className="space-y-3 text-sm text-white/90">
-              <li className="flex items-start gap-2">
-                <MapPin className="h-4 w-4 mt-0.5 shrink-0" />
+          <div className="footer-section">
+            <h4 className="footer-section-title">Contato</h4>
+            <ul className="footer-contact-list">
+              <li className="footer-contact-item">
+                <MapPin className="footer-contact-icon" />
                 <span>Rua Quatá, 300 - Vila Olímpia<br />São Paulo - SP</span>
               </li>
-              <li className="flex items-center gap-2">
-                <Phone className="h-4 w-4 shrink-0" />
+              <li className="footer-contact-item">
+                <Phone className="footer-contact-icon" />
                 <span>(11) 4504-2400</span>
               </li>
-              <li className="flex items-center gap-2">
-                <Mail className="h-4 w-4 shrink-0" />
+              <li className="footer-contact-item">
+                <Mail className="footer-contact-icon" />
                 <span>marketplace@insper.edu.br</span>
               </li>
             </ul>
 
             {/* Social Links */}
-            <div className="flex gap-3 pt-2">
+            <div className="footer-social-links">
               <a
                 href="https://instagram.com/insper"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+                className="footer-social-link"
                 aria-label="Instagram"
               >
-                <Instagram className="h-5 w-5" />
+                <Instagram className="footer-social-icon" />
               </a>
               <a
                 href="https://linkedin.com/school/insper"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+                className="footer-social-link"
                 aria-label="LinkedIn"
               >
-                <Linkedin className="h-5 w-5" />
+                <Linkedin className="footer-social-icon" />
               </a>
               <a
                 href="https://github.com/insper"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+                className="footer-social-link"
                 aria-label="GitHub"
               >
-                <Github className="h-5 w-5" />
+                <Github className="footer-social-icon" />
               </a>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/20 mt-8 pt-6 text-center">
-          <p className="text-white/80 text-sm">
+        <div className="footer-bottom-bar">
+          <p className="footer-copyright">
             © {new Date().getFullYear()} Market Insper. Todos os direitos reservados.
           </p>
-          <p className="text-white/70 text-xs mt-2">
+          <p className="footer-tagline">
             Desenvolvido com ❤️ para a comunidade Insper
           </p>
         </div>

@@ -1,0 +1,164 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  width: 100%;
+  background: #991b1b;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.header-container {
+  display: flex;
+  height: 5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-logo-img {
+  height: 3.5rem;
+  width: 3.5rem;
+  object-fit: contain;
+}
+
+.header-logo-link:hover .header-logo-img {
+  transform: scale(1.1);
+}
+
+.header-logo-text {
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+  display: none;
+  color: white;
+}
+
+/* @media (min-width: 640px) {
+  .header-logo-text {
+    display: block;
+  }
+} */
+
+.header-nav {
+  display: none;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* @media (min-width: 1024px) {
+  .header-nav {
+    display: flex;
+  }
+} */
+
+.header-nav-link {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+}
+
+.header-nav-link:hover {
+  transform: scale(1.05);
+  color: white;
+}
+
+.header-nav-link.active {
+  color: white;
+  border-bottom: 2px solid white;
+  padding-bottom: 0.25rem;
+}
+
+.header-nav-link-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.header-user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-desktop-user-menu {
+  display: none;
+}
+
+/* @media (min-width: 1024px) {
+  .header-desktop-user-menu {
+    display: block;
+  }
+} */
+
+.header-mobile-menu {
+  display: block;
+}
+
+/* @media (min-width: 1024px) {
+  .header-mobile-menu {
+    display: none;
+  }
+} */
+
+.header-dropdown-trigger {
+  font-weight: 600;
+  border: 2px solid white;
+  color: white;
+  background-color: transparent;
+}
+
+.header-dropdown-trigger:hover {
+  background-color: white;
+  color: #991b1b;
+}
+
+.header-dropdown-content {
+  min-width: 8rem;
+}
+
+.header-dropdown-label {
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.header-dropdown-separator {
+  height: 1px;
+  background-color: grey;
+}
+
+.header-dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.header-dropdown-item:hover {
+  background-color: hsl(var(--accent));
+}
+
+.header-dropdown-item-icon {
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.5rem;
+}
+
+.header-mobile-dropdown-content {
+  width: 12rem;
+}
