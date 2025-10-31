@@ -23,6 +23,7 @@ import {
   Loader2,
   ImageIcon,
 } from "lucide-react"
+import "./purchases.css"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -63,33 +64,33 @@ export default function Purchases() {
   }
 
   return (
-    <div className="container mx-auto p-4 py-8">
-      <div className="mb-8">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="p-2 bg-primary/10 rounded-lg">
-            <ShoppingBag className="h-6 w-6 text-primary" />
+    <div className="container">
+      <div className="header">
+        <div className="header-content">
+          <div className="icon-container">
+            <ShoppingBag className="icon" />
           </div>
-          <h1 className="text-3xl font-bold">Minhas Compras</h1>
+          <h1 className="title">Minhas Compras</h1>
         </div>
-        <p className="text-muted-foreground">
+        <p className="subtitle">
           Produtos que você adquiriu no marketplace
         </p>
       </div>
 
       {isLoading ? (
-        <div className="flex items-center justify-center py-20">
+        <div className="loading">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
         </div>
       ) : purchases.length === 0 ? (
-        <Card className="border-dashed">
-          <CardContent className="pt-12 pb-12 text-center">
-            <ShoppingBag className="h-16 w-16 mx-auto mb-4 text-muted-foreground/50" />
-            <h3 className="text-lg font-semibold mb-2">Nenhuma compra realizada</h3>
-            <p className="text-muted-foreground mb-6">
+        <Card className="empty-card">
+          <CardContent className="empty-content">
+            <ShoppingBag className="empty-icon" />
+            <h3 className="empty-title">Nenhuma compra realizada</h3>
+            <p className="empty-description">
               Você ainda não comprou nenhum produto. Explore o marketplace!
             </p>
             <Link to="/">
-              <Button>
+              <Button className="empty-button">
                 <Package className="h-4 w-4 mr-2" />
                 Ver Produtos Disponíveis
               </Button>
@@ -97,72 +98,72 @@ export default function Purchases() {
           </CardContent>
         </Card>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid">
           {purchases.map((product) => (
-            <Card key={product.id} className="flex flex-col">
+            <Card key={product.id} className="card">
               {product.thumbnail ? (
-                <div className="relative w-full h-48 bg-muted">
+                <div className="image-container">
                   <img
                     src={product.thumbnail}
                     alt={product.title}
-                    className="w-full h-full object-cover"
+                    className="image"
                   />
-                  <Badge className="absolute top-2 right-2 bg-green-600">
+                  <Badge className="badge">
                     Comprado
                   </Badge>
                 </div>
               ) : (
-                <div className="relative w-full h-48 bg-muted flex items-center justify-center">
-                  <ImageIcon className="h-16 w-16 text-muted-foreground/30" />
-                  <Badge className="absolute top-2 right-2 bg-green-600">
+                <div className="no-image">
+                  <ImageIcon className="no-image-icon" />
+                  <Badge className="badge">
                     Comprado
                   </Badge>
                 </div>
               )}
-              <CardHeader className="pb-3">
-                <CardTitle className="truncate">{product.title}</CardTitle>
-                <CardDescription>
+              <CardHeader className="card-header">
+                <CardTitle className="card-title">{product.title}</CardTitle>
+                <CardDescription className="card-description">
                   {formatRelativeTime(product.created_at)}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="flex-1 space-y-4">
-                <p className="text-sm text-muted-foreground line-clamp-2">
+              <CardContent className="card-content">
+                <p className="description">
                   {product.description || "Sem descrição"}
                 </p>
-                <p className="text-2xl font-bold text-primary">
+                <p className="price">
                   {formatPrice(product.price)}
                 </p>
 
                 {/* Seller Info */}
-                <div className="rounded-lg bg-muted p-4 space-y-3">
-                  <p className="text-xs font-medium text-muted-foreground">Vendedor</p>
-                  <div className="flex items-center gap-2">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10">
-                      <User className="h-4 w-4 text-primary" />
+                <div className="seller-section">
+                  <p className="seller-label">Vendedor</p>
+                  <div className="seller-info">
+                    <div className="seller-avatar">
+                      <User className="seller-icon" />
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium">{product.owner.name}</p>
-                      <p className="text-xs text-muted-foreground">{product.owner.email}</p>
+                    <div className="seller-details">
+                      <p className="seller-name">{product.owner.name}</p>
+                      <p className="seller-email">{product.owner.email}</p>
                     </div>
                   </div>
                   <Button
                     variant="outline"
                     size="sm"
-                    className="w-full"
+                    className="contact-button"
                     onClick={() => {
                       const phone = product.owner.cellphone.replace(/\D/g, '')
                       const message = getWhatsAppMessage(product)
                       window.open(`https://wa.me/${phone}?text=${message}`, '_blank')
                     }}
                   >
-                    <MessageCircle className="h-3 w-3 mr-2" />
+                    <MessageCircle className="contact-icon" />
                     Contatar vendedor
                   </Button>
                 </div>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="card-footer">
                 <Link to={`/product/${product.id}`} className="w-full">
-                  <Button variant="outline" className="w-full">Ver detalhes</Button>
+                  <Button variant="outline" className="details-button">Ver detalhes</Button>
                 </Link>
               </CardFooter>
             </Card>
