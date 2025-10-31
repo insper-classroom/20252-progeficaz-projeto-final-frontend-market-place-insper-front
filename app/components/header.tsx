@@ -48,7 +48,6 @@ export function Header() {
             className={`header-nav-link ${isActive("/") ? "active" : ""}`}
           >
             <div className="header-nav-link-content">
-              <Home className="h-5 w-5" />
               Início
             </div>
           </Link>
@@ -57,7 +56,6 @@ export function Header() {
             className={`header-nav-link ${isActive("/favorites") ? "active" : ""}`}
           >
             <div className="header-nav-link-content">
-              <Heart className="h-5 w-5" />
               Favoritos
             </div>
           </Link>
@@ -66,7 +64,6 @@ export function Header() {
             className={`header-nav-link ${isActive("/purchases") ? "active" : ""}`}
           >
             <div className="header-nav-link-content">
-              <ShoppingBag className="h-5 w-5" />
               Compras
             </div>
           </Link>
@@ -75,7 +72,6 @@ export function Header() {
             className={`header-nav-link ${isActive("/sales") ? "active" : ""}`}
           >
             <div className="header-nav-link-content">
-              <TrendingUp className="h-5 w-5" />
               Vendas
             </div>
           </Link>

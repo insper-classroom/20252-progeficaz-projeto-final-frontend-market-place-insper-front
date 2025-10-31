@@ -28,7 +28,7 @@ import { Search, Package, PlusCircle, User, ImageIcon, Star, Filter, X, Heart, L
 export function meta({}: Route.MetaArgs) {
   return [
     { title: "Marketplace Insper" },
-    { name: "description", content: "Compre e venda de produtos second-hand, com toda a segurança e pertencimento da comunidade Insper." },
+    { name: "description", content: "Compra e venda de produtos second-hand, com toda a segurança e pertencimento da comunidade Insper." },
   ]
 }
 
@@ -184,7 +184,7 @@ export default function Home() {
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold mb-2">Marketplace Insper</h1>
             <p className="text-muted-foreground">
-              Compre e venda produtos entre alunos
+              Compre e venda de produtos second-hand, com toda a segurança e pertencimento da comunidade Insper.
             </p>
           </div>
 
