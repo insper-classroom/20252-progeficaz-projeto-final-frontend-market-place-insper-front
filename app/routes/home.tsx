@@ -1,7 +1,8 @@
 import type { Route } from "./+types/home"
 import { useState, useEffect } from "react"
 import { Link } from "react-router"
-import { productsService } from "~/services"
+import { productsService, authService } from "~/services"
+import { useAuth } from "~/contexts/auth.context" 
 import type { Product, ProductCategory } from "~/types"
 import { formatPrice, formatRelativeTime } from "~/lib/utils"
 import { toast } from "sonner"
@@ -47,6 +48,7 @@ const CONSERVATION_STATES: Record<string, { label: string; color: string }> = {
 }
 
 export default function Home() {
+  const { user } = useAuth()
   const [products, setProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [search, setSearch] = useState("")
@@ -56,7 +58,18 @@ export default function Home() {
 
   useEffect(() => {
     loadProducts()
-  }, [selectedCategory])
+    if (user) { 
+      loadFavorites() 
+    } 
+  }, [selectedCategory, user])
+
+  const loadFavorites = async () => {
+    const response = await authService.getMyFavorites()
+    if (response.success) {
+      const favoriteIds = new Set(response.data.favorites.map((p: Product) => p.id))
+      setFavoritedIds(favoriteIds)
+    }
+  }
 
   const loadProducts = async (query?: string) => {
     setIsLoading(true)
@@ -73,6 +86,40 @@ export default function Home() {
       setProducts(response.data)
     }
     setIsLoading(false)
+  }
+
+  const handleToggleFavorite = async (productId: string, e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    if (!user) {
+      toast.error("Faça login para favoritar produtos")
+      return
+    }
+
+    setFavoritingId(productId)
+    const isFavorited = favoritedIds.has(productId)
+
+    const response = isFavorited
+      ? await productsService.unfavoriteProduct(productId)
+      : await productsService.favoriteProduct(productId)
+
+    if (response.success) {
+      setFavoritedIds(prev => {
+        const newSet = new Set(prev)
+        if (isFavorited) {
+          newSet.delete(productId)
+          toast.success("Removido dos favoritos")
+        } else {
+          newSet.add(productId)
+          toast.success("Adicionado aos favoritos")
+        }
+        return newSet
+      })
+    } else {
+      toast.error(response.detail || "Erro ao atualizar favorito")
+    }
+    setFavoritingId(null)
   }
 
   const handleSearch = (e: React.FormEvent) => {
@@ -94,7 +141,11 @@ export default function Home() {
   const regularProducts = products.filter(p => !p.em_destaque)
   const hasActiveFilters = search !== "" || selectedCategory !== "all"
 
-  const ProductCard = ({ product, isFeatured = false }: { product: Product; isFeatured?: boolean }) => (
+  const ProductCard = ({ product, isFeatured = false }: { product: Product; isFeatured?: boolean }) => {
+    const isFavorited = favoritedIds.has(product.id)
+    const isProcessing = favoritingId === product.id
+
+    return (
     <Card
       key={product.id}
       className={`hover:shadow-xl transition-all duration-300 hover:scale-[1.03] flex flex-col overflow-hidden border-2 ${
@@ -108,6 +159,27 @@ export default function Home() {
             alt={product.title}
             className="w-full h-full object-cover"
           />
+
+          {user && (
+              <Button
+                size="icon"
+                variant="secondary"
+                className="absolute top-2 right-2 bg-white/90 hover:bg-white shadow-lg"
+                onClick={(e) => handleToggleFavorite(product.id, e)}
+                disabled={isProcessing}
+              >
+                {isProcessing ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Heart
+                    className={`h-4 w-4 transition-colors ${
+                      isFavorited ? "fill-red-500 text-red-500" : "text-gray-600"
+                    }`}
+                  />
+                )}
+              </Button>
+            )}
+
           {isFeatured && (
             <Badge className="absolute top-2 right-2 bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white shadow-xl border-2 border-white/50 font-bold">
               <Star className="h-3 w-3 mr-1 fill-white" />
@@ -115,14 +187,36 @@ export default function Home() {
             </Badge>
           )}
           <Badge
-            className={`absolute top-2 left-2 ${CONSERVATION_STATES[product.estado_de_conservacao]?.color || 'bg-gray-500'} text-white font-semibold shadow-md`}
+              className={`absolute top-2 left-2 ${CONSERVATION_STATES[product.estado_de_conservacao]?.color || 'bg-gray-500'} text-white font-semibold shadow-md`} 
           >
             {CONSERVATION_STATES[product.estado_de_conservacao]?.label || product.estado_de_conservacao}
           </Badge>
         </div>
       ) : (
+
         <div className="relative w-full h-48 bg-muted flex items-center justify-center">
           <ImageIcon className="h-16 w-16 text-muted-foreground/30" />
+          
+            {user && (
+              <Button
+                size="icon"
+                variant="secondary"
+                className="absolute top-2 right-2 bg-white/90 hover:bg-white shadow-lg"
+                onClick={(e) => handleToggleFavorite(product.id, e)}
+                disabled={isProcessing}
+              >
+                {isProcessing ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Heart
+                    className={`h-4 w-4 transition-colors ${
+                      isFavorited ? "fill-red-500 text-red-500" : "text-gray-600"
+                    }`}
+                  />
+                )}
+              </Button>
+            )}
+
           {isFeatured && (
             <Badge className="absolute top-2 right-2 bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white shadow-xl border-2 border-white/50 font-bold">
               <Star className="h-3 w-3 mr-1 fill-white" />
@@ -174,7 +268,8 @@ export default function Home() {
         </Link>
       </CardFooter>
     </Card>
-  )
+      )
+    }
 
   return (
     <div className="flex flex-col">

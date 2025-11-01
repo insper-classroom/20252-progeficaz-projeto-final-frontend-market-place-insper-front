@@ -1,7 +1,7 @@
 import type { Route } from "./+types/detail"
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router"
-import { productsService } from "~/services"
+import { productsService, authService } from "~/services" 
 import { useAuth } from "~/contexts/auth.context"
 import type { Product } from "~/types"
 import { toast } from "sonner"
@@ -27,7 +27,9 @@ import {
   Shield,
   User,
   MessageCircle,
-  ImageIcon
+  ImageIcon,
+  Heart,   
+  Loader2
 } from "lucide-react"
 import "./detail.css"
 
@@ -47,6 +49,8 @@ export default function ProductDetail() {
   const [confirmationCode, setConfirmationCode] = useState("")
   const [isConfirming, setIsConfirming] = useState(false)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+    const [isFavorited, setIsFavorited] = useState(false)   
+  const [isFavoriting, setIsFavoriting] = useState(false) 
 
   const getWhatsAppMessage = (isSeller: boolean) => {
     if (!product || !user) return ""
@@ -79,8 +83,11 @@ export default function ProductDetail() {
   useEffect(() => {
     if (id) {
       loadProduct()
+      if (user) {          
+        checkFavorited()  
+      }                     
     }
-  }, [id])
+  }, [id, user])
 
   const loadProduct = async () => {
     if (!id) return
@@ -92,6 +99,35 @@ export default function ProductDetail() {
       toast.error("Produto não encontrado")
     }
     setIsLoading(false)
+  }
+
+  const checkFavorited = async () => {
+    const response = await authService.getMyFavorites()
+    if (response.success) {
+      const favoriteIds = response.data.favorites.map((p: Product) => p.id)
+      setIsFavorited(favoriteIds.includes(id!))
+    }
+  }
+
+  const handleToggleFavorite = async () => {
+    if (!user) {
+      toast.error("Faça login para favoritar produtos")
+      return
+    }
+
+    setIsFavoriting(true)
+
+    const response = isFavorited
+      ? await productsService.unfavoriteProduct(id!)
+      : await productsService.favoriteProduct(id!)
+
+    if (response.success) {
+      setIsFavorited(!isFavorited)
+      toast.success(isFavorited ? "Removido dos favoritos" : "Adicionado aos favoritos")
+    } else {
+      toast.error(response.detail || "Erro ao atualizar favorito")
+    }
+    setIsFavoriting(false)
   }
 
   const handleConfirmPurchase = async (e: React.FormEvent) => {
@@ -141,14 +177,36 @@ export default function ProductDetail() {
 
   return (
     <div className="container mx-auto p-4 py-8 max-w-4xl">
+      <div className="flex items-center justify-between mb-6">
       <Button
         variant="ghost"
         onClick={() => navigate(-1)}
-        className="mb-6"
       >
         <ArrowLeft className="h-4 w-4 mr-2" />
         Voltar
       </Button>
+
+      {user && !isOwner && (
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={handleToggleFavorite}
+            disabled={isFavoriting}
+            className="gap-2"
+          >
+            {isFavoriting ? (
+              <Loader2 className="h-5 w-5 animate-spin" />
+            ) : (
+              <Heart
+                className={`h-5 w-5 transition-colors ${
+                  isFavorited ? "fill-red-500 text-red-500" : ""
+                }`}
+              />
+            )}
+            {isFavorited ? "Favoritado" : "Favoritar"}
+          </Button>
+        )}
+      </div>
 
       <div className="grid gap-6 md:grid-cols-3">
         {/* Main content */}
