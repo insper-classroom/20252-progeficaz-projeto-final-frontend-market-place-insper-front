@@ -79,6 +79,14 @@ export default function Register() {
   const [codeInput, setCodeInput] = useState("");
   const [carrega_verificacao, setcarrega_verificacao] = useState(false);
 
+  // Estado para armazenar os dados do registro temporariamente
+  const [registrationData, setRegistrationData] = useState<{
+    name: string;
+    email: string;
+    cellphone: string;
+    password: string;
+  } | null>(null);
+
   //criacao da chave de seguranca
   function criaCodigo() {
     const cod = Math.floor(Math.random()*1000000);
@@ -102,17 +110,13 @@ export default function Register() {
       return
     }
 
-    const result = await register({ name, email, cellphone, password })
+    // Armazenar os dados temporariamente sem registrar no banco ainda
+    setRegistrationData({ name, email, cellphone, password });
 
-    if (!result.success) {
-      toast.error(result.error || "Erro ao criar conta")
-      setIsLoading(false)
-      return
-    }
     const codigo_seguranca = criaCodigo();
     GUarda_C(email, codigo_seguranca); //verificar
-    try 
-      {await manda_email(name, email, codigo_seguranca);
+    try {
+      await manda_email(name, email, codigo_seguranca);
       toast.success("Código de segurança enviado com sucesso! Verifique seu email.");
       setverificacaoEnviada(email);
     } finally {
@@ -121,15 +125,24 @@ export default function Register() {
   }
   //funcao para verificar codigo
   const verifica = async () => {
-    if (!verificacaoEnviada) return;
+    if (!verificacaoEnviada || !registrationData) return;
     setcarrega_verificacao(true);
 
-    const stored = pegarCodigoArmazenado(verificacaoEnviada); 
+    const stored = pegarCodigoArmazenado(verificacaoEnviada);
 
     // comparação de verificacao
     if (stored && stored.toUpperCase() === codeInput.trim().toUpperCase()) {
+      // Agora registrar no banco de dados após verificação
+      const result = await register(registrationData);
+
+      if (!result.success) {
+        toast.error(result.error || "Erro ao criar conta");
+        setcarrega_verificacao(false);
+        return;
+      }
+
       marcarVerificado(verificacaoEnviada);
-      toast.success("E-mail verificado! Bem vindo(a).");
+      toast.success("E-mail verificado! Conta criada com sucesso. Bem vindo(a).");
       navigate("/");
     } else {
       toast.error("Código incorreto.");
@@ -245,6 +258,7 @@ export default function Register() {
                   variant="link"
                   onClick={() => {
                     setverificacaoEnviada(null)
+                    setRegistrationData(null)
                     toast("Voltando ao formulário")
                   }}
                 >
