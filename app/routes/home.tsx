@@ -89,92 +89,222 @@ export default function Home() {
     setSelectedCategory("all")
     loadProducts()
   }
+  
+  const handleToggleFavorite = async (product: Product) => {
+    const isCurrentlyFavorited = favoritedIds.has(product.id)
+    setFavoritingId(product.id)
+
+    try {
+      if (isCurrentlyFavorited) {
+        const response = await productsService.unfavoriteProduct(product.id)
+        if (response.success) {
+          setFavoritedIds(prev => {
+            const next = new Set(prev)
+            next.delete(product.id)
+            return next
+          })
+          toast.success("Removido dos favoritos")
+        } else {
+          toast.error(response.detail ?? "Não foi possível remover dos favoritos")
+        }
+      } else {
+        const response = await productsService.favoriteProduct(product.id)
+        if (response.success) {
+          setFavoritedIds(prev => {
+            const next = new Set(prev)
+            next.add(product.id)
+            return next
+          })
+          toast.success("Adicionado aos favoritos")
+        } else {
+          toast.error(response.detail ?? "Não foi possível adicionar aos favoritos")
+        }
+      }
+    } catch (err) {
+      console.error(err)
+      toast.error("Erro ao atualizar favoritos")
+    } finally {
+      setFavoritingId(null)
+    }
+}
 
   const featuredProducts = products.filter(p => p.em_destaque)
   const regularProducts = products.filter(p => !p.em_destaque)
   const hasActiveFilters = search !== "" || selectedCategory !== "all"
 
-  const ProductCard = ({ product, isFeatured = false }: { product: Product; isFeatured?: boolean }) => (
-    <Card
-      key={product.id}
-      className={`hover:shadow-xl transition-all duration-300 hover:scale-[1.03] flex flex-col overflow-hidden border-2 ${
-        isFeatured ? 'border-primary/60 bg-gradient-to-br from-red-50/80 via-white to-red-50/40 shadow-lg shadow-red-100' : 'border-border hover:border-primary/30'
-      }`}
-    >
-      {product.thumbnail ? (
-        <div className="relative w-full h-48 bg-muted">
-          <img
-            src={product.thumbnail}
-            alt={product.title}
-            className="w-full h-full object-cover"
-          />
-          {isFeatured && (
-            <Badge className="absolute top-2 right-2 bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white shadow-xl border-2 border-white/50 font-bold">
-              <Star className="h-3 w-3 mr-1 fill-white" />
-              DESTAQUE
-            </Badge>
+  interface ProductCardProps {
+    product: Product
+    isFeatured?: boolean
+    isFavorited: boolean
+    isUpdatingFavorite: boolean
+    onToggleFavorite: () => void
+}
+
+const ProductCard = ({
+  product,
+  isFeatured = false,
+  isFavorited,
+  isUpdatingFavorite,
+  onToggleFavorite,
+}: ProductCardProps) => (
+  <Card
+    key={product.id}
+    className={`hover:shadow-xl transition-all duration-300 hover:scale-[1.03] flex flex-col overflow-hidden border-2 ${
+      isFeatured
+        ? "border-primary/60 bg-gradient-to-br from-red-50 via-white to-red-100 shadow-lg shadow-red-100"
+        : "border-border hover:border-primary/30"
+    }`}
+  >
+    {product.thumbnail ? (
+      <div className="relative w-full h-48 bg-muted">
+        <img
+          src={product.thumbnail}
+          alt={product.title}
+          className="w-full h-full object-cover"
+        />
+
+        {/* Botão de favorito no canto superior direito */}
+        <button
+          type="button"
+          className="absolute top-2 right-2 rounded-full bg-white/90 p-2 shadow-md hover:bg-white transition"
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            onToggleFavorite()
+          }}
+          disabled={isUpdatingFavorite}
+        >
+          {isUpdatingFavorite ? (
+            <Loader2 className="h-4 w-4 animate-spin text-red-500" />
+          ) : (
+            <Heart
+              className={`h-5 w-5 ${
+                isFavorited ? "text-red-500 fill-red-500" : "text-red-500"
+              }`}
+            />
           )}
-          <Badge
-            className={`absolute top-2 left-2 ${CONSERVATION_STATES[product.estado_de_conservacao]?.color || 'bg-gray-500'} text-white font-semibold shadow-md`}
-          >
-            {CONSERVATION_STATES[product.estado_de_conservacao]?.label || product.estado_de_conservacao}
-          </Badge>
-        </div>
-      ) : (
-        <div className="relative w-full h-48 bg-muted flex items-center justify-center">
-          <ImageIcon className="h-16 w-16 text-muted-foreground/30" />
-          {isFeatured && (
-            <Badge className="absolute top-2 right-2 bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white shadow-xl border-2 border-white/50 font-bold">
-              <Star className="h-3 w-3 mr-1 fill-white" />
-              DESTAQUE
-            </Badge>
+        </button>
+
+        {/* Badge de destaque e estado de conservação (mantém sua lógica atual) */}
+        {/* EXEMPLO – adapte usando seu CONSERVATION_STATES e badges atuais */}
+        {/* ... resto do header da imagem (Destaque, conservação etc.) ... */}
+      </div>
+    ) : (
+      <div className="relative w-full h-48 bg-muted flex items-center justify-center">
+        {/* Mesmo botão de favorito quando não tem thumbnail */}
+        <button
+          type="button"
+          className="absolute top-2 right-2 rounded-full bg-white/90 p-2 shadow-md hover:bg-white transition"
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            onToggleFavorite()
+          }}
+          disabled={isUpdatingFavorite}
+        >
+          {isUpdatingFavorite ? (
+            <Loader2 className="h-4 w-4 animate-spin text-red-500" />
+          ) : (
+            <Heart
+              className={`h-5 w-5 ${
+                isFavorited ? "text-red-500 fill-red-500" : "text-red-500"
+              }`}
+            />
           )}
-          <Badge
-            className={`absolute top-2 left-2 ${CONSERVATION_STATES[product.estado_de_conservacao]?.color || 'bg-gray-500'} text-white font-semibold shadow-md`}
-          >
-            {CONSERVATION_STATES[product.estado_de_conservacao]?.label || product.estado_de_conservacao}
-          </Badge>
-        </div>
-      )}
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-2">
-          <CardTitle className="line-clamp-1 text-lg">{product.title}</CardTitle>
-          <Badge variant="outline" className="text-xs shrink-0">
-            {CATEGORIES.find(c => c.value === product.category)?.label || product.category}
-          </Badge>
-        </div>
-        <CardDescription className="flex items-center gap-2 text-xs">
-          <span>{formatRelativeTime(product.created_at)}</span>
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="flex-1 space-y-4 pb-4">
-        <p className="text-sm text-muted-foreground line-clamp-2 min-h-[40px]">
-          {product.description || "Sem descrição"}
-        </p>
-        <div className="pt-2 space-y-3">
-          <p className="text-3xl font-bold text-primary">
-            {formatPrice(product.price)}
-          </p>
-          <div className="flex items-center gap-2.5 text-sm border-t pt-3">
-            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 shrink-0">
-              <User className="h-4 w-4 text-primary" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs text-muted-foreground">Vendedor</p>
-              <p className="font-medium text-sm truncate">{product.owner.name}</p>
-            </div>
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter className="pt-3">
-        <Link to={`/product/${product.id}`} className="w-full">
-          <Button className="w-full" variant={isFeatured ? "default" : "outline"}>
-            Ver detalhes
-          </Button>
-        </Link>
-      </CardFooter>
-    </Card>
-  )
+        </button>
+
+        {/* Ícone padrão de imagem (ImageIcon) etc. */}
+      </div>
+    )}
+
+    {/* Conteúdo do card (título, preço, data, etc.) – reutilize exatamente o seu */}
+    {/* ... */}
+  </Card>
+)
+
+
+
+  // const ProductCard = ({ product, isFeatured = false }: { product: Product; isFeatured?: boolean }) => (
+  //   <Card
+  //     key={product.id}
+  //     className={`hover:shadow-xl transition-all duration-300 hover:scale-[1.03] flex flex-col overflow-hidden border-2 ${
+  //       isFeatured ? 'border-primary/60 bg-gradient-to-br from-red-50/80 via-white to-red-50/40 shadow-lg shadow-red-100' : 'border-border hover:border-primary/30'
+  //     }`}
+  //   >
+  //     {product.thumbnail ? (
+  //       <div className="relative w-full h-48 bg-muted">
+  //         <img
+  //           src={product.thumbnail}
+  //           alt={product.title}
+  //           className="w-full h-full object-cover"
+  //         />
+  //         {isFeatured && (
+  //           <Badge className="absolute top-2 right-2 bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white shadow-xl border-2 border-white/50 font-bold">
+  //             <Star className="h-3 w-3 mr-1 fill-white" />
+  //             DESTAQUE
+  //           </Badge>
+  //         )}
+  //         <Badge
+  //           className={`absolute top-2 left-2 ${CONSERVATION_STATES[product.estado_de_conservacao]?.color || 'bg-gray-500'} text-white font-semibold shadow-md`}
+  //         >
+  //           {CONSERVATION_STATES[product.estado_de_conservacao]?.label || product.estado_de_conservacao}
+  //         </Badge>
+  //       </div>
+  //     ) : (
+  //       <div className="relative w-full h-48 bg-muted flex items-center justify-center">
+  //         <ImageIcon className="h-16 w-16 text-muted-foreground/30" />
+  //         {isFeatured && (
+  //           <Badge className="absolute top-2 right-2 bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white shadow-xl border-2 border-white/50 font-bold">
+  //             <Star className="h-3 w-3 mr-1 fill-white" />
+  //             DESTAQUE
+  //           </Badge>
+  //         )}
+  //         <Badge
+  //           className={`absolute top-2 left-2 ${CONSERVATION_STATES[product.estado_de_conservacao]?.color || 'bg-gray-500'} text-white font-semibold shadow-md`}
+  //         >
+  //           {CONSERVATION_STATES[product.estado_de_conservacao]?.label || product.estado_de_conservacao}
+  //         </Badge>
+  //       </div>
+  //     )}
+  //     <CardHeader className="pb-3">
+  //       <div className="flex items-start justify-between gap-2">
+  //         <CardTitle className="line-clamp-1 text-lg">{product.title}</CardTitle>
+  //         <Badge variant="outline" className="text-xs shrink-0">
+  //           {CATEGORIES.find(c => c.value === product.category)?.label || product.category}
+  //         </Badge>
+  //       </div>
+  //       <CardDescription className="flex items-center gap-2 text-xs">
+  //         <span>{formatRelativeTime(product.created_at)}</span>
+  //       </CardDescription>
+  //     </CardHeader>
+  //     <CardContent className="flex-1 space-y-4 pb-4">
+  //       <p className="text-sm text-muted-foreground line-clamp-2 min-h-[40px]">
+  //         {product.description || "Sem descrição"}
+  //       </p>
+  //       <div className="pt-2 space-y-3">
+  //         <p className="text-3xl font-bold text-primary">
+  //           {formatPrice(product.price)}
+  //         </p>
+  //         <div className="flex items-center gap-2.5 text-sm border-t pt-3">
+  //           <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 shrink-0">
+  //             <User className="h-4 w-4 text-primary" />
+  //           </div>
+  //           <div className="flex-1 min-w-0">
+  //             <p className="text-xs text-muted-foreground">Vendedor</p>
+  //             <p className="font-medium text-sm truncate">{product.owner.name}</p>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </CardContent>
+  //     <CardFooter className="pt-3">
+  //       <Link to={`/product/${product.id}`} className="w-full">
+  //         <Button className="w-full" variant={isFeatured ? "default" : "outline"}>
+  //           Ver detalhes
+  //         </Button>
+  //       </Link>
+  //     </CardFooter>
+  //   </Card>
+  // )
 
   return (
     <div className="flex flex-col">
@@ -285,7 +415,14 @@ export default function Home() {
             </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {featuredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} isFeatured />
+                <ProductCard
+                    key={product.id}
+                    product={product}
+                    isFeatured
+                    isFavorited={favoritedIds.has(product.id)}
+                    isUpdatingFavorite={favoritingId === product.id}
+                    onToggleFavorite={() => handleToggleFavorite(product)}
+                  />
               ))}
             </div>
           </div>
@@ -359,7 +496,13 @@ export default function Home() {
 
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {(regularProducts.length > 0 ? regularProducts : products).map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    isFavorited={favoritedIds.has(product.id)}
+                    isUpdatingFavorite={favoritingId === product.id}
+                    onToggleFavorite={() => handleToggleFavorite(product)}
+                  />
                 ))}
               </div>
             </>

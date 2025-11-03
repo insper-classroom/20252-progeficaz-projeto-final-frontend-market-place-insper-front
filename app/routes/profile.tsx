@@ -87,9 +87,20 @@ export default function Profile() {
         <Button variant="outline" onClick={() => navigate("/my-products")} className="profile-button">
           Meus produtos
         </Button>
+        <Button
+          variant="outline"
+          onClick={() => navigate("/favorites")}
+          className="profile-button"
+        >
+          Meus favoritos
+        </Button>
         <Button variant="outline" onClick={() => navigate("/products")} className="profile-button">
           Ver produtos disponíveis
         </Button>
+        <div className="profile-buttons">
+
+      </div>
+
       </div>
     </div>
   )

@@ -27,7 +27,9 @@ import {
   Shield,
   User,
   MessageCircle,
-  ImageIcon
+  ImageIcon,
+  Heart,
+  Loader2,
 } from "lucide-react"
 import "./detail.css"
 
@@ -47,7 +49,39 @@ export default function ProductDetail() {
   const [confirmationCode, setConfirmationCode] = useState("")
   const [isConfirming, setIsConfirming] = useState(false)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+  const [isFavorited, setIsFavorited] = useState(false)
+  const [isUpdatingFavorite, setIsUpdatingFavorite] = useState(false)
 
+
+  const handleToggleFavorite = async () => {
+  if (!product) return
+  setIsUpdatingFavorite(true)
+
+  try {
+    if (isFavorited) {
+      const response = await productsService.unfavoriteProduct(product.id)
+      if (response.success) {
+        setIsFavorited(false)
+        toast.success("Removido dos favoritos")
+      } else {
+        toast.error(response.detail ?? "Erro ao remover dos favoritos")
+      }
+    } else {
+      const response = await productsService.favoriteProduct(product.id)
+      if (response.success) {
+        setIsFavorited(true)
+        toast.success("Adicionado aos favoritos")
+      } else {
+        toast.error(response.detail ?? "Erro ao adicionar aos favoritos")
+      }
+    }
+  } catch (err) {
+    console.error(err)
+    toast.error("Erro ao atualizar favoritos")
+  } finally {
+    setIsUpdatingFavorite(false)
+  }
+}
   const getWhatsAppMessage = (isSeller: boolean) => {
     if (!product || !user) return ""
 
@@ -204,7 +238,7 @@ export default function ProductDetail() {
 
           <Card>
             <CardHeader>
-              <div className="flex items-start justify-between">
+              <div className="flex items-start justify-between gap-4">
                 <div className="flex-1">
                   <CardTitle className="text-3xl mb-2">{product.title}</CardTitle>
                   <CardDescription className="flex items-center gap-2">
@@ -212,19 +246,44 @@ export default function ProductDetail() {
                     Publicado em {formatDate(product.created_at)}
                   </CardDescription>
                 </div>
-                {isSold && (
-                  <Badge variant="secondary" className="ml-4">
-                    <CheckCircle2 className="h-3 w-3 mr-1" />
-                    Vendido
-                  </Badge>
-                )}
-                {isOwner && !isSold && (
-                  <Badge className="ml-4">
-                    Seu produto
-                  </Badge>
-                )}
+
+                <div className="flex flex-col items-end gap-2">
+                  {isSold && (
+                    <Badge variant="secondary" className="ml-4">
+                      <CheckCircle2 className="h-3 w-3 mr-1" />
+                      Vendido
+                    </Badge>
+                  )}
+
+                  {isOwner && !isSold && (
+                    <Badge className="ml-4">
+                      Seu produto
+                    </Badge>
+                  )}
+
+                  {!isOwner && !isSold && (
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="rounded-full"
+                      onClick={handleToggleFavorite}
+                      disabled={isUpdatingFavorite}
+                    >
+                      {isUpdatingFavorite ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <Heart
+                          className={`h-5 w-5 ${
+                            isFavorited ? "text-red-500 fill-red-500" : "text-red-500"
+                          }`}
+                        />
+                      )}
+                    </Button>
+                  )}
+                </div>
               </div>
             </CardHeader>
+
             <CardContent className="space-y-6">
               <div>
                 <h3 className="font-semibold mb-3 flex items-center gap-2">
