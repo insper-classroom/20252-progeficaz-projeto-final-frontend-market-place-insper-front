@@ -25,6 +25,8 @@ import {
   SelectValue,
 } from "~/components/ui/select"
 import { Search, Package, PlusCircle, User, ImageIcon, Star, Filter, X, Heart, Loader2 } from "lucide-react"
+import "./home.css"
+import "./card.css"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -148,32 +150,30 @@ export default function Home() {
     return (
     <Card
       key={product.id}
-      className={`hover:shadow-xl transition-all duration-300 hover:scale-[1.03] flex flex-col overflow-hidden border-2 ${
-        isFeatured ? 'border-primary/60 bg-gradient-to-br from-red-50/80 via-white to-red-50/40 shadow-lg shadow-red-100' : 'border-border hover:border-primary/30'
-      }`}
+      className="home-product-card"
     >
       {product.thumbnail ? (
-        <div className="relative w-full h-48 bg-muted">
+        <div className="home-product-image">
           <img
             src={product.thumbnail}
             alt={product.title}
-            className="w-full h-full object-cover"
+            className="home-product-thumbnail"
           />
 
           {user && (
               <Button
                 size="icon"
                 variant="secondary"
-                className="absolute top-2 right-2 bg-white/90 hover:bg-white shadow-lg"
+                className="home-favorite-button"
                 onClick={(e) => handleToggleFavorite(product.id, e)}
                 disabled={isProcessing}
               >
                 {isProcessing ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <Loader2 className="home-icon-spinner" />
                 ) : (
                   <Heart
-                    className={`h-4 w-4 transition-colors ${
-                      isFavorited ? "fill-red-500 text-red-500" : "text-gray-600"
+                    className={`home-favorite-icon ${
+                      isFavorited ? "home-favorite-icon-active" : ""
                     }`}
                   />
                 )}
@@ -181,21 +181,21 @@ export default function Home() {
             )}
 
           {isFeatured && (
-            <Badge className="absolute top-2 right-2 bg-gradient-to-r from-primary to-red-600 hover:from-red-600 hover:to-primary text-white shadow-xl border-2 border-white/50 font-bold">
-              <Star className="h-3 w-3 mr-1 fill-white" />
+            <Badge className="home-featured-badge">
+              <Star className="home-star-icon" />
               DESTAQUE
             </Badge>
           )}
           <Badge
-              className={`absolute top-2 left-2 ${CONSERVATION_STATES[product.estado_de_conservacao]?.color || 'bg-gray-500'} text-white font-semibold shadow-md`} 
+              className={`home-condition-badge ${product.estado_de_conservacao}-condition`}
           >
             {CONSERVATION_STATES[product.estado_de_conservacao]?.label || product.estado_de_conservacao}
           </Badge>
         </div>
       ) : (
 
-        <div className="relative w-full h-48 bg-muted flex items-center justify-center">
-          <ImageIcon className="h-16 w-16 text-muted-foreground/30" />
+        <div className="home-product-placeholder">
+          <ImageIcon className="home-placeholder-icon" />
           
             {user && (
               <Button
@@ -230,34 +230,22 @@ export default function Home() {
           </Badge>
         </div>
       )}
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between gap-2">
-          <CardTitle className="line-clamp-1 text-lg">{product.title}</CardTitle>
-          <Badge variant="outline" className="text-xs shrink-0">
-            {CATEGORIES.find(c => c.value === product.category)?.label || product.category}
+            <CardHeader className="home-card-header">
+        <div className="home-card-title-container">
+          <CardTitle className="home-card-title">{product.title}</CardTitle>
+          <Badge variant="outline" className="home-card-category">
+            {product.category}
           </Badge>
         </div>
-        <CardDescription className="flex items-center gap-2 text-xs">
-          <span>{formatRelativeTime(product.created_at)}</span>
-        </CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 space-y-4 pb-4">
-        <p className="text-sm text-muted-foreground line-clamp-2 min-h-[40px]">
-          {product.description || "Sem descrição"}
+      <CardContent className="home-card-content">
+        <p className="home-card-description">
+          {product.description}
         </p>
-        <div className="pt-2 space-y-3">
-          <p className="text-3xl font-bold text-primary">
+        <div className="home-card-price">
+          <span className="home-price-value">
             {formatPrice(product.price)}
-          </p>
-          <div className="flex items-center gap-2.5 text-sm border-t pt-3">
-            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 shrink-0">
-              <User className="h-4 w-4 text-primary" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <p className="text-xs text-muted-foreground">Vendedor</p>
-              <p className="font-medium text-sm truncate">{product.owner.name}</p>
-            </div>
-          </div>
+          </span>
         </div>
       </CardContent>
       <CardFooter className="pt-3">

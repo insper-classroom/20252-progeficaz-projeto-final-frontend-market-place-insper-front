@@ -325,23 +325,23 @@ export default function MyProducts() {
   }
 
   return (
-    <div className="container mx-auto p-4 py-8">
-      <div className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div className="my-products-container">
+      <div className="my-products-header">
         <div>
-          <h1 className="text-3xl font-bold mb-2">Meus Anúncios</h1>
-          <p className="text-muted-foreground">
+          <h1 className="my-products-title">Meus Anúncios</h1>
+          <p className="my-products-subtitle">
             Gerencie seus produtos e gere códigos de confirmação para vendas
           </p>
         </div>
 
         <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
           <DialogTrigger asChild>
-            <Button size="lg">
-              <PlusCircle className="h-5 w-5 mr-2" />
+            <Button size="lg" className="my-products-create-button">
+              <PlusCircle className="my-products-create-icon" />
               Anunciar Produto
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="dialog-content">
             <DialogHeader>
               <DialogTitle>Novo produto</DialogTitle>
               <DialogDescription>
