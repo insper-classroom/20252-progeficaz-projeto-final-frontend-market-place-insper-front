@@ -134,6 +134,14 @@ export default function Register() {
     const password = formData.get("password") as string
     const confirmPassword = formData.get("confirmPassword") as string
 
+    // Validação de domínio do Insper
+    const emailLower = email.toLowerCase()
+    if (!emailLower.endsWith("@insper.edu.br") && !emailLower.endsWith("@al.insper.edu.br")) {
+      toast.error("E-mail inválido! Utilize seu e-mail institucional.")
+      setIsLoading(false)
+      return
+    }
+
     if (password !== confirmPassword) {
       toast.error("As senhas não coincidem")
       setIsLoading(false)
