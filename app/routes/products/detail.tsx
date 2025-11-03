@@ -29,6 +29,7 @@ import {
   MessageCircle,
   ImageIcon
 } from "lucide-react"
+import "./detail.css"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -65,10 +66,10 @@ export default function ProductDetail() {
     } else {
       // Mensagem para o comprador (enviada pelo vendedor)
       return encodeURIComponent(
-        `Olá, ${product.buyer?.name}! 👋\n\n` +
+        `Olá, ${product.buyer?.name}!\n\n` +
         `Sou ${user.name}, vendedor do produto que você comprou:\n\n` +
-        `📦 *${product.title}*\n` +
-        `💰 Preço: ${formatPrice(product.price)}\n\n` +
+        `*${product.title}*\n` +
+        `Preço: ${formatPrice(product.price)}\n\n` +
         `Vamos combinar a entrega?\n\n` +
         `Link: ${productUrl}`
       )

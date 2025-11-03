@@ -1,3 +1,4 @@
+import "./header.css"
 import { Link, useLocation, useNavigate } from "react-router"
 import { useAuth } from "~/contexts/auth.context"
 import { Button } from "~/components/ui/button"
@@ -24,75 +25,61 @@ export function Header() {
   const isActive = (path: string) => location.pathname === path
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-gradient-to-r from-primary via-red-600 to-primary shadow-lg">
-      <div className="flex h-20 items-center justify-around px-4">
+    <header className="header">
+      <div className="header-container">
         {/* Logo */}
-        <div className="flex items-center">
-          <Link to="/" className="flex items-center gap-3 group">
+        <div className="header-logo">
+          <Link to="/" className="header-logo-link">
             <img
               src="/logo.png"
               alt="Market Insper Logo"
-              className="h-14 w-14 object-contain transition-transform group-hover:scale-110 drop-shadow-lg"
+              className="header-logo-img"
             />
-            <span className="font-bold text-xl hidden sm:block text-white drop-shadow-md">
+            <span className="header-logo-text">
               Market Insper
             </span>
           </Link>
         </div>
 
         {/* Navigation - centered */}
-        <nav className="hidden lg:flex items-center gap-6 absolute left-1/2 transform -translate-x-1/2">
+        <nav className="header-nav">
           <Link
             to="/"
-            className={`text-sm font-semibold transition-all hover:scale-105 ${
-              isActive("/") ? "text-white border-b-2 border-white pb-1" : "text-white/80 hover:text-white"
-            }`}
+            className={`header-nav-link ${isActive("/") ? "active" : ""}`}
           >
-            <div className="flex items-center gap-2">
-              <Home className="h-5 w-5" />
+            <div className="header-nav-link-content">
               Início
             </div>
           </Link>
           <Link
             to="/favorites"
-            className={`text-sm font-semibold transition-all hover:scale-105 ${
-              isActive("/favorites") ? "text-white border-b-2 border-white pb-1" : "text-white/80 hover:text-white"
-            }`}
+            className={`header-nav-link ${isActive("/favorites") ? "active" : ""}`}
           >
-            <div className="flex items-center gap-2">
-              <Heart className="h-5 w-5" />
+            <div className="header-nav-link-content">
               Favoritos
             </div>
           </Link>
           <Link
             to="/purchases"
-            className={`text-sm font-semibold transition-all hover:scale-105 ${
-              isActive("/purchases") ? "text-white border-b-2 border-white pb-1" : "text-white/80 hover:text-white"
-            }`}
+            className={`header-nav-link ${isActive("/purchases") ? "active" : ""}`}
           >
-            <div className="flex items-center gap-2">
-              <ShoppingBag className="h-5 w-5" />
+            <div className="header-nav-link-content">
               Compras
             </div>
           </Link>
           <Link
             to="/sales"
-            className={`text-sm font-semibold transition-all hover:scale-105 ${
-              isActive("/sales") ? "text-white border-b-2 border-white pb-1" : "text-white/80 hover:text-white"
-            }`}
+            className={`header-nav-link ${isActive("/sales") ? "active" : ""}`}
           >
-            <div className="flex items-center gap-2">
-              <TrendingUp className="h-5 w-5" />
+            <div className="header-nav-link-content">
               Vendas
             </div>
           </Link>
           <Link
             to="/my-products"
-            className={`text-sm font-semibold transition-all hover:scale-105 ${
-              isActive("/my-products") ? "text-white border-b-2 border-white pb-1" : "text-white/80 hover:text-white"
-            }`}
+            className={`header-nav-link ${isActive("/my-products") ? "active" : ""}`}
           >
-            <div className="flex items-center gap-2">
+            <div className="header-nav-link-content">
               <PlusCircle className="h-5 w-5" />
               Anunciar
             </div>
@@ -100,28 +87,28 @@ export function Header() {
         </nav>
 
         {/* User menu */}
-        <div className="flex items-center gap-4">
+        <div className="header-user-menu">
           {/* Desktop user menu */}
-          <div className="hidden lg:block">
+          <div className="header-desktop-user-menu">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="font-semibold border-2 border-white text-white hover:bg-white hover:text-primary bg-transparent">
+                <Button variant="outline" size="sm" className="header-dropdown-trigger">
                   <User className="h-4 w-4 mr-2" />
                   {user?.name?.split(" ")[0]}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Minha conta</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
+              <DropdownMenuContent align="end" className="header-dropdown-content">
+                <DropdownMenuLabel className="header-dropdown-label">Minha conta</DropdownMenuLabel>
+                <DropdownMenuSeparator className="header-dropdown-separator" />
+                <DropdownMenuItem asChild className="header-dropdown-item">
                   <Link to="/profile" className="cursor-pointer">
-                    <User className="h-4 w-4 mr-2" />
+                    <User className="header-dropdown-item-icon" />
                     Perfil
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
-                  <LogOut className="h-4 w-4 mr-2" />
+                <DropdownMenuSeparator className="header-dropdown-separator" />
+                <DropdownMenuItem onClick={handleLogout} className="header-dropdown-item">
+                  <LogOut className="header-dropdown-item-icon" />
                   Sair
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -129,55 +116,55 @@ export function Header() {
           </div>
 
           {/* Mobile menu */}
-          <div className="lg:hidden">
+          <div className="header-mobile-menu">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="sm" className="text-white hover:bg-white/20">
                   <Menu className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuLabel>Menu</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
+              <DropdownMenuContent align="end" className="header-mobile-dropdown-content">
+                <DropdownMenuLabel className="header-dropdown-label">Menu</DropdownMenuLabel>
+                <DropdownMenuSeparator className="header-dropdown-separator" />
+                <DropdownMenuItem asChild className="header-dropdown-item">
                   <Link to="/" className="cursor-pointer">
-                    <Home className="h-4 w-4 mr-2" />
+                    <Home className="header-dropdown-item-icon" />
                     Início
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild className="header-dropdown-item">
                   <Link to="/favorites" className="cursor-pointer">
-                    <Heart className="h-4 w-4 mr-2" />
+                    <Heart className="header-dropdown-item-icon" />
                     Favoritos
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild className="header-dropdown-item">
                   <Link to="/purchases" className="cursor-pointer">
-                    <ShoppingBag className="h-4 w-4 mr-2" />
+                    <ShoppingBag className="header-dropdown-item-icon" />
                     Minhas Compras
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild className="header-dropdown-item">
                   <Link to="/sales" className="cursor-pointer">
-                    <TrendingUp className="h-4 w-4 mr-2" />
+                    <TrendingUp className="header-dropdown-item-icon" />
                     Minhas Vendas
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
+                <DropdownMenuItem asChild className="header-dropdown-item">
                   <Link to="/my-products" className="cursor-pointer">
-                    <PlusCircle className="h-4 w-4 mr-2" />
+                    <PlusCircle className="header-dropdown-item-icon" />
                     Meus Anúncios
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
+                <DropdownMenuSeparator className="header-dropdown-separator" />
+                <DropdownMenuItem asChild className="header-dropdown-item">
                   <Link to="/profile" className="cursor-pointer">
-                    <User className="h-4 w-4 mr-2" />
+                    <User className="header-dropdown-item-icon" />
                     Perfil
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
-                  <LogOut className="h-4 w-4 mr-2" />
+                <DropdownMenuItem onClick={handleLogout} className="header-dropdown-item">
+                  <LogOut className="header-dropdown-item-icon" />
                   Sair
                 </DropdownMenuItem>
               </DropdownMenuContent>

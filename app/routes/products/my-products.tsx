@@ -49,6 +49,7 @@ import {
   X,
   Star,
 } from "lucide-react"
+import "./my-products.css"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -100,6 +101,8 @@ export default function MyProducts() {
   const [codes, setCodes] = useState<Record<string, string>>({})
   const [selectedImages, setSelectedImages] = useState<File[]>([])
   const [uploadingImagesFor, setUploadingImagesFor] = useState<string | null>(null)
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null)
   
   // New form states
   const [category, setCategory] = useState<ProductCategory>("eletrônicos")
@@ -194,6 +197,79 @@ export default function MyProducts() {
     setIsCreating(false)
   }
 
+  const handleUpdateProduct = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!editingProduct) return
+    setIsCreating(true)
+
+    const formData = new FormData(e.currentTarget)
+    const title = formData.get("title") as string
+    const description = formData.get("description") as string
+    const price = parseFloat(formData.get("price") as string)
+
+    const response = await productsService.updateProduct(editingProduct.id, {
+      title,
+      description,
+      price,
+      category,
+      estado_de_conservacao: conservationState,
+      em_destaque: isFeatured,
+    })
+
+    if (response.success && selectedImages.length > 0) {
+      setUploadingImagesFor(editingProduct.id)
+      let uploadedCount = 0
+
+      for (const imageFile of selectedImages) {
+        const uploadResponse = await productsService.uploadImage(editingProduct.id, imageFile)
+        if (uploadResponse.success) uploadedCount++
+      }
+
+      setUploadingImagesFor(null)
+
+      if (uploadedCount > 0)
+        toast.success(`Produto atualizado com ${uploadedCount} imagem(ns)!`)
+      else
+        toast.error("Erro ao enviar imagens")
+    }
+
+    if (response.success) {
+      toast.success("Produto atualizado com sucesso!")
+      await loadMyProducts()
+      setIsEditDialogOpen(false)
+      setEditingProduct(null)
+      setSelectedImages([])
+      loadMyProducts()
+    } else {
+      toast.error(response.detail || "Erro ao atualizar o produto!")
+    }
+
+    setIsCreating(false)
+  }
+
+  const handleDeleteProduct = async () => {
+    if (!editingProduct) return
+
+    const confirmed = window.confirm(`Tem certeza que deseja excluir "${editingProduct.title}"?`)
+    if (!confirmed) return
+
+    setIsCreating(true)
+    const response = await productsService.deleteProduct(editingProduct.id)
+
+    if (response.success) {
+      toast.success("Produto excluído com sucesso!")
+      setIsEditDialogOpen(false)
+      setEditingProduct(null)
+      await loadMyProducts()
+    } else {
+      toast.error(response.detail || "Erro ao excluir o produto.")
+    }
+
+    setIsCreating(false)
+  }
+
+
+
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files)
@@ -229,6 +305,14 @@ export default function MyProducts() {
       toast.error("Erro ao gerar código")
     }
     setGeneratingCodeFor(null)
+  }
+
+  const handleEditProduct = (product: Product) => {
+    setEditingProduct(product)
+    setCategory(product.category)
+    setConservationState(product.estado_de_conservacao)
+    setIsFeatured(product.em_destaque)
+    setIsEditDialogOpen(true)
   }
 
   const handleCopyCode = async (code: string) => {
@@ -480,6 +564,199 @@ export default function MyProducts() {
         </Dialog>
       </div>
 
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Editar produto</DialogTitle>
+            <DialogDescription>Atualize as informações do seu produto</DialogDescription>
+          </DialogHeader>
+
+          {editingProduct && (
+            <form onSubmit={handleUpdateProduct} id="edit-product-form">
+              <div className="space-y-6">
+                {/* 🧾 Informações básicas */}
+                <div className="space-y-4">
+                  <div className="grid gap-2">
+                    <Label>Título</Label>
+                    <Input
+                      name="title"
+                      defaultValue={editingProduct.title}
+                      required
+                      maxLength={200}
+                      disabled={isCreating}
+                    />
+                  </div>
+
+                  <div className="grid gap-2">
+                    <Label>Descrição</Label>
+                    <Textarea
+                      name="description"
+                      defaultValue={editingProduct.description || ""}
+                      disabled={isCreating}
+                      rows={4}
+                    />
+                  </div>
+
+                  <div className="grid gap-2">
+                    <Label>Preço (R$)</Label>
+                    <Input
+                      name="price"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      defaultValue={editingProduct.price}
+                      required
+                      disabled={isCreating}
+                    />
+                  </div>
+                </div>
+
+                {/* 📂 Categoria e Estado */}
+                <div className="space-y-4 border-t pt-4">
+                  <div className="grid gap-2">
+                    <Label>Categoria</Label>
+                    <Select value={category} onValueChange={(v) => setCategory(v as ProductCategory)}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {CATEGORIES.map((cat) => (
+                          <SelectItem key={cat.value} value={cat.value}>
+                            {cat.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="grid gap-2">
+                    <Label>Estado de Conservação</Label>
+                    <Select
+                      value={conservationState}
+                      onValueChange={(v) => setConservationState(v as ProductCondition)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {CONSERVATION_STATES.map((state) => (
+                          <SelectItem key={state.value} value={state.value}>
+                            {state.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="flex items-center justify-between space-x-2 rounded-lg border p-4">
+                    <div className="flex-1 space-y-0.5">
+                      <Label htmlFor="featured" className="flex items-center gap-2 cursor-pointer">
+                        <Star className="h-4 w-4 text-yellow-500" />
+                        Produto em Destaque
+                      </Label>
+                      <p className="text-sm text-muted-foreground">
+                        Destacar produto na página inicial
+                      </p>
+                    </div>
+                    <Switch
+                      id="featured"
+                      checked={isFeatured}
+                      onCheckedChange={setIsFeatured}
+                      disabled={isCreating}
+                    />
+                  </div>
+                </div>
+
+                {/* 🖼️ Imagens */}
+                <div className="space-y-4 border-t pt-4">
+                  <div>
+                    <Label>Imagens (opcional)</Label>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Adicione até 5 imagens (máx. 5MB cada)
+                    </p>
+                    <Input
+                      type="file"
+                      accept="image/jpeg,image/jpg,image/png,image/webp"
+                      multiple
+                      onChange={handleImageSelect}
+                      disabled={isCreating}
+                    />
+                  </div>
+
+                  {selectedImages.length > 0 && (
+                    <div className="grid grid-cols-3 gap-3">
+                      {selectedImages.map((file, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={URL.createObjectURL(file)}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-24 object-cover rounded-lg border"
+                          />
+                          {index === 0 && (
+                            <Badge className="absolute bottom-1 left-1 text-xs">Principal</Badge>
+                          )}
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="icon"
+                            className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
+                            onClick={() => handleRemoveImage(index)}
+                            disabled={isCreating}
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <DialogFooter className="border-t pt-4">
+                <Button
+                type="button"
+                variant="destructive"
+                onClick={handleDeleteProduct}
+                disabled={isCreating}
+              >
+                Excluir produto
+              </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setIsEditDialogOpen(false)
+                    setSelectedImages([])
+                  }}
+                  disabled={isCreating}
+                >
+                  Cancelar
+                </Button>
+                <Button type="submit" disabled={isCreating || uploadingImagesFor !== null}>
+                  {uploadingImagesFor ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Fazendo upload...
+                    </>
+                  ) : isCreating ? (
+                    <>
+                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                      Salvando alterações...
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle2 className="h-4 w-4 mr-2" />
+                      Salvar alterações
+                    </>
+                  )}
+                </Button>
+              </DialogFooter>
+            </form>
+          )}
+        </DialogContent>
+      </Dialog>
+
+
       {isLoading ? (
         <div className="flex items-center justify-center py-20">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
@@ -554,6 +831,7 @@ export default function MyProducts() {
                         </p>
                       </div>
 
+
                       {product.buyer && (
                         <div className="border-t border-green-200 pt-3 space-y-2">
                           <p className="text-xs text-green-700 font-medium">Comprador</p>
@@ -610,25 +888,37 @@ export default function MyProducts() {
                           </p>
                         </div>
                       ) : (
-                        <Button
-                          variant="outline"
-                          className="w-full"
-                          onClick={() => handleGenerateCode(product.id)}
-                          disabled={generatingCodeFor === product.id}
-                        >
-                          {generatingCodeFor === product.id ? (
-                            <>
-                              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                              Gerando código...
-                            </>
-                          ) : (
-                            <>
-                              <QrCode className="h-4 w-4 mr-2" />
-                              Gerar código de venda
-                            </>
-                          )}
-                        </Button>
+                        <>
+                          <Button
+                            variant="outline"
+                            className="w-full"
+                            onClick={() => handleGenerateCode(product.id)}
+                            disabled={generatingCodeFor === product.id}
+                          >
+                            {generatingCodeFor === product.id ? (
+                              <>
+                                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                                Gerando código...
+                              </>
+                            ) : (
+                              <>
+                                <QrCode className="h-4 w-4 mr-2" />
+                                Gerar código de venda
+                              </>
+                            )}
+                          </Button>
+
+                          {/* 👇 Aqui vem o botão de editar, fora do botão acima */}
+                          <Button
+                            variant="secondary"
+                            className="w-full mt-2"
+                            onClick={() => handleEditProduct(product)}
+                          >
+                            Editar produto
+                          </Button>
+                        </>
                       )}
+
                     </div>
                   )}
                 </CardContent>

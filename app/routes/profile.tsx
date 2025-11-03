@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "~/components/ui/card"
 import { Label } from "~/components/ui/label"
+import "./profile.css"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -34,44 +35,44 @@ export default function Profile() {
   }
 
   return (
-    <div className="container mx-auto p-4 max-w-2xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Meu perfil</h1>
-        <p className="text-muted-foreground">
+    <div className="profile-container">
+      <div className="profile-header">
+        <h1 className="profile-title">Meu perfil</h1>
+        <p className="profile-subtitle">
           Informações da sua conta
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Informações pessoais</CardTitle>
-          <CardDescription>
+      <Card className="profile-card">
+        <CardHeader className="profile-card-header">
+          <CardTitle className="profile-card-title">Informações pessoais</CardTitle>
+          <CardDescription className="profile-card-subtitle">
             Dados cadastrados no marketplace
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid gap-2">
-            <Label>Nome</Label>
-            <p className="text-lg">{user.name}</p>
+          <div className="profile-info-grid">
+            <Label className="profile-label">Nome</Label>
+            <p className="profile-value">{user.name}</p>
           </div>
 
-          <div className="grid gap-2">
-            <Label>Email</Label>
-            <p className="text-lg">{user.email}</p>
+          <div className="profile-info-grid">
+            <Label className="profile-label">Email</Label>
+            <p className="profile-value">{user.email}</p>
           </div>
 
-          <div className="grid gap-2">
-            <Label>Telefone</Label>
-            <p className="text-lg">{user.cellphone}</p>
+          <div className="profile-info-grid">
+            <Label className="profile-label">Telefone</Label>
+            <p className="profile-value">{user.cellphone}</p>
           </div>
 
-          <div className="grid gap-2">
-            <Label>Membro desde</Label>
-            <p className="text-lg">{formatDate(user.created_at)}</p>
+          <div className="profile-info-grid">
+            <Label className="profile-label">Membro desde</Label>
+            <p className="profile-value">{formatDate(user.created_at)}</p>
           </div>
 
-          <div className="grid gap-2">
-            <Label>ID do usuário</Label>
+          <div className="profile-info-grid">
+            <Label className="profile-label">ID do usuário</Label>
             <p className="text-sm text-muted-foreground font-mono">{user.id}</p>
           </div>
         </CardContent>
@@ -82,11 +83,11 @@ export default function Profile() {
         </CardFooter>
       </Card>
 
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
-        <Button variant="outline" onClick={() => navigate("/my-products")}>
+      <div className="profile-buttons">
+        <Button variant="outline" onClick={() => navigate("/my-products")} className="profile-button">
           Meus produtos
         </Button>
-        <Button variant="outline" onClick={() => navigate("/products")}>
+        <Button variant="outline" onClick={() => navigate("/products")} className="profile-button">
           Ver produtos disponíveis
         </Button>
       </div>

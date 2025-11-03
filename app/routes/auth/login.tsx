@@ -15,6 +15,7 @@ import {
 } from "~/components/ui/card"
 import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
+import "../auth/login.css"
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -48,24 +49,24 @@ export default function Login() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4">
-      <Card className="w-full max-w-sm">
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>
+    <div className="login-container">
+      <Card className="login-card">
+        <CardHeader className="login-header">
+          <CardTitle className="login-title">Login</CardTitle>
+          <CardDescription className="login-description">
             Entre com seu email Insper para acessar o marketplace
           </CardDescription>
-          <CardAction>
+          <CardAction className="login-action">
             <Link to="/register">
-              <Button variant="link">Criar conta</Button>
+              <Button variant="link" className="login-link">Criar conta</Button>
             </Link>
           </CardAction>
         </CardHeader>
-        <CardContent>
+        <CardContent className="login-content">
           <form onSubmit={handleSubmit} id="login-form">
             <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+              <div className="login-field">
+                <Label htmlFor="email" className="login-label">Email</Label>
                 <Input
                   id="email"
                   name="email"
@@ -73,26 +74,28 @@ export default function Login() {
                   placeholder="seu.nome@insper.edu.br"
                   required
                   disabled={isLoading}
+                  className="login-input"
                 />
               </div>
-              <div className="grid gap-2">
-                <Label htmlFor="password">Senha</Label>
+              <div className="login-field">
+                <Label htmlFor="password" className="login-label">Senha</Label>
                 <Input
                   id="password"
                   name="password"
                   type="password"
                   required
                   disabled={isLoading}
+                  className="login-input"
                 />
               </div>
             </div>
           </form>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="login-footer">
           <Button
             type="submit"
             form="login-form"
-            className="w-full"
+            className="login-button"
             disabled={isLoading}
           >
             {isLoading ? "Entrando..." : "Entrar"}
