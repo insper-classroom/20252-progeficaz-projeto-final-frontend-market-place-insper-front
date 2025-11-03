@@ -94,11 +94,6 @@ export default function Home() {
     e.preventDefault()
     e.stopPropagation()
 
-    if (!user) {
-      toast.error("Faça login para favoritar produtos")
-      return
-    }
-
     setFavoritingId(productId)
     const isFavorited = favoritedIds.has(productId)
 
@@ -335,10 +330,6 @@ export default function Home() {
                 {selectedCategory !== "all" && (
                   <Badge variant="secondary" className="gap-1">
                     {CATEGORIES.find(c => c.value === selectedCategory)?.label}
-                    <X 
-                      className="h-3 w-3 cursor-pointer" 
-                      onClick={() => setSelectedCategory("all")}
-                    />
                   </Badge>
                 )}
               </div>
