@@ -94,6 +94,7 @@ export default function Register() {
   //criacao da chave de seguranca
   function criaCodigo() {
     const cod = Math.floor(Math.random()*1000000);
+    console.log(`Código gerado: ${cod}`);
     return cod; 
   }
 
