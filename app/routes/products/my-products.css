@@ -1,13 +1,14 @@
-/* My Products Page Styles */
 .my-products-container {
   margin: 0 auto;
-  padding: 1rem;
-  padding-top: 2rem;
+  padding: 2rem 1rem;
+  padding-top: 3rem;
   padding-bottom: 2rem;
+  max-width: 1280px;
 }
 
 .my-products-header {
   margin-bottom: 2rem;
+  margin-left: 1rem;
 }
 
 .my-products-header-content {
@@ -33,10 +34,12 @@
   font-size: 1.875rem;
   line-height: 2.25rem;
   font-weight: 700;
+  letter-spacing: 0.025em; 
 }
 
 .my-products-subtitle {
   color: #71717a;
+  letter-spacing: 0.025em; 
 }
 
 .my-products-actions {
@@ -49,6 +52,8 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-top: 2vh;
+  letter-spacing: 0.025em; 
 }
 
 .my-products-create-icon {
@@ -361,6 +366,11 @@
 
 .my-products-dialog-delete-button:hover {
   background-color: hsl(0 84.2% 60.2% / 0.9);
+}
+
+.my-products-form-container{
+  max-height: 80vh;
+  overflow: auto;
 }
 
 @media (min-width: 768px) {

@@ -81,6 +81,35 @@
   width: 100%;
 }
 
+.favorites-empty-button-icon {
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.5rem;
+}
+
+.favorites-loading-icon {
+  height: 2rem;
+  width: 2rem;
+  color: #71717a;
+  animation: spin 1s linear infinite;
+}
+
+.favorites-action-loading-icon {
+  height: 1rem;
+  width: 1rem;
+  animation: spin 1s linear infinite;
+}
+
+.favorites-action-icon {
+  height: 1rem;
+  width: 1rem;
+}
+
+.favorites-link-full {
+  display: block;
+  width: 100%;
+}
+
 .favorites-grid {
   display: grid;
   gap: 1.5rem;

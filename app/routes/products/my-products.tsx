@@ -348,180 +348,165 @@ export default function MyProducts() {
                 Preencha os dados do produto que deseja vender
               </DialogDescription>
             </DialogHeader>
-            <form onSubmit={handleCreateProduct} id="create-product-form">
-              <div className="space-y-6">
-                {/* Basic Information */}
-                <div className="space-y-4">
-                  <h3 className="font-semibold text-sm">Informações Básicas</h3>
-                  
-                  <div className="grid gap-2">
-                    <Label htmlFor="title">
-                      Título <span className="text-destructive">*</span>
-                    </Label>
-                    <Input
-                      id="title"
-                      name="title"
-                      placeholder="Ex: iPhone 13 Pro 256GB"
-                      required
-                      disabled={isCreating}
-                      maxLength={200}
-                    />
-                    <p className="text-xs text-muted-foreground">
-                      Máximo 200 caracteres
-                    </p>
-                  </div>
-
-                  <div className="grid gap-2">
-                    <Label htmlFor="description">Descrição</Label>
-                    <Textarea
-                      id="description"
-                      name="description"
-                      placeholder="Descreva o produto em detalhes..."
-                      disabled={isCreating}
-                      rows={4}
-                    />
-                  </div>
-
-                  <div className="grid gap-2">
-                    <Label htmlFor="price">
-                      Preço (R$) <span className="text-destructive">*</span>
-                    </Label>
-                    <Input
-                      id="price"
-                      name="price"
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      placeholder="0.00"
-                      required
-                      disabled={isCreating}
-                    />
-                  </div>
-                </div>
-
-                {/* Category & Conservation */}
-                <div className="space-y-4 border-t pt-4">
-                  <h3 className="font-semibold text-sm">Categoria e Estado</h3>
-                  
-                  <div className="grid gap-2">
-                    <Label htmlFor="category">
-                      Categoria <span className="text-destructive">*</span>
-                    </Label>
-                    <Select value={category} onValueChange={(v) => setCategory(v as ProductCategory)}>
-                      <SelectTrigger id="category">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {CATEGORIES.map((cat) => (
-                          <SelectItem key={cat.value} value={cat.value}>
-                            <div className="flex flex-col">
-                              <span className="font-medium">{cat.label}</span>
-                              <span className="text-xs text-muted-foreground">
-                                {cat.description}
-                              </span>
-                            </div>
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="grid gap-2">
-                    <Label htmlFor="conservation">
-                      Estado de Conservação <span className="text-destructive">*</span>
-                    </Label>
-                    <Select 
-                      value={conservationState} 
-                      onValueChange={(v) => setConservationState(v as ProductCondition)}
-                    >
-                      <SelectTrigger id="conservation">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {CONSERVATION_STATES.map((state) => (
-                          <SelectItem key={state.value} value={state.value}>
-                            <div className="flex flex-col">
-                              <span className={`font-medium ${state.color}`}>
-                                {state.label}
-                              </span>
-                              <span className="text-xs text-muted-foreground">
-                                {state.description}
-                              </span>
-                            </div>
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="flex items-center justify-between space-x-2 rounded-lg border p-4">
-                    <div className="flex-1 space-y-0.5">
-                      <Label htmlFor="featured" className="flex items-center gap-2 cursor-pointer">
-                        <Star className="h-4 w-4 text-yellow-500" />
-                        Produto em Destaque
+            <div className="my-products-form-container">
+              <form onSubmit={handleCreateProduct} id="create-product-form">
+                <div className="space-y-6">
+                  {/* Basic Information */}
+                  <div className="space-y-4">
+                    <h3 className="font-semibold text-sm">Informações Básicas</h3>
+                    
+                    <div className="grid gap-2">
+                      <Label htmlFor="title">
+                        Título <span className="text-destructive">*</span>
                       </Label>
-                      <p className="text-sm text-muted-foreground">
-                        Destacar produto na página inicial
+                      <Input
+                        id="title"
+                        name="title"
+                        placeholder="Ex: iPhone 13 Pro 256GB"
+                        required
+                        disabled={isCreating}
+                        maxLength={200}
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Máximo 200 caracteres
                       </p>
                     </div>
-                    <Switch
-                      id="featured"
-                      checked={isFeatured}
-                      onCheckedChange={setIsFeatured}
-                      disabled={isCreating}
-                    />
-                  </div>
-                </div>
 
-                {/* Images */}
-                <div className="space-y-4 border-t pt-4">
-                  <div>
-                    <Label htmlFor="images">Imagens (opcional)</Label>
-                    <p className="text-xs text-muted-foreground mb-2">
-                      Adicione até 5 imagens (máx. 5MB cada)
-                    </p>
-                    <Input
-                      id="images"
-                      type="file"
-                      accept="image/jpeg,image/jpg,image/png,image/webp"
-                      multiple
-                      onChange={handleImageSelect}
-                      disabled={isCreating}
-                      className="cursor-pointer"
-                    />
-                  </div>
-
-                  {selectedImages.length > 0 && (
-                    <div className="grid grid-cols-3 gap-3">
-                      {selectedImages.map((file, index) => (
-                        <div key={index} className="relative group">
-                          <img
-                            src={URL.createObjectURL(file)}
-                            alt={`Preview ${index + 1}`}
-                            className="w-full h-24 object-cover rounded-lg border"
-                          />
-                          {index === 0 && (
-                            <Badge className="absolute bottom-1 left-1 text-xs">
-                              Principal
-                            </Badge>
-                          )}
-                          <Button
-                            type="button"
-                            variant="destructive"
-                            size="icon"
-                            className="absolute top-1 right-1 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity"
-                            onClick={() => handleRemoveImage(index)}
-                            disabled={isCreating}
-                          >
-                            <X className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      ))}
+                    <div className="grid gap-2">
+                      <Label htmlFor="description">Descrição</Label>
+                      <Textarea
+                        id="description"
+                        name="description"
+                        placeholder="Descreva o produto em detalhes..."
+                        disabled={isCreating}
+                        rows={4}
+                      />
                     </div>
-                  )}
+
+                    <div className="grid gap-2">
+                      <Label htmlFor="price">
+                        Preço (R$) <span className="text-destructive">*</span>
+                      </Label>
+                      <Input
+                        id="price"
+                        name="price"
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        placeholder="0.00"
+                        required
+                        disabled={isCreating}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Category & Conservation */}
+                  <div className="space-y-4 border-t pt-4">
+                    <h3 className="font-semibold text-sm">Categoria e Estado</h3>
+                    
+                    <div className="grid gap-2">
+                      <Label htmlFor="category">
+                        Categoria <span className="text-destructive">*</span>
+                      </Label>
+                      <Select value={category} onValueChange={(v) => setCategory(v as ProductCategory)}>
+                        <SelectTrigger id="category">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {CATEGORIES.map((cat) => (
+                            <SelectItem key={cat.value} value={cat.value}>
+                              <div className="flex flex-col">
+                                <span className="font-medium">{cat.label}</span>
+                                <span className="text-xs text-muted-foreground">
+                                  {cat.description}
+                                </span>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div className="grid gap-2">
+                      <Label htmlFor="conservation">
+                        Estado de Conservação <span className="text-destructive">*</span>
+                      </Label>
+                      <Select 
+                        value={conservationState} 
+                        onValueChange={(v) => setConservationState(v as ProductCondition)}
+                      >
+                        <SelectTrigger id="conservation">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {CONSERVATION_STATES.map((state) => (
+                            <SelectItem key={state.value} value={state.value}>
+                              <div className="flex flex-col">
+                                <span className={`font-medium ${state.color}`}>
+                                  {state.label}
+                                </span>
+                                <span className="text-xs text-muted-foreground">
+                                  {state.description}
+                                </span>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                  </div>
+
+                  {/* Images */}
+                  <div className="space-y-4 border-t pt-4">
+                    <div>
+                      <Label htmlFor="images">Imagens (opcional)</Label>
+                      <p className="my-products-helper-text">
+                        Adicione até 5 imagens (máx. 5MB cada)
+                      </p>
+                      <Input
+                        id="images"
+                        type="file"
+                        accept="image/jpeg,image/jpg,image/png,image/webp"
+                        multiple
+                        onChange={handleImageSelect}
+                        disabled={isCreating}
+                        className="my-products-file-input"
+                      />
+                    </div>
+
+                    {selectedImages.length > 0 && (
+                      <div className="my-products-image-grid">
+                        {selectedImages.map((file, index) => (
+                          <div key={index} className="my-products-image-wrapper">
+                            <img
+                              src={URL.createObjectURL(file)}
+                              alt={`Preview ${index + 1}`}
+                              className="my-products-preview-image"
+                            />
+                            {index === 0 && (
+                              <Badge className="my-products-preview-badge">
+                                Principal
+                              </Badge>
+                            )}
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="icon"
+                              className="my-products-image-remove-button"
+                              onClick={() => handleRemoveImage(index)}
+                              disabled={isCreating}
+                            >
+                              <X className="my-products-small-icon" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
             <DialogFooter className="border-t pt-4">
               <Button
                 type="button"
@@ -611,7 +596,7 @@ export default function MyProducts() {
                   </div>
                 </div>
 
-                {/* 📂 Categoria e Estado */}
+                {/* Categoria e Estado */}
                 <div className="space-y-4 border-t pt-4">
                   <div className="grid gap-2">
                     <Label>Categoria</Label>
@@ -667,7 +652,7 @@ export default function MyProducts() {
                   </div>
                 </div>
 
-                {/* 🖼️ Imagens */}
+                {/* Imagem */}
                 <div className="space-y-4 border-t pt-4">
                   <div>
                     <Label>Imagens (opcional)</Label>
@@ -908,7 +893,7 @@ export default function MyProducts() {
                             )}
                           </Button>
 
-                          {/* 👇 Aqui vem o botão de editar, fora do botão acima */}
+                          {/* botão de editar */}
                           <Button
                             variant="secondary"
                             className="w-full mt-2"

@@ -79,7 +79,7 @@ export default function Purchases() {
 
       {isLoading ? (
         <div className="purchases-loading">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          <Loader2 className="purchases-loading-icon" />
         </div>
       ) : purchases.length === 0 ? (
         <Card className="purchases-empty-card">
@@ -91,7 +91,7 @@ export default function Purchases() {
             </p>
             <Link to="/">
               <Button className="purchases-empty-button">
-                <Package className="h-4 w-4 mr-2" />
+                <Package className="purchases-empty-button-icon" />
                 Ver Produtos Disponíveis
               </Button>
             </Link>
@@ -162,7 +162,7 @@ export default function Purchases() {
                 </div>
               </CardContent>
               <CardFooter className="purchases-card-footer">
-                <Link to={`/product/${product.id}`} className="w-full">
+                <Link to={`/product/${product.id}`} className="purchases-link-full">
                   <Button variant="outline" className="purchases-details-button">Ver detalhes</Button>
                 </Link>
               </CardFooter>
