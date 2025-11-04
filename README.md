@@ -6,6 +6,13 @@ Projeto final da disciplina Programação Eficaz, desenvolvido por alunos do seg
 
 Um Marketplace desenvolvido para a comunidade Insper, visando mais segurança e confiabilidade no processo de compra e venda de produtos second-hand.
 
+## Link do Site 
+Link para a API com deploy feito na AWS
+
+```bash
+http://54.235.41.118/
+```
+
 ## Como rodar o projeto
 
 ### No Frontend
