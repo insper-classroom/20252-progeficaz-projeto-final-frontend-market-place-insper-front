@@ -338,7 +338,12 @@
   background-color: #dcfce7;
 }
 
-/* @media (min-width: 768px) {
+.sales-link-full {
+  display: block;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
   .sales-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -348,4 +353,4 @@
   .sales-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-} */
+}

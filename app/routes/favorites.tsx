@@ -82,7 +82,7 @@ export default function Favorites() {
 
       {isLoading ? (
         <div className="favorites-loading">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          <Loader2 className="favorites-loading-icon" />
         </div>
       ) : favorites.length === 0 ? (
         <Card className="favorites-empty-card">
@@ -94,7 +94,7 @@ export default function Favorites() {
             </p>
             <Link to="/">
               <Button className="favorites-empty-button">
-                <Package className="h-4 w-4 mr-2" />
+                <Package className="favorites-empty-button-icon" />
                 Explorar Produtos
               </Button>
             </Link>
@@ -119,9 +119,9 @@ export default function Favorites() {
                     disabled={removingId === product.id}
                   >
                     {removingId === product.id ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <Loader2 className="favorites-action-loading-icon" />
                     ) : (
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="favorites-action-icon" />
                     )}
                   </Button>
                   {product.em_destaque && (
@@ -141,9 +141,9 @@ export default function Favorites() {
                     disabled={removingId === product.id}
                   >
                     {removingId === product.id ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <Loader2 className="favorites-action-loading-icon" />
                     ) : (
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="favorites-action-icon" />
                     )}
                   </Button>
                   {product.em_destaque && (

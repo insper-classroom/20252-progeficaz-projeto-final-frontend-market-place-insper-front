@@ -50,7 +50,7 @@ export default function Profile() {
             Dados cadastrados no marketplace
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
+  <CardContent className="profile-card-content">
           <div className="profile-info-grid">
             <Label className="profile-label">Nome</Label>
             <p className="profile-value">{user.name}</p>
@@ -73,10 +73,10 @@ export default function Profile() {
 
           <div className="profile-info-grid">
             <Label className="profile-label">ID do usuário</Label>
-            <p className="text-sm text-muted-foreground font-mono">{user.id}</p>
+            <p className="profile-user-id">{user.id}</p>
           </div>
         </CardContent>
-        <CardFooter className="flex gap-2">
+        <CardFooter className="profile-card-footer">
           <Button variant="outline" onClick={handleLogout}>
             Sair da conta
           </Button>
@@ -87,7 +87,7 @@ export default function Profile() {
         <Button variant="outline" onClick={() => navigate("/my-products")} className="profile-button">
           Meus produtos
         </Button>
-        <Button variant="outline" onClick={() => navigate("/")} className="profile-button">
+        <Button variant="outline" onClick={() => navigate("/products")} className="profile-button">
           Ver produtos disponíveis
         </Button>
       </div>

@@ -84,7 +84,7 @@ export default function Sales() {
 
       {isLoading ? (
         <div className="sales-loading">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          <Loader2 className="sales-loading-icon" />
         </div>
       ) : sales.length === 0 ? (
         <Card className="sales-empty-card">
@@ -104,7 +104,7 @@ export default function Sales() {
         </Card>
       ) : (
         <>
-          {/* Revenue Card */}
+          {/* card de vendas - revenue */}
           <Card className="sales-revenue-card">
             <CardContent className="sales-revenue-content">
               <div className="sales-revenue-flex">
@@ -192,7 +192,7 @@ export default function Sales() {
                   )}
                 </CardContent>
                 <CardFooter className="sales-card-footer">
-                  <Link to={`/product/${product.id}`} className="w-full">
+                  <Link to={`/product/${product.id}`} className="sales-link-full">
                     <Button variant="outline" className="sales-details-button">
                       Ver detalhes
                     </Button>

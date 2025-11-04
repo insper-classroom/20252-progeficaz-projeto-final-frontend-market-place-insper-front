@@ -94,6 +94,11 @@ export default function Home() {
     e.preventDefault()
     e.stopPropagation()
 
+    if (!user) {
+      toast.error("Faça login para favoritar produtos")
+      return
+    }
+
     setFavoritingId(productId)
     const isFavorited = favoritedIds.has(productId)
 
@@ -255,34 +260,34 @@ export default function Home() {
     }
 
   return (
-    <div className="flex flex-col">
+    <div className="home-container">
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-muted/50 to-background py-12 px-4">
-        <div className="container mx-auto">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-2">Marketplace Insper</h1>
-            <p className="text-muted-foreground">
+      <section className="home-hero-section">
+        <div className="home-hero-container">
+          <div className="home-hero-content">
+            <h1 className="home-hero-title">Marketplace Insper</h1>
+            <p className="home-hero-description">
               Compre e venda de produtos second-hand, com toda a segurança e pertencimento da comunidade Insper.
             </p>
           </div>
 
           {/* Search and Filters */}
-          <form onSubmit={handleSearch} className="max-w-4xl mx-auto">
-            <div className="flex flex-col md:flex-row gap-3">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <form onSubmit={handleSearch} className="home-search-form">
+            <div className="home-search-container">
+              <div className="home-search-input-container">
+                <Search className="home-search-icon" />
                 <Input
                   type="text"
                   placeholder="Buscar produtos..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="pl-10"
+                  className="home-search-input"
                 />
               </div>
               
               <Select value={selectedCategory} onValueChange={handleCategoryChange}>
-                <SelectTrigger className="w-full md:w-[220px]">
-                  <Filter className="h-4 w-4 mr-2" />
+                <SelectTrigger className="home-category-select">
+                  <Filter className="home-filter-icon" />
                   <SelectValue placeholder="Categoria" />
                 </SelectTrigger>
                 <SelectContent>
@@ -294,8 +299,8 @@ export default function Home() {
                 </SelectContent>
               </Select>
 
-              <div className="flex gap-2">
-                <Button type="submit" className="flex-1 md:flex-initial">
+              <div className="home-search-buttons">
+                <Button type="submit" className="home-search-button">
                   Buscar
                 </Button>
                 {hasActiveFilters && (
@@ -303,10 +308,10 @@ export default function Home() {
                     type="button"
                     variant="outline"
                     onClick={handleClearFilters}
-                    className="flex-1 md:flex-initial"
+                    className="home-clear-button"
                   >
-                    <X className="h-4 w-4 md:mr-2" />
-                    <span className="hidden md:inline">Limpar</span>
+                    <X className="home-clear-icon" />
+                    <span className="home-clear-text">Limpar</span>
                   </Button>
                 )}
               </div>
@@ -314,12 +319,12 @@ export default function Home() {
 
             {/* Active Filters Display */}
             {hasActiveFilters && (
-              <div className="flex flex-wrap gap-2 mt-4">
+              <div className="home-active-filters">
                 {search && (
-                  <Badge variant="secondary" className="gap-1">
+                  <Badge variant="secondary" className="home-filter-badge">
                     Busca: "{search}"
                     <X 
-                      className="h-3 w-3 cursor-pointer" 
+                      className="home-filter-remove" 
                       onClick={() => {
                         setSearch("")
                         loadProducts()
@@ -328,8 +333,12 @@ export default function Home() {
                   </Badge>
                 )}
                 {selectedCategory !== "all" && (
-                  <Badge variant="secondary" className="gap-1">
+                  <Badge variant="secondary" className="home-filter-badge">
                     {CATEGORIES.find(c => c.value === selectedCategory)?.label}
+                    <X 
+                      className="home-filter-remove" 
+                      onClick={() => setSelectedCategory("all")}
+                    />
                   </Badge>
                 )}
               </div>
@@ -340,24 +349,24 @@ export default function Home() {
 
       {/* Featured Products Section */}
       {!isLoading && featuredProducts.length > 0 && (
-        <section className="py-10 px-4 bg-gradient-to-br from-red-50 via-red-50/50 to-background border-y-2 border-red-100">
-          <div className="container mx-auto">
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-3">
-                <div className="p-3 bg-gradient-to-br from-primary to-red-600 rounded-xl shadow-lg">
-                  <Star className="h-7 w-7 text-white fill-white" />
+        <section className="home-featured-section">
+          <div className="home-section-container">
+            <div className="home-featured-header">
+              <div className="home-featured-title-group">
+                <div className="home-featured-icon-container">
+                  <Star className="home-featured-icon" />
                 </div>
                 <div>
-                  <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-red-600 bg-clip-text text-transparent">
+                  <h2 className="home-featured-title">
                     Produtos em Destaque
                   </h2>
-                  <p className="text-sm font-medium text-foreground/70">
+                  <p className="home-featured-subtitle">
                     Selecionados especialmente para você
                   </p>
                 </div>
               </div>
             </div>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="home-products-grid">
               {featuredProducts.map((product) => (
                 <ProductCard key={product.id} product={product} isFeatured />
               ))}
@@ -367,36 +376,36 @@ export default function Home() {
       )}
 
       {/* Products Section */}
-      <section className="py-12 px-4">
-        <div className="container mx-auto">
+      <section className="home-products-section">
+        <div className="home-section-container">
           {isLoading ? (
-            <div className="flex justify-center py-20">
-              <div className="text-center">
-                <Package className="h-12 w-12 mx-auto mb-4 text-muted-foreground animate-pulse" />
-                <p className="text-muted-foreground">Carregando produtos...</p>
+            <div className="home-loading">
+              <div className="home-loading-content">
+                <Package className="home-loading-icon" />
+                <p className="home-loading-text">Carregando produtos...</p>
               </div>
             </div>
           ) : products.length === 0 ? (
-            <Card className="border-dashed">
-              <CardContent className="pt-12 pb-12 text-center">
-                <Package className="h-16 w-16 mx-auto mb-4 text-muted-foreground/50" />
-                <h3 className="text-lg font-semibold mb-2">
+            <Card className="home-empty-card">
+              <CardContent className="home-empty-content">
+                <Package className="home-empty-icon" />
+                <h3 className="home-empty-title">
                   {search ? "Nenhum produto encontrado" : "Nenhum produto disponível"}
                 </h3>
-                <p className="text-muted-foreground mb-6">
+                <p className="home-empty-description">
                   {search
                     ? "Tente buscar por outro termo ou ajuste os filtros"
                     : "Seja o primeiro a anunciar um produto!"}
                 </p>
-                <div className="flex gap-3 justify-center">
+                <div className="home-empty-actions">
                   {search && (
-                    <Button variant="outline" onClick={handleClearFilters}>
+                    <Button variant="outline" onClick={handleClearFilters} className="home-empty-button">
                       Limpar filtros
                     </Button>
                   )}
-                  <Link to="/my-products">
-                    <Button>
-                      <PlusCircle className="h-4 w-4 mr-2" />
+                  <Link to="/my-products" className="home-empty-link">
+                    <Button className="home-empty-button">
+                      <PlusCircle className="home-button-icon" />
                       Anunciar Produto
                     </Button>
                   </Link>
@@ -405,16 +414,16 @@ export default function Home() {
             </Card>
           ) : (
             <>
-              <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+              <div className="home-products-header">
                 <div>
-                  <h2 className="text-2xl font-bold">
+                  <h2 className="home-products-title">
                     {hasActiveFilters 
                       ? `Resultados da busca` 
                       : featuredProducts.length > 0 
                         ? "Mais produtos" 
                         : "Todos os produtos"}
                   </h2>
-                  <p className="text-muted-foreground">
+                  <p className="home-products-count">
                     {regularProducts.length > 0 ? regularProducts.length : products.length}{" "}
                     {(regularProducts.length > 0 ? regularProducts.length : products.length) === 1 
                       ? "produto" 
@@ -423,15 +432,15 @@ export default function Home() {
                     {(regularProducts.length > 0 ? regularProducts.length : products.length) !== 1 && "is"}
                   </p>
                 </div>
-                <Link to="/my-products">
+                <Link to="/my-products" className="home-add-product">
                   <Button>
-                    <PlusCircle className="h-4 w-4 mr-2" />
+                    <PlusCircle className="home-button-icon" />
                     Anunciar Produto
                   </Button>
                 </Link>
               </div>
 
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="home-products-grid">
                 {(regularProducts.length > 0 ? regularProducts : products).map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
